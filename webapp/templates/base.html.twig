@@ -1,18 +1,90 @@
 <!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %} - Cinéphoria</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+    {% block stylesheets %}
+    {% endblock %}
+    
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+    <link rel="stylesheet" href="/css/style.css">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    <h1>Bonjour !</h1>
-    </body>
+</head>
+
+{% macro menuItem(name, url) %}
+    {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+    {% set isActive = currentUrl == url %}
+    
+    <li class="nav-item">
+        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-4 fs-5">{{ name }}</a>
+    </li>
+{% endmacro %}
+
+<body>
+<nav class="header navbar navbar-expand-lg bg-header my-0">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('index') }}">
+            <img src="/images/logo_cinephoria_trans.png" alt="Logo Cinéphoria" class=" position-absolute top-0 ms-3 mt-2">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mt-5 mt-lg-0" id="navbarToggler">
+            {% if app.user %}
+                {% set nom_utilisateur = app.user.prenom %}
+            {% else %}
+                {% set nom_utilisateur = "visiteur" %}
+            {% endif %}
+            
+            <ul class="navbar-nav nav-pills ms-auto me-3 mb-2 mb-lg-0">
+                <span class="navbar-text nav-link text-body-secondary px-4 fs-5">Bienvenue, {{ nom_utilisateur }} !</span>
+                {{ _self.menuItem('Accueil', path('index')) }}
+                
+                {% if app.user %} {# user.isLoggedIn #}
+                    {{ _self.menuItem('Mon compte', path('index')) }}
+                    {{ _self.menuItem('Se déconnecter', path('app_logout')) }}
+                {% else %}
+                    {{ _self.menuItem('Connexion', path('app_login')) }}
+                    {{ _self.menuItem('Inscription', path('app_login')) }}
+                {% endif %}
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="py-4">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-0 text-light">
+    
+    <ul class="nav nav-pills  col-md-12 justify-content-center">
+        <li class="nav-item align-middle pt-1"><span class="nav-link text-body-secondary px-3">© 2025 Cinephoria</span></li>
+        {{ _self.menuItem('Mentions légales', path('index')) }}
+        {{ _self.menuItem('Politique de confidentialité', path('index')) }}
+        {{ _self.menuItem('Contact', path('index')) }}
+    </ul>
+</footer>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery-3.7.1.min.js"></script>
+
+{% block scripts_supp %}{% endblock %}
+
+</body>
 </html>

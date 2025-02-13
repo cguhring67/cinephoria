@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DefaultController extends AbstractController
 {
-	#[Route('/')]
+	#[Route('/', name: 'index', methods: ['GET'])]
 	public function index(): Response
 	{
 		return $this->render('base.html.twig');

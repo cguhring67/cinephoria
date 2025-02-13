@@ -3,7 +3,7 @@ services:
     build: docker/php
     container_name: cinephoria_php
     ports:
-      - 8080:80
+      - '8080:80'
     volumes:
       - ./webapp:/var/www/html
       - ./docker/php/vhosts:/etc/apache2/sites-enabled
@@ -21,7 +21,7 @@ services:
       MARIADB_DATABASE: cinephoria
       MARIADB_ROOT_PASSWORD: n+AzSLV6!Z*2G7ywh~XP
     ports:
-      - 33306:3306
+      - '33306:3306'
     networks:
       - cinephoria_net
 
@@ -31,7 +31,7 @@ services:
     depends_on:
       - mariadb
     ports:
-      - 8780:80
+      - '8780:80'
     networks:
       - cinephoria_net
     environment:

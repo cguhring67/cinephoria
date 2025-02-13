@@ -54,3 +54,6 @@
 .idea
 .idea/*
 /public/.user.ini
+/db/mariadb_data/*
+/etude
+

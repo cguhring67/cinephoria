@@ -56,4 +56,4 @@
 /public/.user.ini
 /db/mariadb_data/*
 /etude
-
+/secrets

@@ -4,6 +4,7 @@ services:
     container_name: cinephoria_php
     ports:
       - '8080:80'
+    user: 1000:1000
     volumes:
       - ./webapp:/var/www/html
       - ./docker/php/vhosts:/etc/apache2/sites-enabled
@@ -17,13 +18,16 @@ services:
       - ./db/mariadb_data:/var/lib/mysql
     environment:
       MARIADB_USER: cinephoria_db_user
-      MARIADB_PASSWORD: PW2gV+KmFy5_auMcX
+      MARIADB_PASSWORD_FILE: /run/secrets/db_password
       MARIADB_DATABASE: cinephoria
-      MARIADB_ROOT_PASSWORD: n+AzSLV6!Z*2G7ywh~XP
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
     ports:
       - '33306:3306'
     networks:
       - cinephoria_net
+    secrets:
+      - db_root_password
+      - db_password
 
   phpmyadmin:
     image: phpmyadmin
@@ -39,3 +43,9 @@ services:
 
 networks:
   cinephoria_net:
+
+secrets:
+   db_password:
+     file: ./secrets/db_password.txt
+   db_root_password:
+     file: ./secrets/db_root_password.txt

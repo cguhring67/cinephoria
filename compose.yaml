@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  www:
+    build: docker/php
+    container_name: cinephoria_php
+    ports:
+      - 8080:80
+    volumes:
+      - ./webapp:/var/www
+      - ./docker/php/vhosts:/etc/apache2/site-enabled
+    networks:
+      - cinephoria_net
+
+  mariadb:
+    image: mariadb:11.6.2
+    container_name: cinephoria_mariadb
+    volumes:
+      - ./db/mariadb_data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - cinephoria_net
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: cinephoria_phpmyadmin
+    ports:
+      - 8780:80
+    networks:
+      - cinephoria_net
+
+networks:
+  cinephoria_net:

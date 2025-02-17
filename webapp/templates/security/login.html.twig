@@ -27,14 +27,20 @@
                 </h5>
                 
                 <div class="mb-3">
-                
                     <label for="username">Email :</label>
                     <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
                 </div>
+                
                 <div class="mb-3">
                     <label for="password">Mot de passe :</label>
-                    <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                    <div class="input-group mb-3">
+                        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required spellcheck="false" autocorrect="off" autocapitalize="off">
+                        <button id="toggle-password" type="button" class="toggle_password d-none"
+                                aria-label="Show password as plain text. Warning: this will display your password on the screen.">
+                        </button>
+                    </div>
                 </div>
+                
                 <div class="form-check mb-5">
                     <input class="form-check-input" type="checkbox" value="" name="_remember_me" id="_remember_me">
                     <label class="form-check-label" for="_remember_me">
@@ -47,7 +53,7 @@
                 >
         
         
-                <button class="btn btn-lg btn-primary" type="submit">
+                <button class="btn btn-lg btn-primary px-5" type="submit">
                     Se connecter
                 </button>
             </form>
@@ -55,4 +61,32 @@
     </div>
 </div>
 
+{% endblock %}
+
+
+
+{% block scripts_supp %}
+    <script>
+        var $password_input = $("[type='password']");
+        var $toggle_password = $(".toggle_password");
+        $(document).ready(function () {
+            $password_input.addClass("input-password");
+            $toggle_password.removeClass("d-none");
+            
+            
+            $toggle_password.click(togglePassword);
+            function togglePassword() {
+                if ($password_input.attr("type") === "password") {
+                    $password_input.attr("type", "text");
+                    $toggle_password.attr("aria-label", "Hide password.");
+                } else {
+                    $password_input.attr("type", "password");
+                    $toggle_password.attr(
+                          "aria-label",
+                          "Show password as plain text. Warning: this will display your password on the screen."
+                    );
+                }
+            }
+        })
+    </script>
 {% endblock %}

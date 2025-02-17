@@ -113,6 +113,30 @@ a.lien_affiche:hover > img {
   bottom: 60px !important;
 }
 
+h5 {
+  font-size: 1em;
+}
+
+.form-check-input {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (min-width: 768px) {
+  h5 {
+    font-size: 1.3rem;
+  }
+}
+@media (min-width: 992px) {
+  .form-control, label {
+    font-size: 1.3rem;
+  }
+  .form-check-input {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+}
 @media (min-width: 1300px) {
   .nav a.nav-link, .nav span, .navbar-nav a.nav-link, .navbar-nav span {
     font-size: 1.3rem;

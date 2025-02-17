@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.css">
     
     {% block stylesheets %}
     {% endblock %}
@@ -21,6 +23,7 @@
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
+    
     <link rel="stylesheet" href="/css/style.css">
 
 </head>
@@ -30,7 +33,7 @@
     {% set isActive = currentUrl == url %}
     
     <li class="nav-item">
-        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-4 fs-5">{{ name }}</a>
+        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-3">{{ name }}</a>
     </li>
 {% endmacro %}
 
@@ -50,11 +53,13 @@
                 {% set nom_utilisateur = "visiteur" %}
             {% endif %}
             
-            <ul class="navbar-nav nav-pills ms-auto me-3 mb-2 mb-lg-0">
-                <span class="navbar-text nav-link text-body-secondary px-4 fs-5">Bienvenue, {{ nom_utilisateur }} !</span>
+            <ul class="navbar-nav ms-auto me-3 mb-2 mb-lg-0">
+                <span class="navbar-text nav-link text-body-secondary px-3">Bienvenue, {{ nom_utilisateur }} !</span>
                 {{ _self.menuItem('Accueil', path('index')) }}
                 
                 {% if app.user %} {# user.isLoggedIn #}
+                    {{ _self.menuItem('Films', path('index')) }}
+                    {{ _self.menuItem('Réservation', path('index')) }}
                     {{ _self.menuItem('Mon compte', path('index')) }}
                     {{ _self.menuItem('Se déconnecter', path('app_logout')) }}
                 {% else %}
@@ -68,13 +73,20 @@
 </nav>
 
 <main class="py-4">
-    {% block content %}{% endblock %}
+    
+    <div class="row ">
+        {% block content %}{% endblock %}
+    </div>
+    
+    
 </main>
 
 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-0 text-light">
     
-    <ul class="nav nav-pills  col-md-12 justify-content-center">
-        <li class="nav-item align-middle pt-1"><span class="nav-link text-body-secondary px-3">© 2025 Cinephoria</span></li>
+    <ul class="nav col-md-12 justify-content-center">
+        <li class="nav-item align-middle pt-1"><span class="nav-link text-body-secondary px-3">© 2025 Cinéphoria</span></li>
+        {{ _self.menuItem('A propos de nous', path('index')) }}
+        {{ _self.menuItem('Cinémas', path('index')) }}
         {{ _self.menuItem('Mentions légales', path('index')) }}
         {{ _self.menuItem('Politique de confidentialité', path('index')) }}
         {{ _self.menuItem('Contact', path('index')) }}
@@ -83,8 +95,9 @@
 
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/jquery-3.7.1.min.js"></script>
-
 {% block scripts_supp %}{% endblock %}
+<script src="/js/script.js"></script>
+
 
 </body>
 </html>

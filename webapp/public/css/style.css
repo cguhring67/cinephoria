@@ -16,4 +16,117 @@
   font-style: italic;
 }
 
+.carousel {
+  max-width: 2000px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans";
+}
+
+h1 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: rgb(220, 53, 69);
+  font-weight: bold;
+  text-align: center;
+}
+
+.px-6 {
+  padding-right: 4.7rem !important;
+  padding-left: 4.7rem !important;
+}
+
+.images_affiches {
+  max-width: 200px;
+  transition: all 0.5s ease;
+}
+.nav a.nav-link, .navbar-nav a.nav-link {
+  color: rgba(255, 255, 255, 0.5);
+}
+.nav a.nav-link.active, .navbar-nav a.nav-link.active {
+  color: #FFFFFF;
+  border-bottom: 2px solid rgb(60, 140, 255) !important;
+}
+.nav a.nav-link:hover, .navbar-nav a.nav-link:hover {
+  color: rgb(60, 140, 255) !important;
+}
+
+.navbar-nav a.nav-link {
+  font-weight: bold;
+}
+
+a.lien_affiche {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: all 0.5s ease;
+  opacity: 0.5;
+}
+a.lien_affiche:hover {
+  opacity: 1;
+}
+a.lien_affiche p {
+  margin-top: 0.5em;
+}
+a.lien_affiche:hover > img {
+  transform: scale(1.1);
+}
+
+.affiches_carousel {
+  max-width: 2000px;
+}
+
+.owl-nav button, .carousel button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  text-shadow: 1px 1px 8px rgb(0, 0, 0);
+  background-color: transparent;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  width: 50px;
+}
+.owl-nav button.owl-prev, .carousel button.owl-prev {
+  left: -50px;
+}
+.owl-nav button.owl-next, .carousel button.owl-next {
+  right: -50px;
+}
+.owl-nav button:hover, .carousel button:hover {
+  opacity: 1;
+}
+.owl-nav span, .carousel span {
+  font-size: 6em;
+}
+
+.owl-nav button {
+  bottom: 60px !important;
+}
+
+@media (min-width: 1300px) {
+  .nav a.nav-link, .nav span, .navbar-nav a.nav-link, .navbar-nav span {
+    font-size: 1.3rem;
+  }
+  .nav .px-3, .navbar-nav .px-3 {
+    padding-right: 1.35rem !important;
+    padding-left: 1.35rem !important;
+  }
+}
+@media (min-width: 1700px) {
+  .nav .px-3, .navbar-nav .px-3 {
+    padding-right: 3rem !important;
+    padding-left: 3rem !important;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

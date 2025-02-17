@@ -2,4 +2,135 @@
 @import "typography";
 @import "variables";
 
+.carousel {
+  max-width: 2000px;
+}
 
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans";
+}
+
+h1 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: $rouge;
+  font-weight: bold;
+  text-align: center;
+}
+
+.px-6 {
+  padding-right: 4.7rem !important;
+  padding-left: 4.7rem !important;
+}
+.images_affiches {
+  max-width: 200px;
+  transition: all 0.5s ease;
+  &:hover {
+  }
+}
+
+.nav a.nav-link, .navbar-nav a.nav-link {
+  color: rgba(255, 255, 255, 0.5);
+
+  &.active {
+    color: $white;
+    border-bottom: 2px solid $primary !important;
+  }
+
+  &:hover {
+    color: $primary !important;
+  }
+}
+
+.navbar-nav a.nav-link {
+  font-weight: bold;
+}
+
+
+a.lien_affiche {
+  text-decoration: none;
+  color: $white;
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: all 0.5s ease;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+  p {
+    margin-top: 0.5em;
+  }
+
+  &:hover > img {
+    transform: scale(1.1);
+
+  }
+}
+
+  .affiches_carousel {
+    max-width: 2000px;
+  }
+
+
+  .owl-nav, .carousel {
+    button {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      text-shadow: 1px 1px 8px rgba(0, 0, 0, 1);
+      background-color: transparent;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.5;
+      width: 50px;
+      &.owl-prev {
+        left: -50px;
+      }
+      &.owl-next {
+        right: -50px;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+    span {
+      font-size: 6em;
+    }
+
+
+  }
+
+.owl-nav button {
+  bottom: 60px !important;
+}
+
+
+@media (min-width: 1300px) {
+  .nav, .navbar-nav {
+    a.nav-link, span {
+      font-size: 1.3rem;
+    }
+    .px-3 {
+      padding-right: 1.35rem !important;
+      padding-left: 1.35rem !important;
+    }
+  }
+}
+
+@media (min-width: 1700px) {
+  .nav, .navbar-nav {
+    .px-3 {
+      padding-right: 3rem !important;
+      padding-left: 3rem !important;
+    }
+  }
+}

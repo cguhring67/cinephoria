@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block content %}
+
+<div class="col-12 px-5 py-3 my-3 mb-0 align-items-center">
+    
+    <div class="card text-bg-dark mb-3 mx-auto" style="max-width: 875px;">
+        
+        <div class="card-header fs-5">Créer un compte</div>
+        <div class="card-body p-5 ">
+            
+            <h5 class="text-center mb-5">
+                Vous avez déjà un compte ?<br>Rendez-vous sur la page de <a href="{{ path('app_login') }}">connexion</a> pour vous identifier !
+            </h5>
+            
+            {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.nom, {
+            label: 'Nom :'
+        })  }}
+        {{ form_row(registrationForm.prenom, {
+            label: 'Prenom :'
+        })  }}
+        {{ form_row(registrationForm.email, {
+            label: 'Email :'
+        })  }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Mot de passe :'
+        }) }}
+
+        <button type="submit" class="btn btn-lg btn-primary px-5">S'enregistrer</button>
+    {{ form_end(registrationForm) }}
+        
+        </div>
+    </div>
+</div>
+
+{% endblock %}

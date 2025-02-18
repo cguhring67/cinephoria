@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}A propos de Cinéphoria{% endblock %}
+
+{% block content %}
+    
+    <div class="col-12 px-5 py-3 my-3 mb-0 align-items-center">
+        
+        <div class="card text-bg-dark mb-3 mx-auto" style="max-width: 875px;">
+            
+            <div class="card-header fs-5"><h2>{{ block('title') }}</h2></div>
+            <div class="card-body p-5 ">
+                
+                <h3>Qui est derrière Cinéphoria</h3>
+                
+                <h5 class="text-danger my-3">Attention, voir tout d'abord la page <a href="">Mentions légales</a></h5>
+                
+                <p>Cinéphoria a été crée il y a plusieurs décennies maintenant, par des passionnés du cinéma.</p>
+                <p>Nous avons réussi à nous imposer comme un acteur majeur de l'industrie du divertissement en France.</p>
+                <p>Nous enregistrons un chiffre d’affaires de 5 millions d’euros, témoignant de notre succès,
+                    avec 80 employées répartis dans 5 cinémas en France (Nantes, Bordeaux, Paris, Toulouse, Lille)
+                    et 2 en Belgique (Charleroi, Liège)</p>
+                
+                <h3>Nos cinémas</h3>
+                <p>Nous proposons actuellement 5 cinémas en France :</p>
+                <ul>
+                    <li>Nantes</li>
+                    <li>Bordeaux</li>
+                    <li>Paris</li>
+                    <li>Toulouse</li>
+                    <li>Lille</li>
+                </ul>
+                
+                <p>et 2 en Belgique :</p>
+                <ul>
+                    <li>Charleroi</li>
+                    <li>Liège</li>
+                </ul>
+                
+                <p>Plus d'informations sur <a href="{{ path('cinemas') }}">notre page dédiée à nos cinémas</a></p>
+                
+                <h3>Technologies</h3>
+                
+                <p>Nous sommes de vrais passionnés, et nous savons que vous êtes en recherche constante de la meilleure expérience !</p>
+                <p>C'est pourquoi nous restons constamment en veille technologique pour vous proposer ce qu'il y a de mieux actuellement :</p>
+                
+                <ul>
+                    <li>Projection laser 4K par défaut, dans les salles standard</li>
+                    <li>Salles IMAX pour maximiser la taille de l'écran</li>
+                    <li>Salles 4DX pour se plonger littéralement dans le film</li>
+                    <li>Salles ICE pour une immersion et un confort premium</li>
+                    <li>Salles Samsung Onyx pour ceux qui recherchent le contraste ultime grâce à la technologie OLED</li>
+                    <li>Projection 3D possible dans chaque salle</li>
+                </ul>
+                
+                <p>Chez Cinéphoria, vous avez donc l'embarras du choix en matière de confort, d'immersion ou de qualité d'image</p>
+                <p>Plus d'informations sur <a href="{{ path('technologies') }}">notre page dédiée à nos technologies</a></p>
+                
+                
+                <h3>Initiatives écologiques</h3>
+                
+                <p>Cinéphoria est une chaine de cinémas responsables : nous reversons 20% de notre chiffre d’affaires
+                    annuel pour soutenir des initiatives écologiques.</p>
+                <p>C'est pourquoi le tarif d'entrée peut être un peu plus cher que chez la concurrence.</p>
+                
+                
+                <h3>Le site</h3>
+                
+                <p>Nous avons étudié le marché et étudié vos retours pour vous proposer la meilleure expérience</p>
+                <p>sur notre site, vous pourrez :</p>
+                <ul>
+                    <li>Visualiser tous les films projetés dans au moins un cinéma</li>
+                    <li>Voir les séances disponibles sur une heure donnée et dans un cinéma donné</li>
+                    <li>Commander des billets pour une séance</li>
+                    <li>Noter et commenter vos films</li>
+                    <li>Accéder à vos réservations passées et a venir</li>
+                    <li>Accéder sans attendre à votre séance grâce au QR-Code présent dans votre espace client, après une réservation</li>
+                </ul>
+                <p>Nous vous proposons plusieurs options et cheminements pour accéder au film, au cinéma ou a la séance qui vous intéresse.</p>
+            
+            
+            
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

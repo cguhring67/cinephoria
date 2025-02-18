@@ -57,9 +57,10 @@
                 <span class="navbar-text nav-link text-body-secondary px-3">Bienvenue, {{ nom_utilisateur }} !</span>
                 {{ _self.menuItem('Accueil', path('index')) }}
                 
+                {{ _self.menuItem('Films', path('index')) }}
+                {{ _self.menuItem('Réservation', path('index')) }}
+
                 {% if app.user %} {# user.isLoggedIn #}
-                    {{ _self.menuItem('Films', path('index')) }}
-                    {{ _self.menuItem('Réservation', path('index')) }}
                     {{ _self.menuItem('Mon compte', path('index')) }}
                     {{ _self.menuItem('Se déconnecter', path('app_logout')) }}
                 {% else %}
@@ -85,11 +86,12 @@
     
     <ul class="nav col-md-12 justify-content-center">
         <li class="nav-item align-middle"><span class="nav-link text-body-secondary px-3">© 2025 Cinéphoria</span></li>
-        {{ _self.menuItem('A propos de nous', path('index')) }}
-        {{ _self.menuItem('Cinémas', path('index')) }}
-        {{ _self.menuItem('Mentions légales', path('index')) }}
-        {{ _self.menuItem('Politique de confidentialité', path('index')) }}
-        {{ _self.menuItem('Contact', path('index')) }}
+        {{ _self.menuItem('A propos', path('apropos')) }}
+        {{ _self.menuItem('Cinémas', path('cinemas')) }}
+        {{ _self.menuItem('Technologies', path('technologies')) }}
+        {{ _self.menuItem('Mentions légales', path('mentions_legales')) }}
+        {{ _self.menuItem('Politique de confidentialité', path('confidentialite')) }}
+        {{ _self.menuItem('Contact', path('contact')) }}
     </ul>
 </footer>
 

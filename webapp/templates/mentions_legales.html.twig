@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+
+{% block content %}
+    
+    <div class="col-12 px-5 py-3 my-3 mb-0 align-items-center">
+        
+        <div class="card text-bg-dark mb-3 mx-auto" style="max-width: 875px;">
+            
+            <div class="card-header fs-5"><h2>{{ block('title') }}</h2></div>
+            <div class="card-body p-5 ">
+                
+                <h3 class="text-danger my-3">Cinéphoria est un projet d'école.</h3>
+                
+                <p class="fs-5 text-success-emphasis">Ce site n'a aucun caractère commercial. Il s'agit d'un site vitrine pour valider des compétences dans le cadre
+                    d'une évaluation. </p>
+                
+                <p>L'utilisation des marques déposées <span class="text-success">ICE, IMAX, 4DX, Samsung ONYX</span> et des affiches et noms des films
+                    ne sont présentes qu'a titre d'illustration. Voir <span class="text-warning">"Propriété intellectuelle"</span> plus bas.
+                    </p>
+                <p class="fs-5 text-warning">Hormis ces marques, affiches et noms de films, ainsi que les informations
+                    légales présentes sur la page actuelle, ainsi que les informations présentes sur la page
+                    <span class="text-warning-emphasis fw-bold">"Politique de confidentialité"</span>,
+                    tous les cinémas, toutes les pages et informations présentées sur ce site sont purement fictives.</p>
+
+               
+                <h3 id="editeur-du-site">Éditeur, développeur et responsable du site</h3>
+                <p>Conformément à l’article n°6 de la Loi n°2004-575 du 21 Juin 2004 pour la confiance dans
+                    l’économie numérique, le responsable du présent site internet est :</p>
+                
+                <ul>
+                    <li>Christophe GUHRING</li>
+                    <li>Téléphone : 06 67 82 22 78</li>
+                    <li>Email : c.guhring@free.fr</li>
+                    <li>Site web : <a href="https://cinephoria.guhring.ovh">cinephoria.guhring.ovh</a></li>
+                    <li>Adresse postale : 101 route du Hantz à Champenay - 67420 PLAINE</li>
+                </ul>
+                
+                <h3 id="hebergement">Hébergement</h3>
+                <p><span class="text-success">VisuHost</span> - Hanauer Landstrasse 328-330 - 60314 Frankfurt - Germany – site web :
+                    <a href="https://visuhost.com">visuhost.com</a></p>
+                
+                <h3 id="propriete-intellectuelle">Propriété intellectuelle</h3>
+                <ul>
+                    <li>La marque <span class="text-success">ICE</span> est la propriété de <span class="text-success">CGR cinémas</span>, en France.</li>
+                    <li>La marque <span class="text-success">ONYX</span> est la propriété de <span class="text-success">Samsung Electronics</span>, en corée.</li>
+                    <li>La marque <span class="text-success">4DX</span> est la propriété de <span class="text-success">CJ 4DPlex</span>, en corée.</li>
+                    <li>La marque <span class="text-success">IMAX</span> est la propriété de <span class="text-success">l'IMAX Corporation</span>, au Canada.</li>
+                </ul>
+                <p>Si l'utilisation <span class="text-danger">non commerciale</span> de l'une de ces marques sur ce site,
+                    qui je le rappelle, <span class="text-danger">est un cas d'école</span>, venait à poser problème
+                    à leurs détenteurs respectifs, je vous prie de bien vouloir m'en excuser, et de
+                    <a href="mailto:c.guhring@free.fr">m'envoyer un email sur cette adresse</a> afin de procéder
+                    à la suppression de toute mention ou illustration relative a cette marque.
+                </p>
+                
+                <h3 id="conditions-dutilisation">Conditions d’utilisation</h3>
+                <p>Ce site est construit en utilisant différents langages web (HTML5, Javascript, CSS3, etc…)
+                    pour un meilleur confort d’utilisation et un graphisme plus agréable.</p>
+                <p>Nous vous recommandons de recourir à des navigateurs modernes comme Edge, Safari,
+                    Firefox, Google Chrome, Opéra, Brave…</p>
+                
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

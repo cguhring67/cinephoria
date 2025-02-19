@@ -30,10 +30,10 @@
 
 {% macro menuItem(name, url) %}
     {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-    {% set isActive = currentUrl == url %}
+    {% set isActive = currentUrl == url or ((currentUrl == "/mes_informations") and (url == "/mon-compte")) or ((currentUrl == "/mes_reservations") and (url == "/mon-compte")) %}
     
     <li class="nav-item">
-        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-2">{{ name }}</a>
+        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %}  px-2">{{ name }}</a>
     </li>
 {% endmacro %}
 
@@ -61,7 +61,7 @@
                 {{ _self.menuItem('Réservation', path('page_reservation')) }}
 
                 {% if app.user %} {# user.isLoggedIn #}
-                    {{ _self.menuItem('Mon compte', path('index')) }}
+                    {{ _self.menuItem('Mon compte', path('page_mon_compte')) }}
                     {{ _self.menuItem('Se déconnecter', path('app_logout')) }}
                 {% else %}
                     {{ _self.menuItem('Connexion', path('app_login')) }}
@@ -75,7 +75,7 @@
 
 <main class="py-3 pt-5">
     
-    <div class="row ">
+    <div class="row g-0">
         {% block content %}{% endblock %}
     </div>
     

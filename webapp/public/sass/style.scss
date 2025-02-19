@@ -323,6 +323,11 @@ a.films_lien_details {
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.9);
 }
 
+.compte_main {
+  padding-left: 1rem;
+  padding-right: 1rem
+}
+
 @media (min-width: 576px) {
   .choix_cinema .dropdown-toggle {
       font-size: 1rem;
@@ -384,6 +389,24 @@ a.films_lien_details {
 
   }
 
+  .compte_sidebar {
+    position: fixed;
+    top: 75px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 240px;
+  }
+
+  .compte_main {
+    padding-left: 260px;
+    padding-right: 1rem
+  }
+
 }
 
 
@@ -418,6 +441,14 @@ a.films_lien_details {
       margin: 0.3rem 0.5rem;
     }
 
+  }
+
+  .compte_sidebar {
+    width: 290px;
+  }
+
+  .compte_main {
+    padding-left: 310px;
   }
 
 

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<div class="col-12 px-6 align-items-center">
+   
+   <img src="/images/bannieres/{{ film }}.jpg" class="img-fluid image_banniere" alt="{{ film }}">
+   <div class="row g-4">
+      <div class="col-9">
+      
+         <h1>{{ film }}</h1>
+         <p class="card-text">Description du film</p>
+      
+      </div>
+      
+      <div class="col-3">
+         
+         <img src="/images/affiches/{{ film }}.jpg" class="img-fluid  image_affiche_details" alt="{{ film }}">
+      
+      </div>
+      
+      
+      
+
+   </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts_supp %}
+
+{% endblock %}
+

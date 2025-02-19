@@ -1,0 +1,35 @@
+{% extends 'layout_compte.html.twig' %}
+
+{% block title %}Mes informations{% endblock %}
+
+{% block compte_content %}
+    
+    {{ form_start(mesInfosForm, {'attr': {'novalidate': 'novalidate'}}) }}
+       
+        <div class="row align-items-start mb-3">
+            <div class="col-md-12 px-5">
+                
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                
+                
+                {{ form_row(mesInfosForm.nom) }}
+                {{ form_row(mesInfosForm.prenom) }}
+                {{ form_row(mesInfosForm.email) }}
+                {{ form_row(mesInfosForm.password) }}
+                
+                <p class="text-center text-warning">Entrez un nouveau mot de passe pour le mettre à jour, sinon laissez vide.</p>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-success rounded-pill my-4 px-5 fs-5 open-sans-bold shadow">Envoyer</button>
+                </div>
+            
+            </div>
+        
+        </div>
+    
+    {{ form_end(mesInfosForm) }}
+
+{% endblock %}

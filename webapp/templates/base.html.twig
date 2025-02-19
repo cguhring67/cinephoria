@@ -58,7 +58,7 @@
                 {{ _self.menuItem('Accueil', path('index')) }}
                 
                 {{ _self.menuItem('Films', path('liste_films')) }}
-                {{ _self.menuItem('Réservation', path('index')) }}
+                {{ _self.menuItem('Réservation', path('page_reservation')) }}
 
                 {% if app.user %} {# user.isLoggedIn #}
                     {{ _self.menuItem('Mon compte', path('index')) }}

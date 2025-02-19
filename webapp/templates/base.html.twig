@@ -33,7 +33,7 @@
     {% set isActive = currentUrl == url %}
     
     <li class="nav-item">
-        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-3">{{ name }}</a>
+        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-2">{{ name }}</a>
     </li>
 {% endmacro %}
 
@@ -53,11 +53,11 @@
                 {% set nom_utilisateur = "visiteur" %}
             {% endif %}
             
-            <ul class="navbar-nav ms-auto me-3 mb-2 mb-lg-0">
-                <span class="navbar-text nav-link text-body-secondary px-3">Bienvenue, {{ nom_utilisateur }} !</span>
+            <ul class="navbar-nav nav-underline ms-auto me-3 mb-2 mb-lg-0">
+                <span class="navbar-text nav-link px-2 disabled" aria-disabled="true">Bienvenue, {{ nom_utilisateur }} !</span>
                 {{ _self.menuItem('Accueil', path('index')) }}
                 
-                {{ _self.menuItem('Films', path('index')) }}
+                {{ _self.menuItem('Films', path('liste_films')) }}
                 {{ _self.menuItem('Réservation', path('index')) }}
 
                 {% if app.user %} {# user.isLoggedIn #}

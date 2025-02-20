@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+        {% block title %}Nous contacter{% endblock %}
+
+{% block content %}
+
+<div class="col-12 px-5 py-3 my-3 mb-0 align-items-center">
+    
+    <div class="card text-bg-dark mb-3 mx-auto" style="max-width: 875px;">
+        
+        <div class="card-header fs-5"><h2>{{ block('title') }}</h2></div>
+        <div class="card-body p-5 ">
+        
+
+    <form action="#" method="post">
+        
+        <div class="row align-items-start mb-3">
+            <div class="col-md-12 px-5">
+                
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Votre Nom :</label>
+                    <input type="text" class="form-control" name="nom" id="nom" aria-describedby="Nom">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Votre Email :</label>
+                    <input type="email" class="form-control" name="email" id="email" aria-describedby="Email">
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Votre message :</label>
+                    <textarea class="form-control" name="message" id="message" aria-describedby="Message" rows="5"></textarea>
+                </div>
+                <p class="text-center text-warning">Veuillez noter que pour le moment, ce formulaire ne fonctionne pas.</p>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-success rounded-pill my-4 px-5 fs-5 open-sans-bold shadow">Envoyer</button>
+                </div>
+            
+            </div>
+            
+        </div>
+    
+    </form>
+    
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

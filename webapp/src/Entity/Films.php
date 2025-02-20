@@ -22,11 +22,11 @@ class Films
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $affiche = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(type: Types::TEXT)]
     private string $description;
 
-    #[ORM\Column(length: 45)]
-    private ?string $genre = null;
+    #[ORM\Column(type: Types::JSON)]
+    private array $genre = [];
 
     #[ORM\Column]
     private ?int $age_mini = null;
@@ -54,6 +54,15 @@ class Films
      */
     #[ORM\OneToMany(targetEntity: Seances::class, mappedBy: 'film_id', orphanRemoval: true)]
     private Collection $seances;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $realisateur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $acteurs = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avertissement = null;
 
     public function __construct()
     {
@@ -102,12 +111,12 @@ class Films
         return $this;
     }
 
-    public function getGenre(): ?string
+    public function getGenre(): array
     {
         return $this->genre;
     }
 
-    public function setGenre(string $genre): static
+    public function setGenre(array $genre): static
     {
         $this->genre = $genre;
 
@@ -126,9 +135,12 @@ class Films
         return $this;
     }
 
-    public function getCoupDeCoeur(): ?int
+    public function getCoupDeCoeur(): bool
     {
-        return $this->coup_de_coeur;
+		if ($this->coup_de_coeur === 1)
+			return true;
+		 else
+			return false;
     }
 
     public function setCoupDeCoeur(?int $coup_de_coeur): static
@@ -230,6 +242,42 @@ class Films
                 $seance->setFilmId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRealisateur(): ?string
+    {
+        return $this->realisateur;
+    }
+
+    public function setRealisateur(?string $realisateur): static
+    {
+        $this->realisateur = $realisateur;
+
+        return $this;
+    }
+
+    public function getActeurs(): ?string
+    {
+        return $this->acteurs;
+    }
+
+    public function setActeurs(?string $acteurs): static
+    {
+        $this->acteurs = $acteurs;
+
+        return $this;
+    }
+
+    public function getAvertissement(): ?string
+    {
+        return $this->avertissement;
+    }
+
+    public function setAvertissement(?string $avertissement): static
+    {
+        $this->avertissement = $avertissement;
 
         return $this;
     }

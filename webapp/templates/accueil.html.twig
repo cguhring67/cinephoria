@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<div class="col-12 px-6 align-items-center">
+
+   <div id="carouselExample" class="carousel slide mx-auto" data-bs-theme="light" data-bs-ride="carousel">
+      <div class="carousel-inner">
+         
+         {% set loop_index = 0 %}
+         
+         {% for film in films %}
+            {% if film.coupDeCoeur == 1 %}
+               {% set loop_index = loop_index + 1 %}
+               {% if loop_index == 1 %}
+                  {% set is_active = "active" %}
+               {% else %}
+                  {% set is_active = "" %}
+               {% endif %}
+               
+               <div class="carousel-item {{ is_active }}">
+                  <img src="images/bannieres/{{ film.affiche }}.jpg" class="d-block w-100" alt="{{ film.titre }}">
+               </div>
+               
+            {% endif %}
+            
+         {% endfor %}
+         
+         
+      </div>
+      <button class=" owl-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+         <span aria-label="Previous" >‹</span>
+      </button>
+      <button class="carousel-control-next owl-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+         <span aria-label="Next">›</span>
+      </button>
+   </div>
+   
+   
+   
+   <h1 class="accueil">FILMS A L'AFFICHE</h1>
+   
+   
+   <div class="affiches_carousel mx-auto">
+      <div class="owl-carousel">
+         
+         {% for film in films %}
+         <div class="affiche">
+            <a href="/film/{{ film.id }}" title="{{ film.titre }}" class="lien_affiche">
+               <img class="img-fluid mx-auto d-block images_affiches" src="/images/affiches/{{ film.affiche }}.jpg" alt="{{ film.titre }}">
+               <p class="titre_film">{{ film.titre }}</p>
+            </a>
+         </div>
+         {% else %}
+            
+            <div class="affiche">Aucun film trouvé !</div>
+         
+         {% endfor %}
+         
+      </div>
+
+   </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts_supp %}
+   <script src="/js/owl.carousel.js"></script>
+   <script>
+       $(document).ready(function(){
+           $(".owl-carousel").owlCarousel({
+               center: true,
+               items:2,
+               loop:true,
+               margin:15,
+               nav: true,
+               dots: false,
+               responsive:{
+                   600:{
+                       items:3
+                   },
+                   800:{
+                       items:4
+                   },
+                   1000:{
+                       items:5
+                   },
+                   1200:{
+                       items:6
+                   },
+                   1400:{
+                       items:7
+                   },
+                   1600:{
+                       items:8
+                   },
+                   1800:{
+                       items:9
+                   }
+               }
+           });
+       });
+   </script>
+{% endblock %}
+

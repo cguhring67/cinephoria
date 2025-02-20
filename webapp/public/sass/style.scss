@@ -1,0 +1,479 @@
+@use 'sass:color';
+@import "typography";
+@import "variables";
+
+.carousel {
+  max-width: 2000px;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans", arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 0.5em;
+  color: $rouge;
+  font-weight: bold;
+  text-align: center;
+
+  &.accueil {
+    margin-top: 1.5em;
+  }
+}
+
+.text-danger {
+  color: $rouge !important;
+}
+
+h3 {
+  font-size: 1.5em;
+  color: $primary;
+}
+
+h2 {
+  color: $dore;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.px-6 {
+  padding-right: 4.7rem !important;
+  padding-left: 4.7rem !important;
+}
+.images_affiches {
+  max-width: 200px;
+  transition: all 0.5s ease;
+  &:hover {
+  }
+}
+
+.nav a.nav-link, .navbar-nav a.nav-link {
+  color: rgba(255, 255, 255, 0.5);
+
+  &.active {
+    color: $white;
+    //border-bottom: 2px solid $primary !important;
+  }
+
+  &:hover {
+    color: $primary !important;
+  }
+}
+
+.navbar-nav a.nav-link {
+  font-weight: bold;
+}
+
+
+a.lien_affiche {
+  text-decoration: none;
+  color: $white;
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: all 0.5s ease;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+  p {
+    margin-top: 0.5em;
+  }
+
+  &:hover > img {
+    transform: scale(1.1);
+
+  }
+}
+
+  .affiches_carousel {
+    max-width: 2000px;
+  }
+
+
+  .owl-nav, .carousel {
+    button {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      text-shadow: 1px 1px 8px rgba(0, 0, 0, 1);
+      background-color: transparent;
+      border: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.5;
+      width: 50px;
+      &.owl-prev {
+        left: -50px;
+      }
+      &.owl-next {
+        right: -50px;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+    span {
+      font-size: 6em;
+    }
+
+
+  }
+
+.owl-nav button {
+  bottom: 60px !important;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+.form-check-input {
+  width: 1rem;
+  height: 1rem;
+}
+
+button.toggle_password {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  z-index: 9;
+  width: 35px;
+  height: 33px;
+  background: 0;
+  border: 0;
+  cursor: pointer;
+
+  &:focus {
+    outline: none !important;
+  }
+}
+
+
+.input-password + .toggle_password {
+  padding-right: calc(1.5em + .75rem);
+  background-repeat: no-repeat;
+  //background-position: right calc(.375em + .1875rem) center;
+  //background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+  background-size: 1.5rem 1.5rem;
+}
+
+.input-password[type="text"] + .toggle_password {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23adb5bd' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z'/%3E%3Cpath d='M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299l.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z'/%3E%3Cpath d='M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709z'/%3E%3Cpath fill-rule='evenodd' d='M13.646 14.354l-12-12 .708-.708 12 12-.708.708z'/%3E%3C/svg%3E") !important;
+}
+
+.input-password[type="password"] + .toggle_password {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23adb5bd' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z'/%3E%3Cpath fill-rule='evenodd' d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/%3E%3C/svg%3E") !important;
+}
+
+a.films_lien_details {
+  text-decoration: none;
+  h5 {
+    color: rgba(255,255,255,.5);
+  }
+  .card-text {
+    color: rgba(255,192,92,.8);
+  }
+
+  img, .film_hover, h5 {
+    transition: all 0.6s ease;
+  }
+
+  .film_hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    //height: 100%;
+    aspect-ratio: 6 / 8;
+
+    text-align: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 1em;
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    opacity: 0;
+  }
+
+  &:hover {
+    h5 {
+      color: #fff;
+    }
+
+    img {
+      transform: scale(1.07);
+    }
+
+    .film_hover {
+      transform: scale(1.07);
+      opacity: 1;
+
+    }
+  }
+}
+
+.choix_cinema {
+  .dropdown-toggle {
+    font-size: 0.8rem;
+  }
+  .dropdown-menu {
+    background-color: color.change($primary, $lightness: 20%, $alpha: 70%);
+    backdrop-filter: blur(10px);
+  }
+  .dropdown-item:hover {
+    background-color: color.change($primary, $lightness: 40%, $alpha: 50%);
+  }
+}
+
+.nav_filtres {
+  background-color: color.change($primary, $lightness: 30%, $alpha: 50%);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  a {
+    cursor: pointer;
+  }
+  li {
+    padding: 0 0.2rem;
+    a.nav-link {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: color.change($primary, $lightness: 20%, $alpha: 70%);
+    backdrop-filter: blur(10px);
+  }
+  .dropdown-item:hover {
+    background-color: color.change($primary, $lightness: 40%, $alpha: 50%);
+  }
+
+
+  .jours_menu .dropdown-menu {
+    width: 220px;
+
+    .dropdown-item {
+      padding-top: 0.8rem;
+      padding-bottom: 0.8rem;
+    }
+  }
+
+  .filtres_menu {
+    position: absolute;
+    right: 90px;
+
+    .dropdown-menu {
+      width: 280px;
+    }
+
+    li {
+      padding: 0 1rem;
+    }
+  }
+
+  .badge_genre_filtres {
+    font-weight: normal;
+    border: 1px solid color.change($primary, $lightness: 70%, $alpha: 50%);;
+    color: rgba(255,255,255,.6);
+    cursor: pointer;
+    &:hover {
+      border: 1px solid rgba(255,255,255,1);
+      background-color: color.change($primary, $lightness: 50%, $alpha: 30%);
+      color: rgba(255,255,255,1);
+
+    }
+  }
+
+
+}
+
+.col_filtre {
+  background: rgba(255,255,255,.1);
+  font-size: 1.2rem;
+  margin: 0.4rem;
+  padding: 1rem;
+}
+
+
+.image_banniere {
+  border-radius: 10px;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+}
+
+.image_affiche_details {
+  position: relative;
+  right: 40px;
+  top: -3rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.9);
+}
+
+.film_details_titre {
+  color: $white;
+}
+
+p.details_film {
+  margin-bottom: 0.5rem;
+  span {
+    font-weight: bold;
+  }
+}
+
+.compte_main {
+  padding-left: 1rem;
+  padding-right: 1rem
+}
+
+@media (min-width: 576px) {
+  .choix_cinema .dropdown-toggle {
+      font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  h5 {
+      font-size: 1.3rem;
+  }
+  .choix_cinema .dropdown-toggle {
+      font-size: 1.2rem;
+  }
+  .nav_filtres {
+    li a.nav-link {
+      font-size: 1rem;
+    }
+
+
+  }
+}
+
+@media (min-width: 992px) {
+  .form-control, label {
+      font-size: 1.3rem;
+  }
+  .form-check-input {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .input-password + .toggle_password {
+    background-size: 2rem 2rem;
+    height: 41px;
+  }
+
+  .choix_cinema .dropdown-toggle {
+    font-size: 1.4rem;
+  }
+
+  .nav_filtres {
+    li {
+      padding: 0 1rem;
+    }
+
+    .jours_menu .dropdown-menu {
+      width: 300px;
+    }
+
+    .filtres_menu .dropdown-menu {
+      width: 350px;
+    }
+    .badge_genre_filtres {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.8rem;
+      margin: 0.3rem 0.5rem;
+    }
+
+  }
+
+  .compte_sidebar {
+    position: fixed;
+    top: 75px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 240px;
+  }
+
+  .compte_main {
+    padding-left: 260px;
+    padding-right: 1rem
+  }
+
+}
+
+
+@media (min-width: 1300px) {
+  .nav, .navbar-nav {
+    a.nav-link, span {
+      font-size: 1.3rem;
+    }
+    .px-2 {
+      padding-right: 1rem !important;
+      padding-left: 1rem !important;
+    }
+  }
+
+  .choix_cinema .dropdown-toggle {
+    font-size: 1.6rem;
+  }
+  .nav_filtres {
+    li a.nav-link {
+      font-size: 1.25rem;
+    }
+
+    .jours_menu .dropdown-menu .dropdown-item {
+      font-size: 1.25rem;
+    }
+    .filtres_menu .dropdown-menu {
+      width: 450px;
+    }
+    .badge_genre_filtres {
+      font-size: 1rem;
+      padding: 0.5rem 0.8rem;
+      margin: 0.3rem 0.5rem;
+    }
+
+  }
+
+  .compte_sidebar {
+    width: 290px;
+  }
+
+  .compte_main {
+    padding-left: 310px;
+  }
+
+
+}
+
+@media (min-width: 1700px) {
+  .nav, .navbar-nav {
+    .px-2 {
+      padding-right: 3rem !important;
+      padding-left: 3rem !important;
+    }
+  }
+  .choix_cinema .dropdown-toggle {
+    font-size: 1.8rem;
+  }
+
+}

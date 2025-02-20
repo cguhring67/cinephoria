@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes réservations{% endblock %}
+
+{% macro sidebarItem(name, url, icone) %}
+   {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+   {% set isActive = currentUrl == url %}
+   
+   <li class="nav-item mb-3">
+      <a href="{{ url }}" class="icon-link nav-link {% if isActive %}active{% endif %} px-3 px-sm-5 px-lg-4">{# ux_icon(icone, {height: '16px', width: '16px'}) #}<i class="{{ icone }}"></i>&nbsp;&nbsp;{{ name }}</a>
+   </li>
+{% endmacro %}
+
+{% block content %}
+<div class="compte_sidebar">
+   
+   <ul class="nav nav-pills mt-1 mt-lg-5 mb-2 w-100 justify-content-center align-items-center">
+      {{ _self.sidebarItem('Mes réservations', path('page_mes_reservations'), 'bi-calendar-check') }}
+      {{ _self.sidebarItem('Mes informations', path('page_mes_informations'), 'bi-person-fill-gear') }}
+      {{ _self.sidebarItem('Administration', path('admin'), 'bi-gear') }}
+   </ul>
+   
+</div>
+
+<div class="col-12 compte_main">
+   
+   <h1 class="text-center mb-4"> {{ block('title') }} </h1>
+   
+   {% block compte_content %}{% endblock %}
+
+</div>
+
+
+{% endblock %}

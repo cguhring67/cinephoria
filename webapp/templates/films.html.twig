@@ -86,13 +86,57 @@
    
    {% for film in films %}
       <div class="col-6 col-md-4 col-lg-4 col-xl-3 col-xxl-2">
-         <a href="/film/{{ film }}" class="films_lien_details">
+         <a href="/film/{{ film.id }}" class="films_lien_details">
             <div class="card">
-                  <img src="images/affiches/{{ film }}.jpg" class="card-img-top" alt="{{ film }}">
-                  <div class="film_hover">INFOS ET<br><b>SEANCES</b></div>
+                  <img src="images/affiches/{{ film.affiche }}.jpg" class="card-img-top" alt="{{ film.titre }}">
+                  <div class="film_hover">INFOS ET<br><b>SEANCES</b>
+                  </div>
+               
+               {% set startDate = film.dateAjout %}
+               {% set difference = date( 'now' | date() ).diff(date(startDate)) %}
+               {% set difference_jours = difference.days %}
+               {% if difference_jours < 7 %}
+                  <span class="badge text-bg-danger fs-5 position-absolute top-0 start-0 mt-4 ms-2">NOUVEAU</span>
+               {% endif %}
+               
+               {% if film.ageMini > 0 or film.avertissement != "" %}
+                  {% set mention_age_public = "-" ~ film.ageMini %}
+                  
+                  {% if film.ageMini < 12 %}
+                     {% set badge_class = "text-bg-primary" %}
+                     {% set badge_info = "A partir de " ~ film.ageMini ~ " ans" %}
+                  {% elseif film.ageMini >= 12 %}
+                     {% set badge_class = "text-bg-warning" %}
+                     {% set badge_info = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
+                  {% elseif film.ageMini >= 18 %}
+                     {% set badge_class = "text-bg-danger" %}
+                     {% set badge_info = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
+                  {% endif %}
+                  
+                  <span class="fs-5 position-absolute bottom-0 end-0 mb-4 me-2">
+                    
+                     {% if film.ageMini > 0 %}
+                       <span class="badge rounded-pill {{ badge_class }}" title="{{ badge_info }}">{{ mention_age_public }}</span>
+                     {% endif %}
+                     
+                     {% if film.avertissement != "" %}
+                        <i class="bi-exclamation-circle-fill" title="Avertissement : {{ film.avertissement }}"></i>
+                     {% endif %}
+                     
+                     {% if film.coupDeCoeur %}
+                       <i class="bi-heart-fill text-danger" title="Coup de coeur Cinéphoria !"></i>
+                     {% endif %}
+
+                  </span>
+               
+               {% endif %}
+               
+               
+               
+               
                <div class="card-body">
-                  <h5 class="card-title">{{ film }}</h5>
-                  <p class="card-text">Début de la description du film...</p>
+                  <h5 class="card-title">{{ film.titre }}</h5>
+                  <p class="card-text">{{ film.description[:42] }}...</p>
                </div>
             </div>
          </a>

@@ -323,6 +323,17 @@ a.films_lien_details {
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.9);
 }
 
+.film_details_titre {
+  color: $white;
+}
+
+p.details_film {
+  margin-bottom: 0.5rem;
+  span {
+    font-weight: bold;
+  }
+}
+
 .compte_main {
   padding-left: 1rem;
   padding-right: 1rem

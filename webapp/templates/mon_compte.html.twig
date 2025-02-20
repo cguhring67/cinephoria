@@ -1,0 +1,47 @@
+{% extends 'layout_compte.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block compte_content %}
+   
+   {% if app.user %}
+      {% set nom_utilisateur = app.user.prenom %}
+      <p class="text-center mb-4">Bienvenue sur votre espace personnel, {{ nom_utilisateur }} </p>
+   {% endif %}
+   
+   <p class="text-center mb-4">Retrouvez ci-dessous vos dernières réservations.
+      <a href="{{ path('page_mes_reservations') }}">Afficher toutes mes réservations</a> </p>
+   <p class="text-center mb-5">Lorsqu'une séance est terminée, vous avez la possibilité de noter et de commenter le film.</p>
+   
+   <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+         <th>Numéro de réservation</th>
+         <th>Date de réservation</th>
+         <th>Date et heure de la séance</th>
+         <th>Film</th>
+         <th>Durée</th>
+         <th>Noter</th>
+      </tr>
+      </thead>
+      {% for reservation in reservations %}
+         <tr>
+            <td>{{ reservation.numero }}</td>
+            <td>{{ reservation.date_reservation }}</td>
+            <td>{{ reservation.date_seance }}</td>
+            <td>{{ reservation.film }}</td>
+            <td>{{ reservation.film_duree }}</td>
+            <td><button class="btn btn-primary">Noter</button></td>
+         </tr>
+      {% endfor %}
+   
+   </table>
+
+
+
+{% endblock %}
+
+{% block scripts_supp %}
+
+{% endblock %}
+

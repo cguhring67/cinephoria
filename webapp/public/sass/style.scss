@@ -17,11 +17,14 @@ body {
 }
 
 h1 {
-  margin-top: 1.5em;
   margin-bottom: 0.5em;
   color: $rouge;
   font-weight: bold;
   text-align: center;
+
+  &.accueil {
+    margin-top: 1.5em;
+  }
 }
 
 .text-danger {
@@ -59,7 +62,7 @@ h2 {
 
   &.active {
     color: $white;
-    border-bottom: 2px solid $primary !important;
+    //border-bottom: 2px solid $primary !important;
   }
 
   &:hover {
@@ -174,9 +177,176 @@ button.toggle_password {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23adb5bd' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z'/%3E%3Cpath fill-rule='evenodd' d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z'/%3E%3C/svg%3E") !important;
 }
 
+a.films_lien_details {
+  text-decoration: none;
+  h5 {
+    color: rgba(255,255,255,.5);
+  }
+  .card-text {
+    color: rgba(255,192,92,.8);
+  }
+
+  img, .film_hover, h5 {
+    transition: all 0.6s ease;
+  }
+
+  .film_hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    //height: 100%;
+    aspect-ratio: 6 / 8;
+
+    text-align: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 1em;
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    opacity: 0;
+  }
+
+  &:hover {
+    h5 {
+      color: #fff;
+    }
+
+    img {
+      transform: scale(1.07);
+    }
+
+    .film_hover {
+      transform: scale(1.07);
+      opacity: 1;
+
+    }
+  }
+}
+
+.choix_cinema {
+  .dropdown-toggle {
+    font-size: 0.8rem;
+  }
+  .dropdown-menu {
+    background-color: color.change($primary, $lightness: 20%, $alpha: 70%);
+    backdrop-filter: blur(10px);
+  }
+  .dropdown-item:hover {
+    background-color: color.change($primary, $lightness: 40%, $alpha: 50%);
+  }
+}
+
+.nav_filtres {
+  background-color: color.change($primary, $lightness: 30%, $alpha: 50%);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  a {
+    cursor: pointer;
+  }
+  li {
+    padding: 0 0.2rem;
+    a.nav-link {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: color.change($primary, $lightness: 20%, $alpha: 70%);
+    backdrop-filter: blur(10px);
+  }
+  .dropdown-item:hover {
+    background-color: color.change($primary, $lightness: 40%, $alpha: 50%);
+  }
+
+
+  .jours_menu .dropdown-menu {
+    width: 220px;
+
+    .dropdown-item {
+      padding-top: 0.8rem;
+      padding-bottom: 0.8rem;
+    }
+  }
+
+  .filtres_menu {
+    position: absolute;
+    right: 90px;
+
+    .dropdown-menu {
+      width: 280px;
+    }
+
+    li {
+      padding: 0 1rem;
+    }
+  }
+
+  .badge_genre_filtres {
+    font-weight: normal;
+    border: 1px solid color.change($primary, $lightness: 70%, $alpha: 50%);;
+    color: rgba(255,255,255,.6);
+    cursor: pointer;
+    &:hover {
+      border: 1px solid rgba(255,255,255,1);
+      background-color: color.change($primary, $lightness: 50%, $alpha: 30%);
+      color: rgba(255,255,255,1);
+
+    }
+  }
+
+
+}
+
+.col_filtre {
+  background: rgba(255,255,255,.1);
+  font-size: 1.2rem;
+  margin: 0.4rem;
+  padding: 1rem;
+}
+
+
+.image_banniere {
+  border-radius: 10px;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
+}
+
+.image_affiche_details {
+  position: relative;
+  right: 40px;
+  top: -3rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.9);
+}
+
+.compte_main {
+  padding-left: 1rem;
+  padding-right: 1rem
+}
+
+@media (min-width: 576px) {
+  .choix_cinema .dropdown-toggle {
+      font-size: 1rem;
+  }
+}
+
 @media (min-width: 768px) {
   h5 {
       font-size: 1.3rem;
+  }
+  .choix_cinema .dropdown-toggle {
+      font-size: 1.2rem;
+  }
+  .nav_filtres {
+    li a.nav-link {
+      font-size: 1rem;
+    }
+
+
   }
 }
 
@@ -195,6 +365,48 @@ button.toggle_password {
     height: 41px;
   }
 
+  .choix_cinema .dropdown-toggle {
+    font-size: 1.4rem;
+  }
+
+  .nav_filtres {
+    li {
+      padding: 0 1rem;
+    }
+
+    .jours_menu .dropdown-menu {
+      width: 300px;
+    }
+
+    .filtres_menu .dropdown-menu {
+      width: 350px;
+    }
+    .badge_genre_filtres {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.8rem;
+      margin: 0.3rem 0.5rem;
+    }
+
+  }
+
+  .compte_sidebar {
+    position: fixed;
+    top: 75px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 240px;
+  }
+
+  .compte_main {
+    padding-left: 260px;
+    padding-right: 1rem
+  }
+
 }
 
 
@@ -203,18 +415,54 @@ button.toggle_password {
     a.nav-link, span {
       font-size: 1.3rem;
     }
-    .px-3 {
-      padding-right: 1.35rem !important;
-      padding-left: 1.35rem !important;
+    .px-2 {
+      padding-right: 1rem !important;
+      padding-left: 1rem !important;
     }
   }
+
+  .choix_cinema .dropdown-toggle {
+    font-size: 1.6rem;
+  }
+  .nav_filtres {
+    li a.nav-link {
+      font-size: 1.25rem;
+    }
+
+    .jours_menu .dropdown-menu .dropdown-item {
+      font-size: 1.25rem;
+    }
+    .filtres_menu .dropdown-menu {
+      width: 450px;
+    }
+    .badge_genre_filtres {
+      font-size: 1rem;
+      padding: 0.5rem 0.8rem;
+      margin: 0.3rem 0.5rem;
+    }
+
+  }
+
+  .compte_sidebar {
+    width: 290px;
+  }
+
+  .compte_main {
+    padding-left: 310px;
+  }
+
+
 }
 
 @media (min-width: 1700px) {
   .nav, .navbar-nav {
-    .px-3 {
+    .px-2 {
       padding-right: 3rem !important;
       padding-left: 3rem !important;
     }
   }
+  .choix_cinema .dropdown-toggle {
+    font-size: 1.8rem;
+  }
+
 }

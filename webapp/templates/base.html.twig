@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="darkreader-lock">
     <title>{% block title %}{% endblock %} - Cinéphoria</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,14 +32,14 @@
 
 {% macro menuItem(name, url) %}
     {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-    {% set isActive = currentUrl == url %}
+    {% set isActive = currentUrl == url or ((currentUrl == "/mes_informations") and (url == "/mon-compte")) or ((currentUrl == "/mes_reservations") and (url == "/mon-compte")) %}
     
     <li class="nav-item">
-        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-2">{{ name }}</a>
+        <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %}  px-2">{{ name }}</a>
     </li>
 {% endmacro %}
 
-<body>
+<body style="color-scheme: dark;" data-bs-theme="dark">
 <nav class="header navbar navbar-expand-lg bg-header my-0">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('index') }}">
@@ -58,10 +60,10 @@
                 {{ _self.menuItem('Accueil', path('index')) }}
                 
                 {{ _self.menuItem('Films', path('liste_films')) }}
-                {{ _self.menuItem('Réservation', path('index')) }}
+                {{ _self.menuItem('Réservation', path('page_reservation')) }}
 
                 {% if app.user %} {# user.isLoggedIn #}
-                    {{ _self.menuItem('Mon compte', path('index')) }}
+                    {{ _self.menuItem('Mon compte', path('page_mon_compte')) }}
                     {{ _self.menuItem('Se déconnecter', path('app_logout')) }}
                 {% else %}
                     {{ _self.menuItem('Connexion', path('app_login')) }}
@@ -75,7 +77,7 @@
 
 <main class="py-3 pt-5">
     
-    <div class="row ">
+    <div class="row g-0">
         {% block content %}{% endblock %}
     </div>
     

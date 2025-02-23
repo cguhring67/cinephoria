@@ -433,6 +433,16 @@ p.details_film {
   margin-bottom: 1rem;
 }
 
+.page_cinemas {
+  max-width: 900px;
+  margin: 0 auto;
+
+  img.float-end {
+    width: 100%;
+  }
+
+}
+
 .page_technologies {
   max-width: 1700px;
   margin: 0 auto;
@@ -482,6 +492,11 @@ p.details_film {
     }
   }
 
+  .page_cinemas img.float-end {
+      width: 50%;
+  }
+
+
 
 }
 
@@ -526,12 +541,18 @@ p.details_film {
     }
   }
 
+  .page_cinemas img.float-end {
+    width: 40%;
+  }
+
+
 }
 
 @media (min-width: 900px) {
   .liste_films .card-body h5.card-title {
     font-size: 1.3rem;
   }
+
 }
 
 

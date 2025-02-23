@@ -4,28 +4,28 @@
 
 {% block content %}
     
-    <div class="col-12 px-5 py-3 my-3 mb-0 align-items-center">
+    <div class="col-12 mx-auto px-5 py-3 my-3 mb-0 align-items-center page_cinemas">
         
         <div class="card text-bg-dark mb-3 mx-auto">
             
             <div class="card-header fs-5"><h2>{{ block('title') }}</h2></div>
             <div class="card-body p-5 ">
+                <h5 class="text-success-emphasis mb-5">Cinéphoria vous propose 5 cinémas en France, et 2 en Belgique :</h5>
                 
-                <h3>Nos cinémas</h3>
-                <p>Nous proposons actuellement 5 cinémas en France :</p>
-                <ul>
-                    <li>Nantes</li>
-                    <li>Bordeaux</li>
-                    <li>Paris</li>
-                    <li>Toulouse</li>
-                    <li>Lille</li>
-                </ul>
                 
-                <p>et 2 en Belgique :</p>
-                <ul>
-                    <li>Charleroi</li>
-                    <li>Liège</li>
-                </ul>
+                {% for cinema in cinemas %}
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <img src="images/{{ cinema.nom|slug|lower }}.jpg" class="img-fluid float-end pb-3" alt="{{ cinema.nom }}">
+                        
+                        <h3>{{ cinema.nom }}</h3>
+                        
+                        <p>{{ cinema.adresse1 }} </p>
+                        <p>{{ cinema.cp }} {{ cinema.ville }}</p>
+                    
+                    </div>
+                </div>
+                {% endfor %}
             
             </div>
         </div>

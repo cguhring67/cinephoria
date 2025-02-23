@@ -381,6 +381,14 @@ p.details_film span {
   margin-bottom: 1rem;
 }
 
+.page_cinemas {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.page_cinemas img.float-end {
+  width: 100%;
+}
+
 .page_technologies {
   max-width: 1700px;
   margin: 0 auto;
@@ -415,6 +423,9 @@ p.details_film span {
   .page_technologies img.float-end, .page_technologies img.float-start {
     width: 70%;
   }
+  .page_cinemas img.float-end {
+    width: 50%;
+  }
 }
 @media (min-width: 640px) {
   .liste_films .card-body h5.card-title {
@@ -445,6 +456,9 @@ p.details_film span {
   }
   .page_technologies img.float-end, .page_technologies img.float-start {
     width: 60%;
+  }
+  .page_cinemas img.float-end {
+    width: 40%;
   }
 }
 @media (min-width: 900px) {

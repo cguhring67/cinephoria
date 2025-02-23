@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\CinemasRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,9 +33,12 @@ class DefaultController extends AbstractController
 	}
 
 	#[Route('/cinemas', name: 'cinemas', methods: ['GET'])]
-	public function page_cinemas(): Response
+	public function page_cinemas(CinemasRepository $cinemasRepository): Response
 	{
-		return $this->render('cinemas.html.twig');
+		$cinemas = $cinemasRepository->findAll();
+		return $this->render('cinemas.html.twig', [
+			'cinemas' => $cinemas,
+		]);
 	}
 
 	#[Route('/technologies', name: 'technologies', methods: ['GET'])]

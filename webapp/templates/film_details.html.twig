@@ -3,26 +3,79 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-<div class="col-12 px-6 align-items-center">
+<div class="col-12 px-6 conteneur_general_film">
    
-   <img src="/images/bannieres/{{ film }}.jpg" class="img-fluid image_banniere" alt="{{ film }}">
-   <div class="row g-4">
-      <div class="col-9">
+   <div class="conteneur_banniere">
+      <img src="/images/bannieres/{{ film.affiche }}.jpg" class="align-self-center img-fluid image_banniere" alt="{{ film.titre }}">
+   </div>
+   
+   <div class="conteneur_details_film">
       
-         <h1>{{ film }}</h1>
-         <p class="card-text">Description du film</p>
-      
-      </div>
-      
-      <div class="col-3">
+      <div class="zone_titre">
+         <h1 class="mt-3 film_details_titre">{{ film.titre }}</h1>
          
-         <img src="/images/affiches/{{ film }}.jpg" class="img-fluid  image_affiche_details" alt="{{ film }}">
-      
+         <div class="duree_badges">
+            {% if film.ageMini == 0 %}
+              {% set mention_age_public = "Tous publics" %}
+              {% set badge_class = "text-bg-success" %}
+            {% elseif film.ageMini < 12 %}
+              {% set mention_age_public = "A partir de " ~ film.ageMini ~ " ans" %}
+              {% set badge_class = "text-bg-primary" %}
+            {% elseif film.ageMini >= 12 %}
+              {% set mention_age_public = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
+              {% set badge_class = "text-bg-warning" %}
+            {% elseif film.ageMini >= 18 %}
+              {% set mention_age_public = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
+              {% set badge_class = "text-bg-danger" %}
+            {% endif %}
+            
+            {% set mention_avertissement = "" %}
+            {% set basdge_avertissement = "" %}
+            {% if film.avertissement != "" %}
+               {% set mention_avertissement = "Avertissement : " %}
+            {% endif %}
+            
+            <p class="details_film fs-5">
+               <span>Durée :</span> {{ film.duree|format_time(pattern: "h'h' mm") }} &nbsp;
+               <span class="badge  {{ badge_class }}">{{ mention_age_public }}</span>
+               {% if film.avertissement != "" %}
+                  <span class="badge text-bg-primary">Avec avertissement</span>
+               {% endif %}
+               {% if film.coupDeCoeur %}
+                  &nbsp; &nbsp; <i class="bi-heart-fill text-danger" title="Coup de coeur Cinéphoria !"></i>
+               {% endif %}
+            </p>
+         
+         </div>
       </div>
       
       
+      <div class="zone_details">
+         {% set genres = film.genre|join(', ') %}
+         <p class="details_film"><span>Genre :</span> {{ genres }}</p>
+         <p class="details_film"><span>Date de sortie :</span> {{ film.dateAjout|format_date('long') }}</p>
+         <p class="details_film"><span>Réalisé par :</span> {{ film.realisateur }}</p>
+         <p class="details_film"><span>Avec :</span> {{ film.acteurs }}</p>
+      </div>
       
-
+      
+      <div class="zone_description">
+         <p class="card-text">{{ film.description }}</p>
+         <p class="card-text fw-bold">{{ mention_avertissement }}{{ film.avertissement }}</p>
+      </div>
+      
+      
+      <div class="zone_seances">
+         <p class="text-center fw-bold">
+            Les séances s'afficheront ici...
+         </p>
+      </div>
+      
+      
+      <div class="zone_affiche">
+         <img src="/images/affiches/{{ film.affiche }}.jpg" class="img-fluid  image_affiche_details" alt="{{ film.titre }}">
+      </div>
+      
    </div>
 </div>
 

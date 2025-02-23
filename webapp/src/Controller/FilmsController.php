@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Films;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,9 +28,18 @@ class FilmsController extends AbstractController
 		$films_genres = new FilmsGenres();
 		$genres = $films_genres->getGenres();
 
+		$dates = [];
+		for($i = 0; $i <= 7; $i++) {
+			$date_temp = new \DateTime("now");
+			$date_temp->add(new DateInterval('P' . $i . 'D'));
+			$date = $date_temp->format('Y-m-d');
+			$dates[$i] = $date;
+		}
+
 		return $this->render('films.html.twig', [
 			'films' => $films,
 			'genres' => $genres,
+			'dates' => $dates,
 		]);
 	}
 	

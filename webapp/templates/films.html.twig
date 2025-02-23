@@ -3,10 +3,10 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-<div class="col-12 px-6 align-items-center">
+<div class="col-12 px-6 conteneur_general_film">
    
-   <div class="row g-4 mx-auto align-items-center">
-      <div class="col-12">
+   <div class="row filtres_films">
+      <div class="col-12 p-0">
          <div class="dropdown choix_cinema">
             <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Aujourd'hui dans votre cinéma : Tous les cinémas
@@ -25,67 +25,71 @@
             </ul>
          </div>
       </div>
-   </div>
-   <div class="row g-4 mx-auto align-items-center">
-      <div class="col-12">
-         <ul class="nav nav-underline nav_filtres px-3">
-            <li class="nav-item">
-               <a class="nav-link active">Aujourd'hui</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link">Demain</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link">Jeudi 20 février</a>
-            </li>
-            
-            <li class="nav-item dropdown jours_menu">
-               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                  Jours suivants
-               </a>
-               <ul class="dropdown-menu">
-                  <li><a class="dropdown-item">Vendredi 21 février</a></li>
-                  <li><a class="dropdown-item">Samedi 22 février</a></li>
-                  <li><a class="dropdown-item">Dimanche 23 février</a></li>
-                  <li><a class="dropdown-item">Lundi 24 février</a></li>
-                  <li><a class="dropdown-item">Mardi 25 février</a></li>
-               </ul>
-            </li>
-            
-            <li class="nav-item dropdown filtres_menu">
-               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                  Filtres
-               </a>
-               <ul class="dropdown-menu">
-                  <li><h6 class="dropdown-header">Technologies</h6></li>
-                  <li>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="4DX">4DX-ICE</span>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="3D">3D</span>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="IMAX">IMAX</span>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="ONYX">ONYX</span>
-                  </li>
-                  
-                  <li><hr class="dropdown-divider"></li>
-                  <li><h6 class="dropdown-header">Genres</h6></li>
-                  <li>
-                     {% for genre in genres %}
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-genre="{{ genre }}">{{ genre }}</span>
-                     {% endfor %}
-                  </li>
+      
+      <div class="col-12 ligne_filtres">
+         <div class="filtres_jours">
+            <ul class="nav nav-underline nav_filtres px-3">
+               <li class="nav-item">
+                  <a class="nav-link active" data-filtre-date="{{ dates.0 }}">Aujourd'hui</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" data-filtre-date="{{ dates.1 }}">Demain</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" data-filtre-date="{{ dates.2 }}">{{ dates.2|format_date(pattern: "eeee d MMMM") }}</a>
+               </li>
                
-               </ul>
-            </li>
+               <li class="nav-item dropdown jours_menu">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                     Jours suivants
+                  </a>
+                  <ul class="dropdown-menu">
+                     <li><a class="dropdown-item" data-filtre-date="{{ dates.3 }}">{{ dates.3|format_date(pattern: "eeee d MMMM") }}</a></li>
+                     <li><a class="dropdown-item" data-filtre-date="{{ dates.4 }}">{{ dates.4|format_date(pattern: "eeee d MMMM") }}</a></li>
+                     <li><a class="dropdown-item" data-filtre-date="{{ dates.5 }}">{{ dates.5|format_date(pattern: "eeee d MMMM") }}</a></li>
+                     <li><a class="dropdown-item" data-filtre-date="{{ dates.6 }}">{{ dates.6|format_date(pattern: "eeee d MMMM") }}</a></li>
+                     <li><a class="dropdown-item" data-filtre-date="{{ dates.7 }}">{{ dates.7|format_date(pattern: "eeee d MMMM") }}</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
          
+         <div class="filtres_menu">
+            <ul class="nav nav-underline nav_filtres px-3">
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                     Filtres
+                  </a>
+                  <ul class="dropdown-menu">
+                     <li><h6 class="dropdown-header">Technologies</h6></li>
+                     <li>
+                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="4DX">4DX-ICE</span>
+                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="3D">3D</span>
+                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="IMAX">IMAX</span>
+                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="ONYX">ONYX</span>
+                     </li>
+                     
+                     <li><hr class="dropdown-divider"></li>
+                     <li><h6 class="dropdown-header">Genres</h6></li>
+                     <li>
+                        {% for genre in genres %}
+                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-genre="{{ genre }}">{{ genre }}</span>
+                        {% endfor %}
+                     </li>
+                  
+                  </ul>
+               </li>
+            </ul>
+         </div>
          
-         </ul>
       </div>
    </div>
    
    
-   <div class="row g-4 mt-2">
+   <div class="row g-2 g-sm-3 g-lg-4 mt-1 px-2 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5  liste_films">
    
    {% for film in films %}
-      <div class="col-6 col-md-4 col-lg-4 col-xl-3 col-xxl-2">
+      <div class="col">
          <a href="/film/{{ film.id }}" class="films_lien_details">
             <div class="card">
                   <img src="images/affiches/{{ film.affiche }}.jpg" class="card-img-top" alt="{{ film.titre }}">
@@ -136,7 +140,6 @@
                
                <div class="card-body">
                   <h5 class="card-title">{{ film.titre }}</h5>
-                  <p class="card-text">{{ film.description[:42] }}...</p>
                </div>
             </div>
          </a>

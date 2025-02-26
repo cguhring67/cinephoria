@@ -427,9 +427,44 @@ p.details_film {
   padding-right: 1rem
 }
 
+.image_shadow {
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
+}
+
+.page_cinemas {
+  max-width: 900px;
+  margin: 0 auto;
+
+  img.float-end {
+    width: 100%;
+  }
+
+}
+
+.page_technologies {
+  max-width: 1700px;
+  margin: 0 auto;
+
+  img.float-end, img.float-start {
+    width: 100%;
+  }
+
+  .float-end {
+    margin-left: 1.5rem;
+  }
+
+  .float-start {
+    margin-right: 1.5rem;
+  }
+
+}
+
+
 @media (min-width: 576px) {
   .choix_cinema .dropdown-toggle {
-      font-size: 1rem;
+    font-size: 1rem;
   }
   .px-6 {
     padding-right: 1.5rem !important;
@@ -438,10 +473,10 @@ p.details_film {
 
   .conteneur_details_film {
     grid-template-areas:
-    "zone_titre       zone_affiche    "
-    "zone_details     zone_affiche    "
-    "zone_description zone_description"
-    "zone_seances     zone_seances    ";
+  "zone_titre       zone_affiche    "
+  "zone_details     zone_affiche    "
+  "zone_description zone_description"
+  "zone_seances     zone_seances    ";
   }
 
   .zone_affiche {
@@ -451,6 +486,17 @@ p.details_film {
   .liste_films  .card-body h5.card-title {
     font-size: 1.2rem;
   }
+  .page_technologies {
+    img.float-end, img.float-start {
+      width: 70%;
+    }
+  }
+
+  .page_cinemas img.float-end {
+      width: 50%;
+  }
+
+
 
 }
 
@@ -470,7 +516,7 @@ p.details_film {
 
 @media (min-width: 768px) {
   h5 {
-      font-size: 1.3rem;
+    font-size: 1.3rem;
   }
   .px-6 {
     padding-right: 2.5rem !important;
@@ -478,7 +524,7 @@ p.details_film {
   }
 
   .choix_cinema .dropdown-toggle {
-      font-size: 1.2rem;
+    font-size: 1.2rem;
   }
   .nav_filtres {
     li a.nav-link {
@@ -489,18 +535,30 @@ p.details_film {
   .liste_films .card-body h5.card-title {
     font-size: 1.2rem;
   }
+  .page_technologies {
+    img.float-end, img.float-start {
+      width: 60%;
+    }
+  }
+
+  .page_cinemas img.float-end {
+    width: 40%;
+  }
+
+
 }
 
 @media (min-width: 900px) {
   .liste_films .card-body h5.card-title {
     font-size: 1.3rem;
   }
+
 }
 
 
 @media (min-width: 992px) {
   .form-control, label {
-      font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 
   .px-6 {
@@ -564,10 +622,10 @@ p.details_film {
 
   .conteneur_details_film {
     grid-template-areas:
-    "zone_titre       zone_affiche    "
-    "zone_details     zone_affiche    "
-    "zone_description zone_affiche    "
-    "zone_seances     zone_seances    ";
+  "zone_titre       zone_affiche    "
+  "zone_details     zone_affiche    "
+  "zone_description zone_affiche    "
+  "zone_seances     zone_seances    ";
     grid-template-columns: 2fr 1fr;
   }
 
@@ -579,6 +637,14 @@ p.details_film {
   .liste_films .card-body h5.card-title {
     font-size: 1.4rem;
   }
+
+  .page_technologies {
+    img.float-end, img.float-start {
+      width: 40%;
+    }
+  }
+
+
 }
 
 @media (min-width: 1100px) {
@@ -594,7 +660,7 @@ p.details_film {
   }
 
   .liste_films  .card-body h5.card-title {
-      font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 
 }
@@ -634,6 +700,7 @@ p.details_film {
       margin: 0.3rem 0.5rem;
     }
 
+
   }
 
   .ligne_filtres .filtres_menu .dropdown-menu {
@@ -660,9 +727,9 @@ p.details_film {
   .conteneur_details_film {
     grid-template-columns: 3fr 3fr 2fr;
     grid-template-areas:
-    "zone_titre       zone_titre      zone_affiche    "
-    "zone_description zone_details    zone_affiche    "
-    "zone_seances     zone_seances    zone_affiche    ";
+  "zone_titre       zone_titre      zone_affiche    "
+  "zone_description zone_details    zone_affiche    "
+  "zone_seances     zone_seances    zone_affiche    ";
     grid-template-rows: auto;
 
   }
@@ -671,6 +738,13 @@ p.details_film {
     padding-top: 65px;
     padding-right: 45px;
   }
+
+  .page_technologies {
+    img.float-end, img.float-start {
+      width: 30%;
+    }
+  }
+
 
 }
 
@@ -713,6 +787,12 @@ p.details_film {
 
   .liste_films .card-body h5.card-title {
     font-size: 1.4rem;
+  }
+
+  .page_technologies {
+    img.float-end, img.float-start {
+      width: 25%;
+    }
   }
 
 

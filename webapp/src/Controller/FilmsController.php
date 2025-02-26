@@ -25,6 +25,8 @@ class FilmsController extends AbstractController
 			['date_ajout' => 'DESC']
 		);
 
+		dump($films);
+
 		$films_genres = new FilmsGenres();
 		$genres = $films_genres->getGenres();
 

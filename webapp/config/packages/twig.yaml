@@ -1,7 +1,6 @@
 twig:
     file_name_pattern: '*.twig'
     form_themes: ['bootstrap_5_layout.html.twig']
-    cache: false
 
 when@test:
     twig:

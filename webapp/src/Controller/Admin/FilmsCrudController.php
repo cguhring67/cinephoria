@@ -27,6 +27,7 @@ class FilmsCrudController extends AbstractCrudController
 	{
 		return $crud
 			->renderContentMaximized()
+			->setDefaultSort(['date_ajout' => 'DESC'])
 			//->setDateFormat('...')
 			// ...
 			;

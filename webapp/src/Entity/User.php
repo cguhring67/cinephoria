@@ -15,169 +15,175 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column]
+	private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
-    private ?string $email = null;
+	#[ORM\Column(length: 180)]
+	private ?string $email = null;
 
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
+	/**
+	 * @var list<string> The user roles
+	 */
+	#[ORM\Column]
+	private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private string $password;
+	/**
+	 * @var string The hashed password
+	 */
+	#[ORM\Column]
+	private string $password;
 
-    #[ORM\Column(length: 50)]
-    private string $nom;
+	#[ORM\Column(length: 50)]
+	private string $nom;
 
-    #[ORM\Column(length: 50)]
-    private string $prenom;
+	#[ORM\Column(length: 50)]
+	private string $prenom;
 
-    /**
-     * @var Collection<int, Avis>
-     */
-    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user_id', orphanRemoval: true)]
-    private Collection $avis;
+	/**
+	 * @var Collection<int, Avis>
+	 */
+	#[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user_id', orphanRemoval: true)]
+	private Collection $avis;
 
-    public function __construct()
-    {
-        $this->avis = new ArrayCollection();
-    }
+	public function __construct()
+	{
+		$this->avis = new ArrayCollection();
+	}
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	public function __toString(): string
+	{
+		return $this->getNom() . " " . $this->getPrenom();  // or some string field in your Vegetal Entity
+	}
 
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
 
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	public function getEmail(): string
+	{
+		return $this->email;
+	}
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+	public function setEmail(string $email): static
+	{
+		$this->email = $email;
 
-    /**
-     * @see UserInterface
-     *
-     * @return list<string>
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+		return $this;
+	}
 
-        return array_unique($roles);
-    }
+	/**
+	 * A visual identifier that represents this user.
+	 *
+	 * @see UserInterface
+	 */
+	public function getUserIdentifier(): string
+	{
+		return (string) $this->email;
+	}
 
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
+	/**
+	 * @see UserInterface
+	 *
+	 * @return list<string>
+	 */
+	public function getRoles(): array
+	{
+		$roles = $this->roles;
+		// guarantee every user at least has ROLE_USER
+		$roles[] = 'ROLE_USER';
 
-        return $this;
-    }
+		return array_unique($roles);
+	}
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+	/**
+	 * @param list<string> $roles
+	 */
+	public function setRoles(array $roles): static
+	{
+		$this->roles = $roles;
 
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * @see PasswordAuthenticatedUserInterface
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+	public function setPassword(string $password): static
+	{
+		$this->password = $password;
 
-    public function getNom(): string
-    {
-        return $this->nom;
-    }
+		return $this;
+	}
 
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
+	/**
+	 * @see UserInterface
+	 */
+	public function eraseCredentials(): void
+	{
+		// If you store any temporary, sensitive data on the user, clear it here
+		// $this->plainPassword = null;
+	}
 
-        return $this;
-    }
+	public function getNom(): string
+	{
+		return $this->nom;
+	}
 
-    public function getPrenom(): string
-    {
-        return $this->prenom;
-    }
+	public function setNom(string $nom): static
+	{
+		$this->nom = $nom;
 
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function getPrenom(): string
+	{
+		return $this->prenom;
+	}
 
-    /**
-     * @return Collection<int, Avis>
-     */
-    public function getAvis(): Collection
-    {
-        return $this->avis;
-    }
+	public function setPrenom(string $prenom): static
+	{
+		$this->prenom = $prenom;
 
-    public function addAvi(Avis $avis): static
-    {
-        if (!$this->avis->contains($avis)) {
-            $this->avis->add($avis);
-            $avis->setUserId($this);
-        }
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * @return Collection<int, Avis>
+	 */
+	public function getAvis(): Collection
+	{
+		return $this->avis;
+	}
 
-    public function removeAvi(Avis $avis): static
-    {
-        if ($this->avis->removeElement($avis)) {
-            // set the owning side to null (unless already changed)
-            if ($avis->getUserId() === $this) {
-                $avis->setUserId(null);
-            }
-        }
+	public function addAvi(Avis $avis): static
+	{
+		if (!$this->avis->contains($avis)) {
+			$this->avis->add($avis);
+			$avis->setUserId($this);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
+
+	public function removeAvi(Avis $avis): static
+	{
+		if ($this->avis->removeElement($avis)) {
+			// set the owning side to null (unless already changed)
+			if ($avis->getUserId() === $this) {
+				$avis->setUserId(null);
+			}
+		}
+
+		return $this;
+	}
 }

@@ -32,6 +32,9 @@ class Seances
     private ?int $cinema_id = null;
     private ?int $duree_film = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?array $technologies = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Seances
     public function setCinemaId(int $cinema_id): static
     {
         $this->cinema_id = $cinema_id;
+
+        return $this;
+    }
+
+    public function getTechnologies(): ?array
+    {
+        return $this->technologies;
+    }
+
+    public function setTechnologies(?array $technologies): static
+    {
+        $this->technologies = $technologies;
 
         return $this;
     }

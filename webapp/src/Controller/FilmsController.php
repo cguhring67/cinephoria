@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Films;
+use App\Entity\Seances;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,21 @@ use Symfony\Component\Routing\RouterInterface;
 class FilmsController extends AbstractController
 {
 	#[Route('/films', name: 'liste_films', methods: ['GET'])]
-	public function liste_films(FilmsRepository $filmsRepository): Response
+	public function liste_films(EntityManagerInterface $entityManager): Response
 	{
 
-		$films = $filmsRepository->findBy(
+		$films = $entityManager->getRepository(Films::class)->findBy(
 			array(),
 			['date_ajout' => 'DESC']
 		);
 
+		$seances = $entityManager->getRepository(Seances::class)->findBy(
+			array(),
+			['date_debut' => 'DESC']
+		);
+
+
+		dump($seances);
 		dump($films);
 
 		$films_genres = new FilmsGenres();
@@ -54,6 +62,33 @@ class FilmsController extends AbstractController
 		]);
 	}
 
+
+
+	#[Route('/filmstest', name: 'test', methods: ['GET'])]
+	public function test(EntityManagerInterface $entityManager): Response
+	{
+
+		$date_test1 = "now";
+
+		$date_test2 = new \DateTime("now");
+
+		$date_test3 = new \DateTime("now");
+		$date_test3->add(new DateInterval('P1D'));
+
+		$date_test4 = $date_test3->format('Y-m-d');
+
+
+		$dates = [];
+
+		$films = $entityManager->getRepository(Films::class)->findFilmsByFiltres($date_test4, "fantastique", "");
+		dd($films);
+
+		$var = "<pre style='font-size: 1.5em;'>";
+		//$var .= print_r($seances, true);
+		$var .= "</pre>";
+
+		return new Response($var);
+	}
 
 
 

@@ -103,7 +103,7 @@
                   <span class="badge text-bg-danger fs-5 position-absolute top-0 start-0 mt-4 ms-2">NOUVEAU</span>
                {% endif %}
                
-               {% if film.ageMini > 0 or film.avertissement != "" %}
+               {% if film.ageMini > 0 or film.avertissement != "" or film.coupDeCoeur %}
                   {% set mention_age_public = "-" ~ film.ageMini %}
                   
                   {% if film.ageMini < 12 %}

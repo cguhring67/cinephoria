@@ -210,6 +210,14 @@ button.toggle_password:focus {
 .choix_cinema .dropdown-item:hover {
   background-color: rgba(0, 83.6923076923, 204, 0.5);
 }
+.choix_cinema .dropdown-item.active {
+  background-color: rgba(51, 134.6923076923, 255, 0.2);
+  font-weight: bold;
+  text-shadow: 2px 2px 6px #000;
+}
+.choix_cinema a {
+  cursor: pointer;
+}
 
 .nav_filtres {
   padding-top: 1rem;
@@ -219,11 +227,18 @@ button.toggle_password:focus {
   cursor: pointer;
 }
 .nav_filtres li {
-  padding: 0 0.2rem;
+  padding: 0;
 }
 .nav_filtres li a.nav-link, .nav_filtres li a.dropdown-item {
   font-size: 0.8rem;
   text-transform: uppercase;
+}
+.nav_filtres li a.nav-link.active, .nav_filtres li a.dropdown-item.active {
+  text-shadow: 2px 2px 6px #000;
+}
+.nav_filtres li a.nav-link.lien_voir_tout, .nav_filtres li a.dropdown-item.lien_voir_tout {
+  text-transform: none;
+  font-size: 0.7rem;
 }
 .nav_filtres .dropdown-menu {
   background-color: rgba(0, 41.8461538462, 102, 0.7);
@@ -253,9 +268,6 @@ button.toggle_password:focus {
 
 .ligne_filtres .filtres_menu .dropdown-menu {
   width: 280px;
-}
-.ligne_filtres .filtres_menu li {
-  padding: 0 1rem;
 }
 
 .col_filtre {
@@ -451,6 +463,9 @@ p.details_film span {
   .nav_filtres li a.nav-link {
     font-size: 1rem;
   }
+  .nav_filtres li a.nav-link.lien_voir_tout {
+    font-size: 0.85rem;
+  }
   .liste_films .card-body h5.card-title {
     font-size: 1.2rem;
   }
@@ -547,6 +562,9 @@ p.details_film span {
 @media (min-width: 1300px) {
   .nav a.nav-link, .nav span, .navbar-nav a.nav-link, .navbar-nav span {
     font-size: 1.3rem;
+  }
+  .nav a.nav-link.lien_voir_tout, .nav span.lien_voir_tout, .navbar-nav a.nav-link.lien_voir_tout, .navbar-nav span.lien_voir_tout {
+    font-size: 1rem;
   }
   .nav .px-2, .navbar-nav .px-2 {
     padding-right: 1rem !important;

@@ -51,8 +51,15 @@
       
       
       <div class="zone_details">
-         {% set genres = film.genre|join(', ') %}
-         <p class="details_film"><span>Genre :</span> {{ genres }}</p>
+         <p class="details_film"><span>Genre :</span>
+            
+            {% for genre in film.genre %}
+               {% set separateur = not loop.last ? ", " : "" %}
+               {{ genres[genre] }}{{ separateur }}
+            {% endfor %}
+            
+         </p>
+         
          <p class="details_film"><span>Date de sortie :</span> {{ film.dateAjout|format_date('long') }}</p>
          <p class="details_film"><span>Réalisé par :</span> {{ film.realisateur }}</p>
          <p class="details_film"><span>Avec :</span> {{ film.acteurs }}</p>
@@ -66,9 +73,32 @@
       
       
       <div class="zone_seances">
-         <p class="text-center fw-bold">
-            Les séances s'afficheront ici...
-         </p>
+         <div class="row justify-content-center">
+            <div class="col-12">
+              {% set date_aujourdhui = date()|format_date('long')  %}
+            
+               <h3 class="text-center">Les séances d'aujourd'hui, {{ date_aujourdhui }}</h3>
+               <p class="text-center">
+                  {% for seance in film.seances %}
+                     
+                     {% set class_badge = "text-bg-primary" %}
+                     {% if seance.dateDebut < date() %}
+                        {% set class_badge = "text-bg-danger text-decoration-line-through opacity-25" %}
+                     {% endif %}
+                     
+                     
+                     {% if seance.dateDebut|format_date('long') == date_aujourdhui %}
+                     {% if seance.cinemaId == 1 %}
+                           <span class=" badge {{ class_badge }} fs-4 px-3 mx-3">{{ seance.dateDebut|format_time('short') }}</span>
+                     {% endif %}
+                  {% endif %}
+                  
+                  {% else %}
+                     <span class=" badge text-bg-warning fs-4 px-3 mx-3">Aucune séance aujourd'hui</span>
+                  {% endfor %}
+               </p>
+            </div>
+         </div>
       </div>
       
       

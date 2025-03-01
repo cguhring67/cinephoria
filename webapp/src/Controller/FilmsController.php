@@ -6,11 +6,13 @@ namespace App\Controller;
 
 use App\Entity\Films;
 use App\Entity\Seances;
+use App\Entity\Cinemas;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Services\FilmsGenres;
+use App\Services\Technologies;
 use App\Repository\FilmsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -31,12 +33,20 @@ class FilmsController extends AbstractController
 			['date_debut' => 'DESC']
 		);
 
+		$cinemas = $entityManager->getRepository(Cinemas::class)->findBy(
+			array(),
+			['ville' => 'ASC']
+		);
+
 
 		dump($seances);
 		dump($films);
 
-		$films_genres = new FilmsGenres();
-		$genres = $films_genres->getGenres();
+		$films_genres_service = new FilmsGenres();
+		$films_genres = $films_genres_service->getGenres();
+
+		$technologies_service = new Technologies();
+		$technologies = $technologies_service->getTechnologies();
 
 		$dates = [];
 		for($i = 0; $i <= 7; $i++) {
@@ -48,7 +58,9 @@ class FilmsController extends AbstractController
 
 		return $this->render('films.html.twig', [
 			'films' => $films,
-			'genres' => $genres,
+			'cinemas' => $cinemas,
+			'genres' => $films_genres,
+			'technologies' => $technologies,
 			'dates' => $dates,
 		]);
 	}
@@ -57,8 +69,16 @@ class FilmsController extends AbstractController
 	public function film_details(RouterInterface $router, Films $film): Response
 	{
 
+		$films_genres_service = new FilmsGenres();
+		$films_genres = $films_genres_service->getGenres();
+
+		$technologies_service = new Technologies();
+		$technologies = $technologies_service->getTechnologies();
+
 		return $this->render('film_details.html.twig', [
 			'film' => $film,
+			'genres' => $films_genres,
+			'technologies' => $technologies,
 		]);
 	}
 

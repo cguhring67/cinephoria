@@ -142,10 +142,26 @@ class FilmsController extends AbstractController
 					"$search_cinema"
 				);
 //			dd($films_par_seances_du_jour);
+			$data = [];
+			foreach($films_par_seances_du_jour as $film)
+			{
+				$date_temp = new \DateTime("now");
+				$nombre_jours = $film->getDateAjout()->diff($date_temp)->days;
 
-			$json_response = json_encode($films_par_seances_du_jour);
+				$data[] = [
+					'id' => $film->getId(),
+					'titre' => $film->getTitre(),
+					'date_ajout' => $film->getDateAjout()->format('Y-m-d'),
+					'nombre_jours' => $nombre_jours,
+					'coup_de_coeur' => $film->getCoupDeCoeur(),
+					'age_mini' => $film->getAgeMini(),
+					'avertissement' => $film->getAvertissement(),
+				];
+			}
 
-			return new JsonResponse($json_response);
+//			$json_response = json_encode($data);
+//
+			return new JsonResponse($data);
 		}
 		return new JsonResponse(['error' => 'Cet appel doit être effectué via AJAX.'], Response::HTTP_BAD_REQUEST);
 

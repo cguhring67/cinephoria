@@ -3,84 +3,109 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-<div class="col-12 px-6 align-items-center">
+<div class="col-12 px-6 conteneur_general_film">
    
-   <img src="/images/bannieres/{{ film.affiche }}.jpg" class="img-fluid image_banniere" alt="{{ film.titre }}">
-   <div class="row g-4">
-      <div class="col-8">
+   <div class="conteneur_banniere">
+      <img src="/images/bannieres/{{ film.affiche }}.jpg" class="align-self-center img-fluid image_banniere" alt="{{ film.titre }}">
+   </div>
+   
+   <div class="conteneur_details_film">
+      
+      <div class="zone_titre">
          <h1 class="mt-3 film_details_titre">{{ film.titre }}</h1>
          
-         <div class="row g-5">
-            <div class="col-7">
-               
-               {% if film.ageMini == 0 %}
-                 {% set mention_age_public = "Tous publics" %}
-                 {% set badge_class = "text-bg-success" %}
-               {% elseif film.ageMini < 12 %}
-                 {% set mention_age_public = "A partir de " ~ film.ageMini ~ " ans" %}
-                 {% set badge_class = "text-bg-primary" %}
-               {% elseif film.ageMini >= 12 %}
-                 {% set mention_age_public = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
-                 {% set badge_class = "text-bg-warning" %}
-               {% elseif film.ageMini >= 18 %}
-                 {% set mention_age_public = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
-                 {% set badge_class = "text-bg-danger" %}
-               {% endif %}
-               
-               {% set mention_avertissement = "" %}
-               {% set basdge_avertissement = "" %}
+         <div class="duree_badges">
+            {% if film.ageMini == 0 %}
+              {% set mention_age_public = "Tous publics" %}
+              {% set badge_class = "text-bg-success" %}
+            {% elseif film.ageMini < 12 %}
+              {% set mention_age_public = "A partir de " ~ film.ageMini ~ " ans" %}
+              {% set badge_class = "text-bg-primary" %}
+            {% elseif film.ageMini >= 12 %}
+              {% set mention_age_public = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
+              {% set badge_class = "text-bg-warning" %}
+            {% elseif film.ageMini >= 18 %}
+              {% set mention_age_public = "Interdit aux moins de " ~ film.ageMini ~ " ans" %}
+              {% set badge_class = "text-bg-danger" %}
+            {% endif %}
+            
+            {% set mention_avertissement = "" %}
+            {% set basdge_avertissement = "" %}
+            {% if film.avertissement != "" %}
+               {% set mention_avertissement = "Avertissement : " %}
+            {% endif %}
+            
+            <p class="details_film fs-5">
+               <span>Durée :</span> {{ film.duree|format_time(pattern: "h'h' mm") }} &nbsp;
+               <span class="badge  {{ badge_class }}">{{ mention_age_public }}</span>
                {% if film.avertissement != "" %}
-                  {% set mention_avertissement = "Avertissement : " %}
+                  <span class="badge text-bg-primary">Avec avertissement</span>
                {% endif %}
-               
-               <p class="details_film fs-5">
-                  <span>Durée :</span> {{ film.duree|format_time(pattern: "h'h' mm") }} &nbsp;
-                  <span class="badge  {{ badge_class }}">{{ mention_age_public }}</span>
-                  {% if film.avertissement != "" %}
-                     <span class="badge text-bg-primary">Avec avertissement</span>
-                  {% endif %}
-                  {% if film.coupDeCoeur %}
-                     &nbsp; &nbsp; <i class="bi-heart-fill text-danger" title="Coup de coeur Cinéphoria !"></i>
-                  {% endif %}
-               </p>
-               <p class="card-text">{{ film.description }}</p>
-               
-               <p class="card-text fw-bold">{{ mention_avertissement }}{{ film.avertissement }}</p>
-            
-            </div>
-            
-            <div class="col-5">
-               
-               {% set genres = film.genre|join(', ') %}
-               
-               <p class="details_film">&nbsp;</p>
-               <p class="details_film"><span>Genre :</span> {{ genres }}</p>
-               <p class="details_film"><span>Date de sortie :</span> {{ film.dateAjout|format_date('long') }}</p>
-               <p class="details_film"><span>Réalisé par :</span> {{ film.realisateur }}</p>
-               <p class="details_film"><span>Avec :</span> {{ film.acteurs }}</p>
-               
-            </div>
-         </div>
-         
-         <div class="row g-5 pt-4">
-            
-            <div class="col-12">
-               <p class="text-center fw-bold">
-                  Les séances s'afficheront ici...
-               </p>
-            </div>
+               {% if film.coupDeCoeur %}
+                  &nbsp; &nbsp; <i class="bi-heart-fill text-danger" title="Coup de coeur Cinéphoria !"></i>
+               {% endif %}
+            </p>
          
          </div>
-         
-         
-         </div>
-      
-      <div class="col-1">
       </div>
       
-      <div class="col-3">
+      
+      <div class="zone_details">
+         <p class="details_film"><span>Genre :</span>
+            
+            {% for genre in film.genre %}
+               {% set separateur = not loop.last ? ", " : "" %}
+               {{ genres[genre] }}{{ separateur }}
+            {% endfor %}
+            
+         </p>
+         
+         <p class="details_film"><span>Date de sortie :</span> {{ film.dateAjout|format_date('long') }}</p>
+         <p class="details_film"><span>Réalisé par :</span> {{ film.realisateur }}</p>
+         <p class="details_film"><span>Avec :</span> {{ film.acteurs }}</p>
+      </div>
+      
+      
+      <div class="zone_description">
+         <p class="card-text">{{ film.description }}</p>
+         <p class="card-text fw-bold">{{ mention_avertissement }}{{ film.avertissement }}</p>
+      </div>
+      
+      
+      <div class="zone_seances">
+         <div class="row justify-content-center">
+            <div class="col-12">
+              {% set date_aujourdhui = date()|format_date('long')  %}
+            
+               <h3 class="text-center">Les séances d'aujourd'hui, {{ date_aujourdhui }}</h3>
+               <p class="text-center">
+                  {% for seance in film.seances %}
+                     
+                     {% set class_badge = "text-bg-primary" %}
+                     {% if seance.dateDebut < date() %}
+                        {% set class_badge = "text-bg-danger text-decoration-line-through opacity-25" %}
+                     {% endif %}
+                     
+                     
+                     {% if seance.dateDebut|format_date('long') == date_aujourdhui %}
+                     {% if seance.cinemaId == 1 %}
+                           <span class=" badge {{ class_badge }} fs-4 px-3 mx-3">{{ seance.dateDebut|format_time('short') }}</span>
+                     {% endif %}
+                  {% endif %}
+                  
+                  {% else %}
+                     <span class=" badge text-bg-warning fs-4 px-3 mx-3">Aucune séance aujourd'hui</span>
+                  {% endfor %}
+               </p>
+            </div>
+         </div>
+      </div>
+      
+      
+      <div class="zone_affiche">
          <img src="/images/affiches/{{ film.affiche }}.jpg" class="img-fluid  image_affiche_details" alt="{{ film.titre }}">
       </div>
+      
    </div>
 </div>
 

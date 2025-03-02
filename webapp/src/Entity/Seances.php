@@ -28,6 +28,13 @@ class Seances
     #[ORM\JoinColumn(nullable: false)]
     private Salles $salle_id;
 
+    #[ORM\Column]
+    private ?int $cinema_id = null;
+    private ?int $duree_film = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $technologies = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +76,17 @@ class Seances
         return $this;
     }
 
+    public function getDureeFilm(): int
+    {
+        return $this->duree_film;
+    }
+
+    public function setDureeFilm(int $duree_film): static
+    {
+        $this->duree_film = $duree_film;
+        return $this;
+    }
+
     public function getSalleId(): Salles
     {
         return $this->salle_id;
@@ -77,6 +95,30 @@ class Seances
     public function setSalleId(Salles $salle_id): static
     {
         $this->salle_id = $salle_id;
+
+        return $this;
+    }
+
+    public function getCinemaId(): ?int
+    {
+        return $this->cinema_id;
+    }
+
+    public function setCinemaId(int $cinema_id): static
+    {
+        $this->cinema_id = $cinema_id;
+
+        return $this;
+    }
+
+    public function getTechnologies(): ?array
+    {
+        return $this->technologies;
+    }
+
+    public function setTechnologies(?array $technologies): static
+    {
+        $this->technologies = $technologies;
 
         return $this;
     }

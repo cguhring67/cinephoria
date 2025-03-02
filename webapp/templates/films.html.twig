@@ -3,93 +3,90 @@
 {% block title %}Accueil{% endblock %}
 
 {% block content %}
-<div class="col-12 px-6 align-items-center">
+<div class="col-12 px-6 conteneur_general_film">
    
-   <div class="row g-4 mx-auto align-items-center">
-      <div class="col-12">
+   <div class="row filtres_films">
+      <div class="col-12 p-0">
          <div class="dropdown choix_cinema">
-            <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Aujourd'hui dans votre cinéma : Tous les cinémas
+            <button class="btn btn-primary dropdown-toggle w-100 dropdown_cinemas" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+              Aujourd'hui dans votre : Veuillez choisir un cinéma
             </button>
             <ul class="dropdown-menu fs-4 w-100 text-center">
                <li><h6 class="dropdown-header">Cinémas en France</h6></li>
-               <li><a class="dropdown-item" href="#">Nantes</a></li>
-               <li><a class="dropdown-item" href="#">Bordeaux</a></li>
-               <li><a class="dropdown-item" href="#">Paris</a></li>
-               <li><a class="dropdown-item" href="#">Toulouse</a></li>
-               <li><a class="dropdown-item" href="#">Lille</a></li>
+               
+               {% for cinema in cinemas %}
+                  {% if "Belgique" not in cinema.ville %}
+                     <li><a class="dropdown-item lien_filtre_cinema" data-cinema-id="{{ cinema.id }}">{{ cinema.nom }}</a></li>
+                  {% endif %}
+               {% endfor %}
+               
                <li><hr class="dropdown-divider"></li>
                <li><h6 class="dropdown-header">Cinémas en Belgique</h6></li>
-               <li><a class="dropdown-item" href="#">Charleroi</a></li>
-               <li><a class="dropdown-item" href="#">Liège</a></li>
+               {% for cinema in cinemas %}
+                  {% if "Belgique" in cinema.ville %}
+                     <li><a class="dropdown-item lien_filtre_cinema" data-cinema-id="{{ cinema.id }}">{{ cinema.nom }}</a></li>
+                  {% endif %}
+               {% endfor %}
             </ul>
          </div>
       </div>
-   </div>
-   <div class="row g-4 mx-auto align-items-center">
-      <div class="col-12">
-         <ul class="nav nav-underline nav_filtres px-3">
-            <li class="nav-item">
-               <a class="nav-link active">Aujourd'hui</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link">Demain</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link">Jeudi 20 février</a>
-            </li>
-            
-            <li class="nav-item dropdown jours_menu">
-               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                  Jours suivants
-               </a>
-               <ul class="dropdown-menu">
-                  <li><a class="dropdown-item">Vendredi 21 février</a></li>
-                  <li><a class="dropdown-item">Samedi 22 février</a></li>
-                  <li><a class="dropdown-item">Dimanche 23 février</a></li>
-                  <li><a class="dropdown-item">Lundi 24 février</a></li>
-                  <li><a class="dropdown-item">Mardi 25 février</a></li>
-               </ul>
-            </li>
-            
-            <li class="nav-item dropdown filtres_menu">
-               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                  Filtres
-               </a>
-               <ul class="dropdown-menu">
-                  <li><h6 class="dropdown-header">Technologies</h6></li>
-                  <li>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="4DX">4DX-ICE</span>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="3D">3D</span>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="IMAX">IMAX</span>
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="ONYX">ONYX</span>
+      
+      <div class="col-12 ligne_filtres">
+         <div class="filtres_jours">
+            <ul class="nav nav-underline nav_filtres px-3 ps-0">
+               {% for date_key, jour_fr in dates %}
+                  {% set class_active = (loop.index == 1) ? "active" : "" %}
+                  <li class="nav-item">
+                     <a class="nav-link {{ class_active }} lien_filtre_date lien_j{{ loop.index }}" data-filtre-date="{{ date_key }}" data-nom-jour="j{{ loop.index }}">{{ jour_fr }}</a>
                   </li>
+               {% endfor %}
+            </ul>
+         </div>
+         
+         <div class="filtres_menu">
+            <ul class="nav nav-underline nav_filtres px-3 pe-0">
+               <li class="nav-item">
+                  <a class="nav-link lien_voir_tout active" data-filtres="voir_tout">Voir tout</a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle dropdown_filtres" data-bs-toggle="dropdown" role="button" aria-expanded="false" data-bs-auto-close="outside">
+                     Filtres
+                  </a>
+                  <ul class="dropdown-menu">
+                     <li><h6 class="dropdown-header">Technologies</h6></li>
+                     <li>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="4DX">4DX-ICE</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="3D">3D</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="IMAX">IMAX</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="ONYX">ONYX</span>
+                     </li>
+                     
+                     <li><hr class="dropdown-divider"></li>
+                     <li><h6 class="dropdown-header">Genres</h6></li>
+                     <li>
+                        {% for genre_key, genre in genres %}
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_genre" data-filtre-genre="{{ genre_key }}">{{ genre }}</span>
+                        {% endfor %}
+                     </li>
                   
-                  <li><hr class="dropdown-divider"></li>
-                  <li><h6 class="dropdown-header">Genres</h6></li>
-                  <li>
-                     {% for genre in genres %}
-                        <span class="badge rounded-pill badge_genre_filtres" data-filtre-genre="{{ genre }}">{{ genre }}</span>
-                     {% endfor %}
-                  </li>
-               
-               </ul>
-            </li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
          
-         
-         </ul>
       </div>
    </div>
    
    
-   <div class="row g-4 mt-2">
+   <div class="row g-2 g-sm-3 g-lg-4 mt-1 px-2 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5  liste_films">
    
    {% for film in films %}
-      <div class="col-6 col-md-4 col-lg-4 col-xl-3 col-xxl-2">
+      <div class="col div_film">
          <a href="/film/{{ film.id }}" class="films_lien_details">
             <div class="card">
                   <img src="images/affiches/{{ film.affiche }}.jpg" class="card-img-top" alt="{{ film.titre }}">
-                  <div class="film_hover">INFOS ET<br><b>SEANCES</b>
+                  <div class="film_hover">
+                     INFOS ET<br><b>SEANCES</b>
                   </div>
                
                {% set startDate = film.dateAjout %}
@@ -99,7 +96,7 @@
                   <span class="badge text-bg-danger fs-5 position-absolute top-0 start-0 mt-4 ms-2">NOUVEAU</span>
                {% endif %}
                
-               {% if film.ageMini > 0 or film.avertissement != "" %}
+               {% if film.ageMini > 0 or film.avertissement != "" or film.coupDeCoeur %}
                   {% set mention_age_public = "-" ~ film.ageMini %}
                   
                   {% if film.ageMini < 12 %}
@@ -136,14 +133,15 @@
                
                <div class="card-body">
                   <h5 class="card-title">{{ film.titre }}</h5>
-                  <p class="card-text">{{ film.description[:42] }}...</p>
                </div>
             </div>
          </a>
       </div>
          {% else %}
             
-            <div class="affiche">Aucun film trouvé !</div>
+            <div class="w-100">
+               <h4 class="text-center">Aucune séance trouvée ce jour. Essayez de choisir un autre jour !</h4>
+            </div>
          
          {% endfor %}
          

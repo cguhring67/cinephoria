@@ -254,6 +254,7 @@ button.toggle_password {
       &.lien_voir_tout {
         text-transform: none;
         font-size: 0.7rem;
+        margin-top: 0.15rem;
       }
     }
   }
@@ -544,6 +545,7 @@ p.details_film {
       font-size: 1rem;
       &.lien_voir_tout {
         font-size: 0.85rem;
+        margin-top: 0.20rem;
       }
     }
   }
@@ -689,6 +691,7 @@ p.details_film {
       font-size: 1.3rem;
       &.lien_voir_tout {
         font-size: 1rem;
+        margin-top: 0.55rem !important;
       }
     }
     .px-2 {

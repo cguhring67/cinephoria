@@ -20,36 +20,19 @@ class FilmsRepository extends ServiceEntityRepository
 	/**
 	 * @return Seances[] Returns an array of Seances objects
 	 */
-	public function findFilmsByFiltres($date_search, $genre_search="", $technologie_search="" ): array
+	public function findFilmsByFiltres($date_search1, $date_search2, $genre_search="", $technologie_search="", $cinema_search="" ): array
 	{
 
-		$date_recherche = new \DateTime($date_search);
-		$date_now_format = $date_recherche->format('Y-m-d H:i:s');
+		$date_recherche1 = new \DateTime($date_search1);
+		$date_recherche2 = new \DateTime($date_search2);
+		$date_now_format = $date_recherche1->format('Y-m-d H:i:s');
 
-		$date_matin = $date_recherche->setTime(8, 0, 0);
-		$date_matin_format = $date_matin->format('Y-m-d H:i:s');
-		$date_soir = $date_recherche->setTime(23, 59, 59);
-		$date_soir_format = $date_soir->format('Y-m-d H:i:s');
+		$date_debut = $date_recherche1->setTime(8, 0, 0);
+		$date_debut_format = $date_debut->format('Y-m-d H:i:s');
+		$date_fin = $date_recherche2->setTime(23, 59, 59);
+		$date_fin_format = $date_fin->format('Y-m-d H:i:s');
 
-		if ($date_search == "now") $date_matin_format = $date_now_format;
-
-//		$conn = $this->getEntityManager()->getConnection();
-//
-//		$sql = '
-//            SELECT f.* FROM films f, seances s
-//            WHERE f.id = s.film_id_id AND s.date_debut > :date_matin AND s.date_debut < :date_soir
-//            GROUP BY f.id
-//            ORDER BY f.date_ajout DESC
-//            ';
-//
-//		$resultSet = $conn->executeQuery($sql, [
-//			'date_matin' => $date_matin_format,
-//			'date_soir' => $date_soir_format,
-//			'genre' => 'drame',
-//		]);
-
-		// returns an array of arrays (i.e. a raw data set)
-		//return $resultSet->fetchAllAssociative();
+		if ($date_search1 == "now") $date_debut_format = $date_now_format;
 
 
 		$qb = $this->createQueryBuilder('f');
@@ -57,21 +40,32 @@ class FilmsRepository extends ServiceEntityRepository
 		$qb->select( 'f' )
 //			->from( 'AppBundle:Films', 'f' )
 			->innerJoin( 'f.seances', 's' ) // fameuse jointure
-			->andWhere($qb->expr()->between('s.date_debut', ':date_matin', ':date_soir'));
+			->andWhere($qb->expr()->between('s.date_debut', ':date_debut', ':date_fin'));
 
 		if ($genre_search != "")
 		{
 			$qb->andWhere($qb->expr()->like('f.genre', ':genre'));
 		}
 
+		if ($cinema_search != "")
+		{
+			$qb->andWhere('s.cinema_id = :cinema');
+		}
+
 		$qb->groupBy('f.id')
-			->setParameter('date_matin', $date_matin_format)
-			->setParameter('date_soir', $date_soir_format);
+			->setParameter('date_debut', $date_debut_format)
+			->setParameter('date_fin', $date_fin_format);
 
 		if ($genre_search != "")
 		{
 			$qb->setParameter('genre', '%' . $genre_search . '%');
 		}
+		if ($cinema_search != "")
+		{
+			$qb->setParameter('cinema', $cinema_search);
+		}
+		$qb->orderBy('f.date_ajout', 'DESC');
+
 
 		$query = $qb->getQuery();
 		return $query->execute();

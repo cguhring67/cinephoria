@@ -239,6 +239,7 @@ button.toggle_password:focus {
 .nav_filtres li a.nav-link.lien_voir_tout, .nav_filtres li a.dropdown-item.lien_voir_tout {
   text-transform: none;
   font-size: 0.7rem;
+  margin-top: 0.15rem;
 }
 .nav_filtres .dropdown-menu {
   background-color: rgba(0, 41.8461538462, 102, 0.7);
@@ -465,6 +466,7 @@ p.details_film span {
   }
   .nav_filtres li a.nav-link.lien_voir_tout {
     font-size: 0.85rem;
+    margin-top: 0.2rem;
   }
   .liste_films .card-body h5.card-title {
     font-size: 1.2rem;
@@ -565,6 +567,7 @@ p.details_film span {
   }
   .nav a.nav-link.lien_voir_tout, .nav span.lien_voir_tout, .navbar-nav a.nav-link.lien_voir_tout, .navbar-nav span.lien_voir_tout {
     font-size: 1rem;
+    margin-top: 0.55rem !important;
   }
   .nav .px-2, .navbar-nav .px-2 {
     padding-right: 1rem !important;

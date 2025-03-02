@@ -34,18 +34,12 @@
       <div class="col-12 ligne_filtres">
          <div class="filtres_jours">
             <ul class="nav nav-underline nav_filtres px-3 ps-0">
-               <li class="nav-item">
-                  <a class="nav-link active lien_filtre_date lien_j0" data-filtre-date="{{ dates.0 }}" data-nom-jour="j0">Aujourd'hui</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link lien_filtre_date lien_j1" data-filtre-date="{{ dates.1 }}" data-nom-jour="j1">Demain</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link lien_filtre_date lien_j2" data-filtre-date="{{ dates.2 }}" data-nom-jour="j2">{{ dates.2|format_date(pattern: "eeee d MMMM") }}</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link lien_filtre_date lien_j3" data-filtre-date="cette_semaine" data-nom-jour="j3">Cette semaine</a>
-               </li>
+               {% for date_key, jour_fr in dates %}
+                  {% set class_active = (loop.index == 1) ? "active" : "" %}
+                  <li class="nav-item">
+                     <a class="nav-link {{ class_active }} lien_filtre_date lien_j{{ loop.index }}" data-filtre-date="{{ date_key }}" data-nom-jour="j{{ loop.index }}">{{ jour_fr }}</a>
+                  </li>
+               {% endfor %}
             </ul>
          </div>
          
@@ -144,7 +138,9 @@
       </div>
          {% else %}
             
-            <div class="affiche">Aucun film trouvé !</div>
+            <div class="w-100">
+               <h4 class="text-center">Aucune séance trouvée ce jour. Essayez de choisir un autre jour !</h4>
+            </div>
          
          {% endfor %}
          

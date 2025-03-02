@@ -225,6 +225,14 @@ button.toggle_password {
   .dropdown-item:hover {
     background-color: color.change($primary, $lightness: 40%, $alpha: 50%);
   }
+  .dropdown-item.active {
+    background-color: color.change($primary, $lightness: 60%, $alpha: 20%);
+    font-weight: bold;
+    text-shadow: 2px 2px 6px #000;
+  }
+  a {
+    cursor: pointer;
+  }
 }
 
 
@@ -235,10 +243,19 @@ button.toggle_password {
     cursor: pointer;
   }
   li {
-    padding: 0 0.2rem;
+    padding: 0;
     a.nav-link, a.dropdown-item {
       font-size: 0.8rem;
       text-transform: uppercase;
+      &.active {
+        text-shadow: 2px 2px 6px #000;
+      }
+
+      &.lien_voir_tout {
+        text-transform: none;
+        font-size: 0.7rem;
+        margin-top: 0.15rem;
+      }
     }
   }
 
@@ -269,7 +286,11 @@ button.toggle_password {
       border: 1px solid rgba(255,255,255,1);
       background-color: color.change($primary, $lightness: 50%, $alpha: 30%);
       color: rgba(255,255,255,1);
-
+    }
+    &.active {
+      border: 1px solid rgba(200,255,200,1);
+      background-color: rgba(200,255,200,0.2);
+      color: rgba(200,255,200,1);
     }
   }
 
@@ -282,9 +303,6 @@ button.toggle_password {
     width: 280px;
   }
 
-  li {
-    padding: 0 1rem;
-  }
 }
 
 
@@ -529,6 +547,10 @@ p.details_film {
   .nav_filtres {
     li a.nav-link {
       font-size: 1rem;
+      &.lien_voir_tout {
+        font-size: 0.85rem;
+        margin-top: 0.20rem;
+      }
     }
   }
 
@@ -671,6 +693,10 @@ p.details_film {
   .nav, .navbar-nav {
     a.nav-link, span {
       font-size: 1.3rem;
+      &.lien_voir_tout {
+        font-size: 1rem;
+        margin-top: 0.55rem !important;
+      }
     }
     .px-2 {
       padding-right: 1rem !important;

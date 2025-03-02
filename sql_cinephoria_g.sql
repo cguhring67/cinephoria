@@ -60,10 +60,12 @@ CREATE TABLE salles (
 
 CREATE TABLE seances (
   id int(11) NOT NULL AUTO_INCREMENT,
+  cinema_id int(11) NOT NULL,
   film_id int(11) NOT NULL,
   salle_id int(11) NOT NULL,
   date_debut datetime NOT NULL,
   date_fin datetime NOT NULL,
+  technologies json NULL,
   PRIMARY KEY (id),
   ADD KEY IDX_SEANCES_FILM_ID (film_id),
   ADD KEY IDX_SEANCES_SALLE_ID (salle_id);

@@ -151,6 +151,7 @@ class FilmsController extends AbstractController
 				$data[] = [
 					'id' => $film->getId(),
 					'titre' => $film->getTitre(),
+					'affiche' => $film->getAffiche(),
 					'date_ajout' => $film->getDateAjout()->format('Y-m-d'),
 					'nombre_jours' => $nombre_jours,
 					'coup_de_coeur' => $film->getCoupDeCoeur(),

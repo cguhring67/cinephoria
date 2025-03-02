@@ -266,6 +266,11 @@ button.toggle_password:focus {
   background-color: rgba(0, 104.6153846154, 255, 0.3);
   color: rgb(255, 255, 255);
 }
+.nav_filtres .badge_genre_filtres.active {
+  border: 1px solid rgb(200, 255, 200);
+  background-color: rgba(200, 255, 200, 0.2);
+  color: rgb(200, 255, 200);
+}
 
 .ligne_filtres .filtres_menu .dropdown-menu {
   width: 280px;

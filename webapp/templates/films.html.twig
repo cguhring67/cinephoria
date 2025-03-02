@@ -55,17 +55,17 @@
                   <ul class="dropdown-menu">
                      <li><h6 class="dropdown-header">Technologies</h6></li>
                      <li>
-                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="4DX">4DX-ICE</span>
-                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="3D">3D</span>
-                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="IMAX">IMAX</span>
-                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-techno="ONYX">ONYX</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="4DX">4DX-ICE</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="3D">3D</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="IMAX">IMAX</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_techno" data-filtre-techno="ONYX">ONYX</span>
                      </li>
                      
                      <li><hr class="dropdown-divider"></li>
                      <li><h6 class="dropdown-header">Genres</h6></li>
                      <li>
                         {% for genre_key, genre in genres %}
-                           <span class="badge rounded-pill badge_genre_filtres" data-filtre-genre="{{ genre_key }}">{{ genre }}</span>
+                           <span class="badge rounded-pill badge_genre_filtres badge_filtre_genre" data-filtre-genre="{{ genre_key }}">{{ genre }}</span>
                         {% endfor %}
                      </li>
                   
@@ -81,11 +81,12 @@
    <div class="row g-2 g-sm-3 g-lg-4 mt-1 px-2 row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5  liste_films">
    
    {% for film in films %}
-      <div class="col">
+      <div class="col div_film">
          <a href="/film/{{ film.id }}" class="films_lien_details">
             <div class="card">
                   <img src="images/affiches/{{ film.affiche }}.jpg" class="card-img-top" alt="{{ film.titre }}">
-                  <div class="film_hover">INFOS ET<br><b>SEANCES</b>
+                  <div class="film_hover">
+                     INFOS ET<br><b>SEANCES</b>
                   </div>
                
                {% set startDate = film.dateAjout %}

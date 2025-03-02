@@ -20,7 +20,10 @@ class DefaultController extends AbstractController
 	public function index(FilmsRepository $filmsRepository): Response
 	{
 
-		$films = $filmsRepository->findAll();
+		$films = $filmsRepository->findBy(
+			array(),
+			['date_ajout' => 'DESC']
+		);
 		dump($films);
 
 		return $this->render('accueil.html.twig', [

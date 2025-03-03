@@ -24,8 +24,10 @@ class AdminController extends AbstractDashboardController
 {
     public function index(): Response
     {
-	    return $this->redirectToRoute('admin_user_index');
-    }
+	    return $this->render('admin/admin_dashboard.html.twig', [
+		    'valeur' => "valeur",
+	    ]);
+	 }
 
     public function configureDashboard(): Dashboard
     {
@@ -35,14 +37,15 @@ class AdminController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
         yield MenuItem::linkToUrl('Retour au site', 'fa fa-home', '/');
         yield MenuItem::section();
-        yield MenuItem::linkToCrud('Cinemas', 'fas fa-building', Cinemas::class);
+        yield MenuItem::linkToCrud('Cinemas', 'fas fa-hotel', Cinemas::class);
         yield MenuItem::linkToCrud('Salles', 'fas fa-couch', Salles::class);
         yield MenuItem::linkToCrud('Films', 'fas fa-film', Films::class);
         yield MenuItem::linkToCrud('Séances', 'fas fa-video', Seances::class);
-        yield MenuItem::linkToCrud('Avis', 'fas fa-comment-dots', Avis::class);
+        yield MenuItem::linkToUrl('Planning Séances', 'far fa-calendar-days', '/admin/seances_planning');
+        yield MenuItem::linkToCrud('Avis', 'far fa-comment-dots', Avis::class);
         yield MenuItem::linkToCrud('Tarifs', 'fas fa-coins', Tarifs::class);
         yield MenuItem::linkToCrud('Réservations', 'fas fa-ticket', Tarifs::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);

@@ -175,7 +175,9 @@ class Films
 
 	public function getDureeMinutes(): int
 	{
-		return $this->duree->format('U') / 60;
+		$heures = intval($this->duree->format('G'));
+		$minutes = intval($this->duree->format('i'));
+		return ($heures * 60) + $minutes;
 	}
 
 	public function setDuree(\DateTimeInterface $duree): static

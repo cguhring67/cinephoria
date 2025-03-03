@@ -1,0 +1,173 @@
+{# templates/admin/seances_planning.html.twig #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Planning des séances{% endblock %}
+
+{% block main %}
+   
+   <link rel="stylesheet" href="/css/jq.schedule.css">
+   
+   <div class="dashboard">
+      
+      <div class="row">
+         <div class="col-md-12 mb-3">
+            <p> < Cinéma > < Jour > </p>
+             <p><b>Films actuellement au catalogue :</b> (cliquer sur un film pour l'ajouter au planning, puis le déplacer pour le programmer)</p>
+            <p id="liste_films">
+                
+                {% for film in data_films %}
+                <button class="btn btn-primary  px-2 mx-1" data-duree="{{ film.duree|format_time('short') }}" data-duree-minutes="{{ film.duree_minutes }}">{{ film.titre }}</button>
+                {% endfor %}
+             
+             </p>
+            
+            <div id="seances_timeline" class="mb-3">
+            </div>
+               
+         </div>
+      </div>
+   
+   </div>
+   </div>
+   
+   <script src="/js/jquery-3.7.1.min.js"></script>
+   <script src="/js/jquery-ui.min.js"></script>
+   <script src="/js/jq.schedule.js"></script>
+   
+   <script type="text/javascript">
+       
+       var $sc;
+       
+       function addLog(type, message){
+           console.log(type, message);
+       }
+       $(function(){
+           $("#logs").append('<table class="table">');
+           var isDraggable = true;
+           var isResizable = false;
+           var $sc = $("#seances_timeline").timeSchedule({
+               startTime: "10:00", // schedule start time(HH:ii)
+               endTime: "25:00",   // schedule end time(HH:ii)
+               widthTime: 60 * 10,  // cell timestamp example 10 minutes
+               widthTimeX: 15,
+               timeLineY: 70,       // height(px)
+               verticalScrollbar: 20,   // scrollbar (px)
+               timeLineBorder: 2,   // border(top and bottom)
+               bundleMoveWidth: 6,  // width to move all schedules to the right of the clicked time line cell
+               draggable: isDraggable,
+               resizable: isResizable,
+               resizableLeft: false,
+               rows : {
+                   '0' : {
+                       title : 'Title Area1',
+                       schedule:[
+                           {
+                               start: '10:00',
+                               end: '12:00',
+                               text: 'Text Area',
+                               data: {
+                               }
+                           },
+                           {
+                               start: '12:40',
+                               end: '14:30',
+                               text: 'Text Area',
+                               data: {
+                               }
+                           }
+                       ]
+                   },
+                   '1' : {
+                       title : 'Title Area2',
+                       schedule:[
+                           {
+                               start: '16:00',
+                               end: '17:00',
+                               text: 'Text Area',
+                               data: {
+                               }
+                           }
+                       ]
+                   }
+               },
+               onChange: function(node, data){
+                   addLog('onChange', data);
+               },
+               onInitRow: function(node, data){
+                   addLog('onInitRow', data);
+               },
+               onClick: function(node, data){
+                   addLog('onClick', data);
+               },
+               onAppendRow: function(node, data){
+                   addLog('onAppendRow', data);
+               },
+               onAppendSchedule: function(node, data){
+                   addLog('onAppendSchedule', data);
+                   if(data.data.class){
+                       node.addClass(data.data.class);
+                   }
+                   if(data.data.image){
+                       var $img = $('<div class="photo"><img></div>');
+                       $img.find('img').attr('src', data.data.image);
+                       node.prepend($img);
+                       node.addClass('sc_bar_photo');
+                   }
+               },
+               onScheduleClick: function(node, time, timeline){
+                   var start = time;
+                   var end = $(this).timeSchedule('formatTime', $(this).timeSchedule('calcStringTime', time) + (1.5 * 60 * 60));
+                   $(this).timeSchedule('addSchedule', timeline, {
+                       start: start,
+                       end: end,
+                       text:'Titre de film un peu long',
+                       data:{
+                           class: 'sc_bar_insert'
+                       }
+                   });
+                   addLog('onScheduleClick', time + ' ' + timeline);
+               },
+           });
+           $('#event_timelineData').on('click', function(){
+               addLog('timelineData', $sc.timeSchedule('timelineData'));
+           });
+           $('#event_scheduleData').on('click', function(){
+               addLog('scheduleData', $sc.timeSchedule('scheduleData'));
+           });
+           $('#event_resetData').on('click', function(){
+               $sc.timeSchedule('resetData');
+               addLog('resetData');
+           });
+           $('#event_resetRowData').on('click', function(){
+               $sc.timeSchedule('resetRowData');
+               addLog('resetRowData');
+           });
+           $('#event_setDraggable').on('click', function(){
+               isDraggable = !isDraggable;
+               $sc.timeSchedule('setDraggable', isDraggable);
+               addLog('setDraggable', isDraggable ? 'enable' : 'disable');
+           });
+           $('#event_setResizable').on('click', function(){
+               isResizable = !isResizable;
+               $sc.timeSchedule('setResizable', isResizable);
+               addLog('setResizable', isResizable ? 'enable' : 'disable');
+           });
+           $('.ajax-data').on('click', function(){
+               $.ajax({url: './data/'+$(this).attr('data-target')})
+                   .done( (data) => {
+                       addLog('Ajax GetData', data);
+                       $sc.timeSchedule('setRows', data);
+                   });
+           });
+           $('#clear-logs').on('click', function(){
+               $('#logs .table').empty();
+           });
+       });
+       
+   
+   
+   
+   
+   </script>
+   
+{% endblock %}

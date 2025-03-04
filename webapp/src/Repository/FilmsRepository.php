@@ -38,7 +38,6 @@ class FilmsRepository extends ServiceEntityRepository
 		$qb = $this->createQueryBuilder('f');
 
 		$qb->select( 'f' )
-//			->from( 'AppBundle:Films', 'f' )
 			->innerJoin( 'f.seances', 's' ) // fameuse jointure
 			->andWhere($qb->expr()->between('s.date_debut', ':date_debut', ':date_fin'));
 

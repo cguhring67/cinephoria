@@ -47,6 +47,30 @@ class SeancesRepository extends ServiceEntityRepository
 	}
 
 
+	/**
+	 * @return Seances[] Returns an array of Seances objects
+	 */
+	public function findByDateAndSalle($salle, $date_search = "now"): array
+	{
+		$date_recherche = new \DateTime($date_search);
+		$date_matin = $date_recherche->setTime(8, 0, 0);
+		$date_matin_format = $date_matin->format('Y-m-d H:i:s');
+		$date_soir = $date_recherche->setTime(23, 59, 59);
+		$date_soir_format = $date_soir->format('Y-m-d H:i:s');
+
+		$qb = $this->createQueryBuilder('s');
+
+		$qb->andWhere('s.salle_id = :salle')
+			->andWhere($qb->expr()->between('s.date_debut', ':date_matin', ':date_soir'))
+			->setParameter('date_matin', $date_matin_format)
+			->setParameter('date_soir', $date_soir_format)
+			->setParameter('salle', $salle);
+
+		$query = $qb->getQuery();
+		return $query->execute();
+	}
+
+
 
 //	/**
 //      * @return Seances[] Returns an array of Seances objects

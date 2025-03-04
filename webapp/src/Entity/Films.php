@@ -173,6 +173,11 @@ class Films
 		return $this->duree;
 	}
 
+	public function getDureeStr(): string
+	{
+		return $this->duree->format('G:i');
+	}
+
 	public function getDureeMinutes(): int
 	{
 		$heures = intval($this->duree->format('G'));
@@ -295,5 +300,9 @@ class Films
 		return $this;
 	}
 
+	public function getAnciennete(): string
+	{
+		return $this->getDateAjout()->diff(new \DateTime("now"))->days;
+	}
 
 }

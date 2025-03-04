@@ -64,6 +64,7 @@
                  Utilisation : Choisir un film en cliquant dessus pour le sélectionner,
                  puis cliquer sur le planning à l'heure souhaitée pour le programmer.
              </h6>
+             <button type="button" class="btn btn-primary btn-lg btn-block" id="btn_seances_planning">Récupérer les infos du planning dans la console</button>
          </div>
       </div>
    
@@ -108,15 +109,7 @@
                resizable: isResizable,
                resizableLeft: true,
                rows : {
-                   '0' : {
-                       title : 'Salle 1',
-                   },
-                   '1' : {
-                       title : 'Salle 2',
-                   },
-                   '2' : {
-                       title : 'Salle 3',
-                   }
+                   {{ seances|raw }}
                },
                onChange: function(node, data){
                    addLog('onChange', data);
@@ -168,7 +161,7 @@
            $('#event_timelineData').on('click', function(){
                addLog('timelineData', $sp.timeSchedule('timelineData'));
            });
-           $('#event_scheduleData').on('click', function(){
+           $('#btn_seances_planning').on('click', function(){
                addLog('scheduleData', $sp.timeSchedule('scheduleData'));
            });
            
@@ -213,6 +206,7 @@
             $('.bouton_film').removeClass('active');
             $(this).addClass("active");
         });
+       
        
        $(".lien_choix_cinema, .lien_choix_date, .badge_choix_techno").on("click", function(){
            let choix_cinema_clic = $(this).data("cinemaId");

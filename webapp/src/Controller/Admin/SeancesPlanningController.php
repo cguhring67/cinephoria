@@ -9,6 +9,8 @@ use App\Entity\Salles;
 use App\Entity\Seances;
 use App\Entity\Tarifs;
 use App\Entity\User;
+use App\Services\PlanningService;
+use App\Services\Technologies;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -27,8 +29,11 @@ use IntlDateFormatter;
 class SeancesPlanningController extends AbstractDashboardController
 {
 
+	private $entityManager;
+
 	public function __construct(EntityManagerInterface $entityManager)
 	{
+		$this->entityManager = $entityManager;
 		$this->cinemasRepository = $entityManager->getRepository(Cinemas::class);
 		$this->sallesRepository = $entityManager->getRepository(Salles::class);
 		$this->filmsRepository = $entityManager->getRepository(Films::class);
@@ -37,6 +42,9 @@ class SeancesPlanningController extends AbstractDashboardController
 
 	public function index(): Response
 	{
+
+		$technologies_service = new Technologies();
+		$technologies = $technologies_service->getTechnologies();
 
 		$data_cinemas = [];
 		$cinemasValues = $this->cinemasRepository->findAll();
@@ -63,9 +71,8 @@ class SeancesPlanningController extends AbstractDashboardController
 		);
 		foreach ($films as $film)
 		{
-			$date_temp = new \DateTime("now");
-			$anciennete = $film->getDateAjout()->diff($date_temp)->days;
-			$film_duree = $film->getDuree()->format('G:i');
+			$anciennete = $film->getAnciennete();
+			$film_duree = $film->getDureeStr();
 
 			$data_films[] =
 			[
@@ -78,20 +85,9 @@ class SeancesPlanningController extends AbstractDashboardController
 			];
 		}
 
+		$planning_service = new PlanningService($this->entityManager);
 		$data_seances = [];
-		$seances = $this->seancesRepository->findByDateSeance(date("Y-m-d"));
-		foreach ($seances as $seance)
-		{
-			$data_seances[] =
-			[
-				'id' => $seance->getId(),
-				'cinema_id' => $seance->getCinemaId(),
-				'salle' => $seance->getSalleId(),
-				'film' => $seance->getFilmId(),
-				'date_debut' => $seance->getDateDebut(),
-				'date_fin' => $seance->getDateFin(),
-			];
-		}
+		$seances = $planning_service->getPlanningJson(1, "now");
 
 		$dates = [];
 		$date_temp = new \DateTime("now");
@@ -121,10 +117,11 @@ class SeancesPlanningController extends AbstractDashboardController
 		return $this->render('admin/seances_planning.html.twig',
 		[
 			'dates' => $dates,
+			'technologies' => $technologies,
 			'cinemas' => $data_cinemas,
 			'salles' => $data_salles,
 			'data_films' => $data_films,
-			'data_seances' => $data_seances,
+			'seances' => $seances,
 		]);
 	}
 

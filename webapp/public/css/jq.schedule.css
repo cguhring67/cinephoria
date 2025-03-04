@@ -80,7 +80,7 @@
 .jq-schedule .sc_bar {
   position: absolute;
   color: #fff;
-  background: #004fb5;
+  background: rgba(66, 131, 255, 0.4);
   cursor: pointer;
   z-index: 10;
 }
@@ -106,14 +106,14 @@
   text-align: center;
 }
 .jq-schedule .sc_bar .ui-resizable-handle {
-  display: block;
+  display: none;
   content: " ";
   position: absolute;
   height: 100%;
   right: 0;
   top: 0;
   width: 5px;
-  background: #004fb5;
+  background: none;
 }
 .jq-schedule .sc_bar .ui-resizable-handle.ui-resizable-e {
   right: 0;
@@ -156,4 +156,59 @@
 }
 .jq-schedule .ui-draggable-disabled {
   opacity: 0.8;
+}
+
+.jq-schedule .sc_bar.nouveau {
+  background: rgba(0,100,255,1);
+}
+
+.jq-schedule .sc_bar_photo .text, .jq-schedule .sc_bar_photo .head {
+  padding-left: 57px;
+}
+
+
+
+.jq-schedule .sc_bar_photo .photo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.jq-schedule .sc_bar_photo .photo img {
+  width: auto;
+  max-height: 50px;
+}
+
+.bouton_film, .badge_choix_techno {
+  cursor: pointer;
+}
+.bouton_film:hover, .badge_choix_techno:hover {
+  box-shadow: 0 0 8px 4px rgba(0,120,255,0.6);
+  background-color: rgba(0,100,255,0.3) !important;
+
+}
+.bouton_film.active, .badge_choix_techno.active {
+  border: 1px solid rgba(0,255,100,1);
+  box-shadow: 0 0 10px 5px rgba(0,255,100,0.5);
+}
+
+.ligne_menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ligne_menu .nav-item a {
+  cursor: pointer;
+  background-color: rgba(200,225,255,0.1);
+  margin: 2px
+}
+.ligne_menu .nav-item a:hover {
+  color: #fff;
+  background-color: rgba(200,225,255,0.3);
+}
+
+.menu_techno {
+  min-width: 200px;
+  margin-left: 1.5em;
 }

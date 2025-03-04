@@ -430,7 +430,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var currentNode = null; // move node.
 
         $node.draggable({
-          grid: [setting.widthTimeX, 1],
+          grid: [setting.widthTimeX, setting.timeLineY],
           containment: $this.find('.sc_main'),
           helper: 'original',
           start: function start(event, ui) {

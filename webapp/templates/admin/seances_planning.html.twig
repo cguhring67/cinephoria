@@ -1,7 +1,7 @@
 {# templates/admin/seances_planning.html.twig #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title %}Planning des séances{% endblock %}
+{% block content_title %}Planning des séances - <span id="info_planning">Nantes, Aujourd'hui</span>{% endblock %}
 
 {% block main %}
    
@@ -11,19 +11,59 @@
       
       <div class="row">
          <div class="col-md-12 mb-3">
-            <p> < Cinéma > < Jour > </p>
-             <p><b>Films actuellement au catalogue :</b> (cliquer sur un film pour l'ajouter au planning, puis le déplacer pour le programmer)</p>
-            <p id="liste_films">
-                
-                {% for film in data_films %}
-                <button class="btn btn-primary  px-2 mx-1" data-duree="{{ film.duree|format_time('short') }}" data-duree-minutes="{{ film.duree_minutes }}">{{ film.titre }}</button>
-                {% endfor %}
              
-             </p>
-            
-            <div id="seances_timeline" class="mb-3">
+             <div class="col-12 ligne_menu mb-3">
+                 <div class="menu_cinemas">
+                     <ul class="nav nav-pills nav_filtres px-3 ps-0">
+                         {% for cinema_id, cinema_nom in cinemas %}
+                             {% set class_active = (loop.index == 1) ? "active" : "" %}
+                             <li class="nav-item">
+                                 <a class="nav-link {{ class_active }} lien_choix_cinema lien_c{{ cinema_id }}" data-cinema-id="{{ cinema_id }}">{{ cinema_nom }}</a>
+                             </li>
+                         {% endfor %}
+                     </ul>
+                 </div>
+                 
+                 <div class="menu_jours">
+                     <ul class="nav nav-pills nav_filtres px-3 pe-0">
+                         {% for date_key, jour_fr in dates %}
+                             {% set class_active = (loop.index == 1) ? "active" : "" %}
+                             <li class="nav-item">
+                                 <a class="nav-link {{ class_active }} lien_choix_date lien_j{{ loop.index }}" data-filtre-date="{{ date_key }}" data-nom-jour="j{{ loop.index }}">{{ jour_fr }}</a>
+                             </li>
+                         {% endfor %}
+                     </ul>
+                 </div>
+                 
+             
+             </div>
+             
+             <div class="col-12 ligne_menu mb-3">
+                 <div class="menu_films">
+                     <p><b>Films actuellement au catalogue :</b></p>
+                    <p id="liste_films"></p>
+                 </div>
+                 
+                 <div class="menu_techno">
+                     <p><b>Technologies :</b></p>
+                     <p id="liste_qualite">
+                         <span class="badge badge_choix_techno" data-choix-techno="4DX">4DX-ICE</span>
+                         <span class="badge badge_choix_techno" data-choix-techno="3D">3D</span>
+                         <span class="badge badge_choix_techno" data-choix-techno="IMAX">IMAX</span>
+                         <span class="badge badge_choix_techno" data-choix-techno="ONYX">ONYX</span>
+                     
+                     </p>
+                 </div>
+             </div>
+                 
+                 
+                 <div id="seances_planning" class="mb-3">
             </div>
-               
+             
+             <h6 class="text-center text-success">
+                 Utilisation : Choisir un film en cliquant dessus pour le sélectionner,
+                 puis cliquer sur le planning à l'heure souhaitée pour le programmer.
+             </h6>
          </div>
       </div>
    
@@ -36,7 +76,17 @@
    
    <script type="text/javascript">
        
-       var $sc;
+       var $sp;
+       var choix_film = { };
+       var choix_date = "now";
+       var choix_date_txt = "Aujourd'hui";
+       var choix_cinema = "1";
+       var choix_cinema_txt = "Nantes";
+       var choix_techno = "";
+       
+       
+       const $liste_films = $('#liste_films');
+       const data_films = {{ data_films|json_encode|raw }};
        
        function addLog(type, message){
            console.log(type, message);
@@ -45,49 +95,27 @@
            $("#logs").append('<table class="table">');
            var isDraggable = true;
            var isResizable = false;
-           var $sc = $("#seances_timeline").timeSchedule({
+           var $sp = $("#seances_planning").timeSchedule({
                startTime: "10:00", // schedule start time(HH:ii)
-               endTime: "25:00",   // schedule end time(HH:ii)
+               endTime: "23:50",   // schedule end time(HH:ii)
                widthTime: 60 * 10,  // cell timestamp example 10 minutes
-               widthTimeX: 15,
+               widthTimeX: 17,
                timeLineY: 70,       // height(px)
                verticalScrollbar: 20,   // scrollbar (px)
                timeLineBorder: 2,   // border(top and bottom)
                bundleMoveWidth: 6,  // width to move all schedules to the right of the clicked time line cell
                draggable: isDraggable,
                resizable: isResizable,
-               resizableLeft: false,
+               resizableLeft: true,
                rows : {
                    '0' : {
-                       title : 'Title Area1',
-                       schedule:[
-                           {
-                               start: '10:00',
-                               end: '12:00',
-                               text: 'Text Area',
-                               data: {
-                               }
-                           },
-                           {
-                               start: '12:40',
-                               end: '14:30',
-                               text: 'Text Area',
-                               data: {
-                               }
-                           }
-                       ]
+                       title : 'Salle 1',
                    },
                    '1' : {
-                       title : 'Title Area2',
-                       schedule:[
-                           {
-                               start: '16:00',
-                               end: '17:00',
-                               text: 'Text Area',
-                               data: {
-                               }
-                           }
-                       ]
+                       title : 'Salle 2',
+                   },
+                   '2' : {
+                       title : 'Salle 3',
                    }
                },
                onChange: function(node, data){
@@ -114,58 +142,135 @@
                        node.addClass('sc_bar_photo');
                    }
                },
-               onScheduleClick: function(node, time, timeline){
-                   var start = time;
-                   var end = $(this).timeSchedule('formatTime', $(this).timeSchedule('calcStringTime', time) + (1.5 * 60 * 60));
-                   $(this).timeSchedule('addSchedule', timeline, {
-                       start: start,
-                       end: end,
-                       text:'Titre de film un peu long',
-                       data:{
-                           class: 'sc_bar_insert'
-                       }
-                   });
+               onScheduleClick: function(node, time, timeline)
+               {
+                   console.log(choix_film);
+                   
+                   if (choix_film.id !== undefined) {
+                       var start = time;
+                       let end = $sp.timeSchedule('formatTime', $sp.timeSchedule('calcStringTime', start) + ((choix_film.duree + 10) * 60));
+                       $(this).timeSchedule('addSchedule', timeline, {
+                           start: start,
+                           end: end,
+                           text:choix_film.titre,
+                           data:{
+                               class: choix_film.nouveaute,
+                               image: '/images/affiches/' + choix_film.affiche + '.jpg',
+                               film_id: choix_film.id,
+                               techno: choix_techno,
+                           }
+                       });
+                       
+                   }
                    addLog('onScheduleClick', time + ' ' + timeline);
                },
            });
            $('#event_timelineData').on('click', function(){
-               addLog('timelineData', $sc.timeSchedule('timelineData'));
+               addLog('timelineData', $sp.timeSchedule('timelineData'));
            });
            $('#event_scheduleData').on('click', function(){
-               addLog('scheduleData', $sc.timeSchedule('scheduleData'));
+               addLog('scheduleData', $sp.timeSchedule('scheduleData'));
            });
-           $('#event_resetData').on('click', function(){
-               $sc.timeSchedule('resetData');
-               addLog('resetData');
-           });
-           $('#event_resetRowData').on('click', function(){
-               $sc.timeSchedule('resetRowData');
-               addLog('resetRowData');
-           });
-           $('#event_setDraggable').on('click', function(){
-               isDraggable = !isDraggable;
-               $sc.timeSchedule('setDraggable', isDraggable);
-               addLog('setDraggable', isDraggable ? 'enable' : 'disable');
-           });
-           $('#event_setResizable').on('click', function(){
-               isResizable = !isResizable;
-               $sc.timeSchedule('setResizable', isResizable);
-               addLog('setResizable', isResizable ? 'enable' : 'disable');
-           });
+           
            $('.ajax-data').on('click', function(){
                $.ajax({url: './data/'+$(this).attr('data-target')})
                    .done( (data) => {
                        addLog('Ajax GetData', data);
-                       $sc.timeSchedule('setRows', data);
+                       $sp.timeSchedule('setRows', data);
                    });
            });
            $('#clear-logs').on('click', function(){
                $('#logs .table').empty();
            });
+           
+           
        });
        
    
-   
+   $(document).ready(function(){
+       $sp = $('#seances_planning');
+       
+       console.log(data_films);
+       
+       
+       for (i=0; i <= data_films.length - 1; i++ )
+       {
+           film = data_films[i];
+           console.log(film);
+           btn_class = (film.anciennete < 7 ) ? 'text-bg-primary' : 'text-bg-default';
+           data_nouveaute = (film.anciennete < 7 ) ? 'nouveau' : '';
+           $liste_films.append('<span class="bouton_film '+btn_class+' badge px-2 mx-1" data-film-id="'+ film.id +'"   data-nouveaute="'+ data_nouveaute +'"  data-film-duree="'+ film.duree +'" data-film-duree-minutes="'+ film.duree_minutes +'" data-affiche="'+ film.affiche +'">'+ film.titre +'</span>')
+       }
+       
+        $('.bouton_film').on("click", function()
+        {
+            choix_film.titre = $(this).text();
+            choix_film.duree = $(this).data("filmDureeMinutes");
+            choix_film.id = $(this).data("filmId");
+            choix_film.nouveaute = $(this).data("nouveaute");
+            choix_film.affiche = $(this).data("affiche");
+
+            $('.bouton_film').removeClass('active');
+            $(this).addClass("active");
+        });
+       
+       $(".lien_choix_cinema, .lien_choix_date, .badge_choix_techno").on("click", function(){
+           let choix_cinema_clic = $(this).data("cinemaId");
+           let choix_date_clic = $(this).data("filtreDate");
+           let choix_techno_clic = $(this).data("choixTechno");
+           
+           var inner_text = $(this).text();
+           
+           if (choix_cinema_clic !== undefined)
+           {
+               choix_cinema_txt = inner_text;
+               choix_cinema = choix_cinema_clic;
+               $(".lien_choix_cinema").removeClass("active");
+               $(this).addClass("active");
+           }
+           
+           if (choix_date_clic !== undefined)
+           {
+               choix_date_txt = inner_text;
+               choix_date = choix_date_clic;
+               $(".lien_choix_date").removeClass("active");
+               $(this).addClass("active");
+           }
+           
+           if (choix_techno_clic !== undefined)
+           {
+               choix_techno = choix_techno_clic;
+               $(".badge_choix_techno").removeClass("active");
+               $(this).addClass("active");
+           }
+           
+           $('#info_planning').text(choix_cinema_txt + ', ' + choix_date_txt);
+           
+           let valeurs_json = {
+               search_cinema: choix_cinema,
+               search_date: choix_date,
+           };
+           console.log(valeurs_json);
+           
+           // ajax = $.ajax({
+           //     url: "/films_ajax/",
+           //     type: "POST",
+           //     data: JSON.stringify(valeurs_json),
+           // }).done(function(message) {
+           //     console.log(message);
+           //     render_liste_films(message);
+           // }).always(function() {
+           //     ajax = false;
+           // });
+           
+           
+       })
+       
+       
+       
+       
+       
+   })
    
    
    </script>

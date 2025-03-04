@@ -19,6 +19,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateInterval;
+use IntlDateFormatter;
+
 
 #[AdminDashboard(routePath: '/admin/seances_planning', routeName: 'seances_planning')]
 class SeancesPlanningController extends AbstractDashboardController
@@ -37,13 +40,16 @@ class SeancesPlanningController extends AbstractDashboardController
 
 		$data_cinemas = [];
 		$cinemasValues = $this->cinemasRepository->findAll();
-		foreach ($cinemasValues as $cinema) {
-			$data_cinemas[$cinema->getNom()] = $cinema->getId(); // Adapte cela à tes propriétés
+		foreach ($cinemasValues as $cinema)
+		{
+			$cinema_nom = str_replace("Cinephoria ", "", $cinema->getNom());
+			$data_cinemas[$cinema->getId()] = $cinema_nom;
 		}
 
 		$data_salles = [];
 		$salles = $this->sallesRepository->findBy(['cinema_id' => 1]);
-		foreach ($salles as $salle) {
+		foreach ($salles as $salle)
+		{
 			$data_salles[] = [
 				'id' => $salle->getId(),
 				'nom' => $salle->getSalleNom(),
@@ -55,20 +61,29 @@ class SeancesPlanningController extends AbstractDashboardController
 			array(),
 			['date_ajout' => 'DESC']
 		);
-		foreach ($films as $film) {
-			$data_films[] = [
+		foreach ($films as $film)
+		{
+			$date_temp = new \DateTime("now");
+			$anciennete = $film->getDateAjout()->diff($date_temp)->days;
+			$film_duree = $film->getDuree()->format('G:i');
+
+			$data_films[] =
+			[
 				'id' => $film->getId(),
 				'titre' => $film->getTitre(),
-				'date_ajout' => $film->getDateAjout(),
-				'duree' => $film->getDuree(),
+				'affiche' => $film->getAffiche(),
+				'anciennete' => $anciennete,
+				'duree' => $film_duree,
 				'duree_minutes' => $film->getDureeMinutes(),
 			];
 		}
 
 		$data_seances = [];
 		$seances = $this->seancesRepository->findByDateSeance(date("Y-m-d"));
-		foreach ($seances as $seance) {
-			$data_seances[] = [
+		foreach ($seances as $seance)
+		{
+			$data_seances[] =
+			[
 				'id' => $seance->getId(),
 				'cinema_id' => $seance->getCinemaId(),
 				'salle' => $seance->getSalleId(),
@@ -78,13 +93,36 @@ class SeancesPlanningController extends AbstractDashboardController
 			];
 		}
 
+		$dates = [];
+		$date_temp = new \DateTime("now");
+		$date_temp2 = new \DateTime("now");
+		$date_temp2->add(DateInterval::createFromDateString('next tuesday'));
+		$nombre_jours = $date_temp2->diff($date_temp)->days;
+
+		for($i = 0; $i <= $nombre_jours; $i++) {
+
+			$date_temp = new \DateTime("now");
+			$date_temp->add(new DateInterval('P' . $i . 'D'));
+			$date = $date_temp->format('Y-m-d');
+			$date_fr = ucfirst( IntlDateFormatter::formatObject($date_temp, "EEEE d MMMM", 'fr_FR') );
+
+			if ($i == 0) $label = "Aujourd'hui";
+			if ($i == 1) $label = "Demain";
+			if ($i >= 2) $label = $date_fr;
+
+			$dates[$date] = $label;
+
+		}
+
+
+
 //		dump($data_cinemas);
-//		dump($data_salles);
-//		dump($data_films);
 //		dd($data_seances);
-		return $this->render('admin/seances_planning.html.twig', [
-			'data_cinemas' => $data_cinemas,
-			'data_salles' => $data_salles,
+		return $this->render('admin/seances_planning.html.twig',
+		[
+			'dates' => $dates,
+			'cinemas' => $data_cinemas,
+			'salles' => $data_salles,
 			'data_films' => $data_films,
 			'data_seances' => $data_seances,
 		]);

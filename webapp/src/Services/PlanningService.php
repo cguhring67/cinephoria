@@ -50,13 +50,16 @@ class PlanningService
 
 			$planning[$index] = [
 				'title' => $salle->getSalleNom(),
-				'subtitle' => '', // Vous pouvez adapter ici
+				'subtitle' => $salle->getPlaces() . ' places',
+				'salle_id' => $salle->getId(),
 				'schedule' => $schedule,
 			];
-			$json .= "'$index': " .json_encode($planning[$index]).",";
+			$json .= '"'.$index.'" : ' .json_encode($planning[$index]).',';
 
 			$index++;
 		}
+		$json = trim($json, ",");
+		$json = "{".$json."}";
 
 		return $json;
 	}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="darkreader-lock">
+    <title>{% block title %}{% endblock %} - Cinéphoria</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.css">
+    
+    {% block stylesheets %}
+    {% endblock %}
+    
+    <link rel="stylesheet" href="/css/tomselect.css">
+    <link rel="stylesheet" href="/css/style.css">
+    
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+    
+</head>
+
+{% macro menuItem(name, url_active, url, icon) %}
+   {% set currentUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+   {% set isActive = url_active in currentUrl %}
+    
+   <li class="menu-item">
+      <a href="{{ url }}" class="nav-link {% if isActive %}active{% endif %} px-3" target="_self" rel="noopener" referrerpolicy="origin-when-cross-origin">
+         <span class="icon menu-icon"><i class="{{ icon }}"></i></span>
+         <span class="menu-item-label position-relative">{{ name }}</span>
+      </a>
+   </li>
+   
+{% endmacro %}
+
+<body style="color-scheme: dark;" data-bs-theme="dark" class="admin">
+
+{% if app.user %}
+    {% set nom_utilisateur = app.user.prenom %}
+{% else %}
+    {% set nom_utilisateur = "visiteur" %}
+{% endif %}
+
+<div class="grid_container">
+
+   <div class="menu">
+           
+           <nav id="main-menu" class="navbar navbar-expand-lg">
+               <div class="container-fluid">
+                  
+                  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                  </button>
+                  
+                  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                     <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                     </div>
+                     <div class="offcanvas-body">
+                        
+                        <ul class="navbar-nav nav-pills mb-0 flex-column">
+                           
+                           <li class="menu-item text-center mb-4">
+                              <a class="navbar-brand" href="{{ path('index') }}">
+                                 <img src="/images/logo_cinephoria_trans.png" alt="Logo Cinéphoria" class=" top-0 ms-3 mt-2">
+                              </a>
+                           </li>
+                           
+                           <li class="menu-item">
+                              <h4 class="text-center w-100">Administration</h4>
+                              <p class="text-center w-100 disabled" aria-disabled="true">Bienvenue, {{ nom_utilisateur }} !</p>
+                           </li>
+                           
+                           
+                           {{ _self.menuItem('Retour au site', 'accueil', path('index'), 'bi-house-door-fill') }}
+                           {{ _self.menuItem('Cinémas', 'cinemas', path('index'), 'bi-buildings') }}
+                           {{ _self.menuItem('Salles', 'salles', path('index'), 'bi-heart-fill') }}
+                           {{ _self.menuItem('Films', 'films', path('app_films_admin_index'), 'bi-film') }}
+                           {{ _self.menuItem('Planning Séances', 'seances', path('index'), 'bi-calendar-week') }}
+                           {{ _self.menuItem('Avis', 'avis', path('index'), 'bi-chat-text') }}
+                           {{ _self.menuItem('Tarifs', 'tarifs', path('index'), 'bi-cash-coin') }}
+                           {{ _self.menuItem('Réservations', 'reservations', path('index'), 'bi-ticket') }}
+                           {{ _self.menuItem('Utilisateurs', 'utilisateurs', path('index'), 'bi-person-fill') }}
+                        
+                        </ul>
+                        
+                     </div>
+                  </div>
+                  
+                  
+               </div>
+           
+           </nav>
+       </aside>
+   </div>
+
+
+   <main class="py-3 pt-5 content">
+       
+       <div class="row g-0 mx-4">
+           {% block content %}{% endblock %}
+       </div>
+       
+       
+   </main>
+
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery-3.7.1.min.js"></script>
+{% block scripts_supp %}{% endblock %}
+<script src="/js/admin.js"></script>
+
+
+
+
+</body>
+</html>

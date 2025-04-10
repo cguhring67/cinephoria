@@ -1,5 +1,52 @@
+function slugify (text) {
+    return text
+        .toString()                   // Cast to string (optional)
+        .normalize('NFKD')            // The normalize() using NFKD method returns the Unicode Normalization Form of a given string.
+        .replace( /[\u0300-\u036f]/g, '' )
+        .toLowerCase()                // Convert the string to lowercase letters
+        .trim()                       // Remove whitespace from both sides of a string (optional)
+        .replace(/\s+/g, '-')         // Replace spaces with -
+        .replace(/[^\w\-]+/g, '')     // Remove all non-word chars
+        .replace(/\_/g,'-')           // Replace _ with -
+        .replace(/\-\-+/g, '-')       // Replace multiple - with single -
+        .replace(/\-$/g, '');         // Remove trailing -
+}
+
+
+function format_date(current_date)
+{
+    mois = String(parseInt(current_date.getMonth()) + 1).padStart(2, "0");
+    jour = String(current_date.getDate()).padStart(2, "0");
+    heures = String(current_date.getHours()).padStart(2, "0");
+    minutes = String(current_date.getMinutes()).padStart(2, "0");
+    date_format = current_date.getFullYear();
+    date_format = date_format + "-";
+    date_format = date_format + mois;
+    date_format = date_format + "-";
+    date_format = date_format + jour;
+    date_format = date_format + "T";
+    date_format = date_format + heures;
+    date_format = date_format + ":";
+    date_format = date_format + minutes;
+    return date_format;
+}
+
+function format_date2()
+{
+    current_date = new Date();
+    mois = String(parseInt(current_date.getMonth()) + 1).padStart(2, "0");
+    jour = String(current_date.getDate()).padStart(2, "0");
+    date_format = current_date.getFullYear();
+    date_format = date_format + "-";
+    date_format = date_format + mois;
+    date_format = date_format + "-";
+    date_format = date_format + jour;
+    return date_format;
+}
+
 document.addEventListener('DOMContentLoaded', function()
 {
+
 
     if (document.getElementById("ea-new-Seances"))
     {
@@ -62,23 +109,6 @@ document.addEventListener('DOMContentLoaded', function()
             }
         }
 
-        function format_date(current_date)
-        {
-            mois = String(parseInt(current_date.getMonth()) + 1).padStart(2, "0");
-            jour = String(current_date.getDate()).padStart(2, "0");
-            heures = String(current_date.getHours()).padStart(2, "0");
-            minutes = String(current_date.getMinutes()).padStart(2, "0");
-            date_format = current_date.getFullYear();
-            date_format = date_format + "-";
-            date_format = date_format + mois;
-            date_format = date_format + "-";
-            date_format = date_format + jour;
-            date_format = date_format + "T";
-            date_format = date_format + heures;
-            date_format = date_format + ":";
-            date_format = date_format + minutes;
-            return date_format;
-        }
 
 
         tomselect_cinema.on('change', function()
@@ -106,6 +136,63 @@ document.addEventListener('DOMContentLoaded', function()
                 })
                 .catch(error => console.error('Error:', error));
         });
+
+
+    }
+
+    if (document.getElementById("ea-new-Films"))
+    {
+
+        console.log('DOMContentLoaded');
+        const film_date_ajout = document.getElementById('Films_date_ajout'); // Remplacez par l'ID réel de votre select salle
+        const film_age_mini = document.getElementById('Films_age_mini'); // Remplacez par l'ID réel de votre select salle
+
+        if (film_date_ajout.value === "")
+        {
+            film_date_ajout.value = format_date2();
+        }
+
+        if (film_age_mini.value === "")
+        {
+            film_age_mini.value = 0;
+        }
+
+
+
+
+    }
+
+    if (document.getElementById("admin_films"))
+    {
+
+        console.log('DOMContentLoaded');
+        const film_date_ajout = document.getElementById('films_date_ajout');
+        const film_age_mini = document.getElementById('films_age_mini');
+        const film_titre = document.getElementById('films_titre');
+        const film_slug = document.getElementById('films_affiche');
+
+        // if (film_date_ajout.value === "")
+        // {
+        //     film_date_ajout.value = format_date2();
+        // }
+        //
+        // if (film_age_mini.value === "")
+        // {
+        //     film_age_mini.value = 0;
+        // }
+
+        film_titre.addEventListener('input', function()
+        {
+            const film_date_ajout = document.getElementById('films_date_ajout');
+            const film_slug = document.getElementById('films_affiche');
+
+            titre = this.value;
+            console.log("titre : " + titre);
+            film_slug.value = slugify(film_date_ajout.value + '-' + titre);
+
+        });
+
+
 
 
     }

@@ -1,0 +1,61 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}Films index{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Films</h2>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ path('app_films_admin_new') }}" class="btn btn-primary float-end">Ajouter un film</a>
+        </div>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Slug</th>
+                <th>Description</th>
+                <th>Genres</th>
+                <th>Age mini</th>
+                <th>Coup de coeur</th>
+                <th>Durée</th>
+                <th>Date de sortie</th>
+                <th>Avertissement</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.id }}</td>
+                <td>{{ film.titre }}</td>
+                <td>{{ film.affiche }}</td>
+                <td>{{ film.description|u.truncate(60, '...') }}</td>
+                <td>
+                    {% for genre in film.genre %}
+                    {% set separateur = not loop.last ? ", " : "" %}
+                    {{ genres[genre] }}{{ separateur }}
+                    {% endfor %}
+                </td>
+                <td>{{ film.ageMini }}</td>
+                <td>{{ film.coupDeCoeur }}</td>
+                <td>{{ film.duree ? film.duree|date('H:i') : '' }}</td>
+                <td>{{ film.dateAjout ? film.dateAjout|format_date('long') : '' }}</td>
+                <td>{{ film.avertissement|u.truncate(60, '...') }}</td>
+                <td>
+                    <a href="{{ path('app_films_admin_edit', {'id': film.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

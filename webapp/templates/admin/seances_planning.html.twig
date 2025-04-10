@@ -1,7 +1,7 @@
 {# templates/admin/seances_planning.html.twig #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title %}Planning des séances - <span id="info_planning">Nantes, Aujourd'hui</span>{% endblock %}
+{% block content_title %}Planning des séances - <span id="info_planning">Nantes, Aujourd'hui {{ date()|format_date('long') }}</span>{% endblock %}
 
 {% block main %}
    
@@ -12,10 +12,14 @@
       <div class="row">
          <div class="col-md-12 mb-3">
              
+             {% set choix_cinema_id = "" %}
              <div class="col-12 ligne_menu mb-3">
                  <div class="menu_cinemas">
                      <ul class="nav nav-pills nav_filtres px-3 ps-0">
                          {% for cinema_id, cinema_nom in cinemas %}
+                             {% if loop.index == 1 %}
+                                 {% set choix_cinema_id = cinema_id %}
+                             {% endif %}
                              {% set class_active = (loop.index == 1) ? "active" : "" %}
                              <li class="nav-item">
                                  <a class="nav-link {{ class_active }} lien_choix_cinema lien_c{{ cinema_id }}" data-cinema-id="{{ cinema_id }}">{{ cinema_nom }}</a>
@@ -24,9 +28,13 @@
                      </ul>
                  </div>
                  
+                 {% set date_jour = "" %}
                  <div class="menu_jours">
                      <ul class="nav nav-pills nav_filtres px-3 pe-0">
                          {% for date_key, jour_fr in dates %}
+                             {% if loop.index == 1 %}
+                                {% set date_jour = date_key %}
+                             {% endif %}
                              {% set class_active = (loop.index == 1) ? "active" : "" %}
                              <li class="nav-item">
                                  <a class="nav-link {{ class_active }} lien_choix_date lien_j{{ loop.index }}" data-filtre-date="{{ date_key }}" data-nom-jour="j{{ loop.index }}">{{ jour_fr }}</a>
@@ -64,7 +72,9 @@
                  Utilisation : Choisir un film en cliquant dessus pour le sélectionner,
                  puis cliquer sur le planning à l'heure souhaitée pour le programmer.
              </h6>
-             <button type="button" class="btn btn-primary btn-lg btn-block" id="btn_seances_planning">Récupérer les infos du planning dans la console</button>
+             <button type="button" class="btn btn-primary btn-lg btn-block" id="btn_seances_planning">Enregistrer</button>
+             <input type="hidden" name="choix_date" value="{{ date_jour }}" id="choix_date">
+             <input type="hidden" name="cinema_id" value="{{ choix_cinema_id }}" id="cinema_id">
          </div>
       </div>
    
@@ -84,7 +94,11 @@
        var choix_cinema = "1";
        var choix_cinema_txt = "Nantes";
        var choix_techno = "";
+       var data_clic = {};
        
+       window.onbeforeunload = function (e) {
+           return confirm("Etes vous sur de vouloir quitter ?");
+       }
        
        const $liste_films = $('#liste_films');
        const data_films = {{ data_films|json_encode|raw }};
@@ -97,6 +111,7 @@
            var isDraggable = true;
            var isResizable = false;
            var $sp = $("#seances_planning").timeSchedule({
+               
                startTime: "10:00", // schedule start time(HH:ii)
                endTime: "23:50",   // schedule end time(HH:ii)
                widthTime: 60 * 10,  // cell timestamp example 10 minutes
@@ -108,9 +123,7 @@
                draggable: isDraggable,
                resizable: isResizable,
                resizableLeft: true,
-               rows : {
-                   {{ seances|raw }}
-               },
+               rows : {{ seances|raw }},
                onChange: function(node, data){
                    addLog('onChange', data);
                },
@@ -119,6 +132,7 @@
                },
                onClick: function(node, data){
                    addLog('onClick', data);
+                   data_clic = data;
                },
                onAppendRow: function(node, data){
                    addLog('onAppendRow', data);
@@ -134,6 +148,29 @@
                        node.prepend($img);
                        node.addClass('sc_bar_photo');
                    }
+
+                   $deleteBtn = $('<span style="float: right; padding: 2px; cursor: pointer">❌</span>');
+                   
+                   $deleteBtn.click(function () {
+                       var $node = $(this).parent();
+                       var sc_key = $node.data('sc_key');
+                       addLog('delete : ', sc_key);
+                       $sp.timeSchedule('deleteEvent', sc_key);
+                       $node.remove();
+                       
+                       ajax = $.ajax({
+                           url: "/admin/seances_ajax/",
+                           type: "POST",
+                           data: JSON.stringify({ mode: "delete_event", data: data_clic, }),
+                       }).done(function(data) {
+                           console.log(data);
+                       });
+
+
+                   });
+                             
+                   node.prepend($deleteBtn)
+                   
                },
                onScheduleClick: function(node, time, timeline)
                {
@@ -154,6 +191,27 @@
                            }
                        });
                        
+                       let timeline_salle_id = node.dataset['salle_id'];
+                       let valeurs_json = {
+                           mode: "nouvelle_seance",
+                           salle_id: timeline_salle_id,
+                           choix_date: $('#choix_date').val(),
+                           cinema_id: $('#cinema_id').val(),
+                           film_id: choix_film.id,
+                           techno: choix_techno,
+                           heure_debut: start,
+                           heure_fin: end,
+                       };
+                       
+                       ajax = $.ajax({
+                           url: "/admin/seances_ajax/",
+                           type: "POST",
+                           data: JSON.stringify(valeurs_json),
+                       }).done(function(data) {
+                           console.log(data);
+                       });
+                       
+                       
                    }
                    addLog('onScheduleClick', time + ' ' + timeline);
                },
@@ -162,19 +220,87 @@
                addLog('timelineData', $sp.timeSchedule('timelineData'));
            });
            $('#btn_seances_planning').on('click', function(){
-               addLog('scheduleData', $sp.timeSchedule('scheduleData'));
+               let scheduleData = $sp.timeSchedule('scheduleData');
+               
+               let valeurs_json = {
+                   mode: "save_planning",
+                   choix_date: $('#choix_date').val(),
+                   cinema_id: $('#cinema_id').val(),
+                   planning: scheduleData,
+               };
+               
+               ajax = $.ajax({
+                   url: "/admin/seances_ajax/",
+                   type: "POST",
+                   data: JSON.stringify(valeurs_json),
+               }).done(function(data) {
+                   console.log(data);
+               });
+               
+               
            });
            
-           $('.ajax-data').on('click', function(){
-               $.ajax({url: './data/'+$(this).attr('data-target')})
-                   .done( (data) => {
-                       addLog('Ajax GetData', data);
-                       $sp.timeSchedule('setRows', data);
-                   });
-           });
            $('#clear-logs').on('click', function(){
                $('#logs .table').empty();
            });
+           
+           $(".lien_choix_cinema, .lien_choix_date, .badge_choix_techno").on("click", function()
+           {
+               let choix_cinema_clic = $(this).data("cinemaId");
+               let choix_date_clic = $(this).data("filtreDate");
+               let choix_techno_clic = $(this).data("choixTechno");
+               
+               var inner_text = $(this).text();
+               
+               if (choix_cinema_clic !== undefined)
+               {
+                   choix_cinema_txt = inner_text;
+                   choix_cinema = choix_cinema_clic;
+                   $(".lien_choix_cinema").removeClass("active");
+                   $(this).addClass("active");
+               }
+               
+               if (choix_date_clic !== undefined)
+               {
+                   choix_date_txt = inner_text;
+                   choix_date = choix_date_clic;
+                   $(".lien_choix_date").removeClass("active");
+                   $(this).addClass("active");
+               }
+               
+               if (choix_techno_clic !== undefined)
+               {
+                   choix_techno = choix_techno_clic;
+                   $(".badge_choix_techno").removeClass("active");
+                   $(this).addClass("active");
+               }
+               
+               $('#info_planning').text(choix_cinema_txt + ', ' + choix_date_txt);
+               
+               let valeurs_json = {
+                   mode: "search_cinema_date",
+                   search_cinema: choix_cinema,
+                   search_date: choix_date,
+               };
+               
+                $('#choix_date').val(choix_date);
+                $('#cinema_id').val(choix_cinema);
+                
+                console.log(valeurs_json);
+               
+               ajax = $.ajax({
+                   url: "/admin/seances_ajax/",
+                   type: "POST",
+                   data: JSON.stringify(valeurs_json),
+               }).done(function(data) {
+                   console.log(data);
+                   $sp.timeSchedule('setRows', data);
+               });
+               
+               
+           })
+           
+           
            
            
        });
@@ -183,13 +309,12 @@
    $(document).ready(function(){
        $sp = $('#seances_planning');
        
-       console.log(data_films);
-       
+       //console.log(data_films);
        
        for (i=0; i <= data_films.length - 1; i++ )
        {
            film = data_films[i];
-           console.log(film);
+           //console.log(film);
            btn_class = (film.anciennete < 7 ) ? 'text-bg-primary' : 'text-bg-default';
            data_nouveaute = (film.anciennete < 7 ) ? 'nouveau' : '';
            $liste_films.append('<span class="bouton_film '+btn_class+' badge px-2 mx-1" data-film-id="'+ film.id +'"   data-nouveaute="'+ data_nouveaute +'"  data-film-duree="'+ film.duree +'" data-film-duree-minutes="'+ film.duree_minutes +'" data-affiche="'+ film.affiche +'">'+ film.titre +'</span>')
@@ -206,62 +331,6 @@
             $('.bouton_film').removeClass('active');
             $(this).addClass("active");
         });
-       
-       
-       $(".lien_choix_cinema, .lien_choix_date, .badge_choix_techno").on("click", function(){
-           let choix_cinema_clic = $(this).data("cinemaId");
-           let choix_date_clic = $(this).data("filtreDate");
-           let choix_techno_clic = $(this).data("choixTechno");
-           
-           var inner_text = $(this).text();
-           
-           if (choix_cinema_clic !== undefined)
-           {
-               choix_cinema_txt = inner_text;
-               choix_cinema = choix_cinema_clic;
-               $(".lien_choix_cinema").removeClass("active");
-               $(this).addClass("active");
-           }
-           
-           if (choix_date_clic !== undefined)
-           {
-               choix_date_txt = inner_text;
-               choix_date = choix_date_clic;
-               $(".lien_choix_date").removeClass("active");
-               $(this).addClass("active");
-           }
-           
-           if (choix_techno_clic !== undefined)
-           {
-               choix_techno = choix_techno_clic;
-               $(".badge_choix_techno").removeClass("active");
-               $(this).addClass("active");
-           }
-           
-           $('#info_planning').text(choix_cinema_txt + ', ' + choix_date_txt);
-           
-           let valeurs_json = {
-               search_cinema: choix_cinema,
-               search_date: choix_date,
-           };
-           console.log(valeurs_json);
-           
-           // ajax = $.ajax({
-           //     url: "/films_ajax/",
-           //     type: "POST",
-           //     data: JSON.stringify(valeurs_json),
-           // }).done(function(message) {
-           //     console.log(message);
-           //     render_liste_films(message);
-           // }).always(function() {
-           //     ajax = false;
-           // });
-           
-           
-       })
-       
-       
-       
        
        
    })

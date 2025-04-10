@@ -7,7 +7,7 @@ class FilmsGenres
 
 	public function getGenres(): array
 	{
-		$genres = [
+		$genres_key_value = [
 			"action"=>"Action",
 			"animation"=>"Animation",
 			"arts_martiaux" => "Arts Martiaux",
@@ -30,7 +30,40 @@ class FilmsGenres
 			"science_fiction" => "Science fiction",
 			"thriller" => "Thriller"
 		];
-		return $genres;
+		
+		
+		return $genres_key_value;
+	}
+	
+	public function getGenresValKey(): array
+	{
+		
+		$genres_value_key = [
+			"Action" => "action",
+			"Animation" => "animation",
+			"Arts Martiaux" => "arts_martiaux",
+			"Aventure" => "aventure",
+			"Biopic" => "biopic",
+			"Comédie" => "comedie",
+			"Comédie dramatique" => "comedie_dramatique",
+			"Comédie musicale" => "comedie_musicale",
+			"Documentaire" => "documentaire",
+			"Drame" => "drame",
+			"Epouvante-horreur" => "epouvante_horreur",
+			"Espionnage" => "espionnage",
+			"Famille" => "famille",
+			"Fantastique" => "fantastique",
+			"Historique" => "historique",
+			"Musical" => "musical",
+			"Opera" => "opera",
+			"Policier" => "policier",
+			"Romance" => "romance",
+			"Science fiction" => "science_fiction",
+			"Thriller" => "thriller",
+			];
+		
+		
+		return $genres_value_key;
 	}
 
 }

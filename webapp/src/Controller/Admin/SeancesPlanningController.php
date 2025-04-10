@@ -30,6 +30,10 @@ class SeancesPlanningController extends AbstractDashboardController
 {
 
 	private $entityManager;
+	private $cinemasRepository;
+	private $sallesRepository;
+	private $filmsRepository;
+	private $seancesRepository;
 
 	public function __construct(EntityManagerInterface $entityManager)
 	{
@@ -86,7 +90,6 @@ class SeancesPlanningController extends AbstractDashboardController
 		}
 
 		$planning_service = new PlanningService($this->entityManager);
-		$data_seances = [];
 		$seances = $planning_service->getPlanningJson(1, "now");
 
 		$dates = [];
@@ -102,8 +105,8 @@ class SeancesPlanningController extends AbstractDashboardController
 			$date = $date_temp->format('Y-m-d');
 			$date_fr = ucfirst( IntlDateFormatter::formatObject($date_temp, "EEEE d MMMM", 'fr_FR') );
 
-			if ($i == 0) $label = "Aujourd'hui";
-			if ($i == 1) $label = "Demain";
+			if ($i == 0) $label = "$date_fr";
+			if ($i == 1) $label = "$date_fr";
 			if ($i >= 2) $label = $date_fr;
 
 			$dates[$date] = $label;
@@ -128,7 +131,7 @@ class SeancesPlanningController extends AbstractDashboardController
 	public function configureDashboard(): Dashboard
 	{
 		return Dashboard::new()
-			->setTitle('<h4 class="text-center"><img src="/images/logo_cinephoria_trans.png"><br>Administration</h4>');
+			->setTitle('<h4 class="text-center"><img src="/images/logo_cinephoria_trans.png" alt="logo cinéphoria"><br>Administration</h4>');
 	}
 
 	public function configureMenuItems(): iterable

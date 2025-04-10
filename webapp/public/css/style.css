@@ -30,6 +30,27 @@ body {
   font-family: "Open Sans", arial, sans-serif;
 }
 
+body.admin {
+  background-color: rgb(10, 10, 10);
+}
+body.admin .form-control, body.admin label {
+  font-size: 0.9rem;
+}
+body.admin .form-control, body.admin .form-select {
+  background-color: #171717;
+}
+body.admin .table {
+  --bs-table-bg: none !important;
+  font-size: 0.9rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+body.admin input:read-only, body.admin input:focus:read-only {
+  background-color: transparent;
+  color: #888;
+  border: 1px solid #333;
+  box-shadow: none !important;
+}
+
 h1 {
   margin-bottom: 0.5em;
   color: rgb(255, 76, 85);
@@ -551,6 +572,25 @@ p.details_film span {
   }
   .page_technologies img.float-end, .page_technologies img.float-start {
     width: 40%;
+  }
+  .admin .grid_container {
+    display: grid;
+    grid-template-areas: "menu content";
+    grid-template-columns: 230px auto;
+    min-block-size: 100vh;
+    gap: 0;
+    padding: 0;
+  }
+  .admin .grid_container .navbar-nav a.nav-link span {
+    font-weight: normal;
+    font-size: 1.1rem;
+  }
+  .admin .grid_container > div.menu {
+    grid-area: menu;
+    background-color: #181818;
+  }
+  .admin .grid_container > div.content {
+    grid-area: content;
   }
 }
 @media (min-width: 1100px) {

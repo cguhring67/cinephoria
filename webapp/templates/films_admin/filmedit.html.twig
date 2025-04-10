@@ -1,0 +1,71 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}Edition Film{% endblock %}
+
+{% block content %}
+    
+    
+    {{ form_start(form) }}
+
+    <div id="admin_films">
+        
+        <div class="row">
+            <div class="col-md-9">
+                <h2>
+                    <a href="{{ path('app_films_admin_index') }}" class="btn btn-outline-secondary me-3">< Retour à la liste</a>
+                    {{ titrepage }}
+                </h2>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary float-end">{{ button_label|default('Enregistrer') }}</button>
+            </div>
+        </div>
+        <div class="row">
+        
+            <div class="col-md-6">
+                {{ form_row(form.titre) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.affiche, {'label': 'Slug', 'attr': {'readonly': 'true'}}) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.genre, {'label': 'Genres'}) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.age_mini) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.coup_de_coeur) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.duree, {'label': 'Durée'}) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.date_ajout, {'label': 'Date de sortie'}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                {{ form_row(form.realisateur, {'label': 'Réalisateur(s)'}) }}
+            </div>
+            <div class="col-md-7">
+                {{ form_row(form.acteurs, {'label': 'Acteurs'}) }}
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-md-8">
+                {{ form_row(form.description) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.avertissement) }}
+            </div>
+        </div>
+    </div>
+    
+    
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+
+{% endblock %}

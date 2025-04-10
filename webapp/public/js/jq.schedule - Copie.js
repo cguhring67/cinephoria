@@ -218,21 +218,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     },
 
     /**
-     * delete event
-     *
-     * @returns {methods}
-     */
-    deleteEvent: function deleteEvent(sc_key) {
-      return this.each(function () {
-        var $this = $(this);
-
-        var data = methods._loadData.apply($this);
-        delete data.schedule[sc_key];
-        methods._saveData.apply($this, [data]);
-      });
-    },
-
-    /**
      * clear row
      *
      * @param {object} data
@@ -609,26 +594,19 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
         var saveData = methods._loadData.apply($this);
 
-
         var id = $this.find('.sc_main .timeline').length;
         var html;
         html = '';
         html += '<div class="timeline"></div>';
         var $data = $(html);
-        var salle_id;
 
         if (row.title) {
           $data.append('<span class="timeline-title">' + row.title + '</span>');
         }
 
-
         if (row.subtitle) {
           $data.append('<span class="timeline-subtitle">' + row.subtitle + '</span>');
         } // event call
-
-        if (row.salle_id) {
-          salle_id = row.salle_id;
-        }
 
 
         if (setting.onInitRow) {
@@ -641,7 +619,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         var $timeline = $(html);
 
         for (var t = saveData.tableStartTime; t < saveData.tableEndTime; t += setting.widthTime) {
-          var $tl = $('<div class="tl" data-salle_id="'+salle_id+'"></div>');
+          var $tl = $('<div class="tl"></div>');
           $tl.outerWidth(setting.widthTimeX);
           $tl.data('time', methods.formatTime(t));
           $tl.data('timeline', timeline);

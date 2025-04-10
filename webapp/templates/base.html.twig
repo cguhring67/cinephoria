@@ -22,9 +22,12 @@
     {% block stylesheets %}
     {% endblock %}
     
-    
     <link rel="stylesheet" href="/css/style.css">
-
+    
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+    
 </head>
 
 {% macro menuItem(name, url) %}
@@ -98,6 +101,8 @@
 <script src="/js/jquery-3.7.1.min.js"></script>
 {% block scripts_supp %}{% endblock %}
 <script src="/js/script.js"></script>
+
+
 
 
 </body>

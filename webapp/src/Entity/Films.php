@@ -29,7 +29,7 @@ class Films
 	private array $genre = [];
 
 	#[ORM\Column]
-	private ?int $age_mini = null;
+	private int $age_mini = 0;
 
 	#[ORM\Column(nullable: true)]
 	private ?int $coup_de_coeur = null;
@@ -55,11 +55,11 @@ class Films
 	#[ORM\OneToMany(targetEntity: Seances::class, mappedBy: 'film_id', orphanRemoval: true)]
 	private Collection $seances;
 
-	#[ORM\Column(length: 100, nullable: true)]
-	private ?string $realisateur = null;
+	#[ORM\Column(length: 100, nullable: false)]
+	private string $realisateur;
 
-	#[ORM\Column(length: 255, nullable: true)]
-	private ?string $acteurs = null;
+	#[ORM\Column(length: 255, nullable: false)]
+	private string $acteurs;
 
 	#[ORM\Column(length: 255, nullable: true)]
 	private ?string $avertissement = null;
@@ -269,7 +269,7 @@ class Films
 		return $this->realisateur;
 	}
 
-	public function setRealisateur(?string $realisateur): static
+	public function setRealisateur(string $realisateur): static
 	{
 		$this->realisateur = $realisateur;
 
@@ -281,7 +281,7 @@ class Films
 		return $this->acteurs;
 	}
 
-	public function setActeurs(?string $acteurs): static
+	public function setActeurs(string $acteurs): static
 	{
 		$this->acteurs = $acteurs;
 

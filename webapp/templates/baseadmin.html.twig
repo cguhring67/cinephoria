@@ -16,13 +16,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/owl.carousel.css">
-    <link rel="stylesheet" href="/css/owl.theme.default.css">
     
     {% block stylesheets %}
     {% endblock %}
     
-    <link rel="stylesheet" href="/css/tomselect.css">
     <link rel="stylesheet" href="/css/style.css">
     
     {% block javascripts %}
@@ -88,7 +85,7 @@
                            {{ _self.menuItem('Cinémas', 'cinemas', path('index'), 'bi-buildings') }}
                            {{ _self.menuItem('Salles', 'salles', path('index'), 'bi-heart-fill') }}
                            {{ _self.menuItem('Films', 'films', path('app_films_admin_index'), 'bi-film') }}
-                           {{ _self.menuItem('Planning Séances', 'seances', path('index'), 'bi-calendar-week') }}
+                           {{ _self.menuItem('Planning Séances', 'seances', path('app_seances_admin_index'), 'bi-calendar-week') }}
                            {{ _self.menuItem('Avis', 'avis', path('index'), 'bi-chat-text') }}
                            {{ _self.menuItem('Tarifs', 'tarifs', path('index'), 'bi-cash-coin') }}
                            {{ _self.menuItem('Réservations', 'reservations', path('index'), 'bi-ticket') }}

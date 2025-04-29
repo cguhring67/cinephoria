@@ -1,0 +1,159 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}{{ titrepage }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/tomselect.css">
+    <link rel="stylesheet" href="/css/croppie.css">
+
+{% endblock %}
+
+
+{% block content %}
+    
+    
+    {{ form_start(form) }}
+
+    <div id="admin_films">
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h2>
+                    <a href="{{ path('app_films_admin_index') }}" class="btn btn-outline-secondary me-3">< Retour à la liste</a>
+                    {{ titrepage }}
+                </h2>
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(form.save, {'label': 'Enregistrer', 'attr': {'class': 'btn-primary float-end ms-3'}}) }}
+{#                {{ form_widget(form.save_and_stay, {'label': 'Enregistrer et rester', 'attr': {'class': 'btn-outline-primary float-end'}}) }}#}
+            </div>
+        </div>
+        <div class="row">
+        
+            <div class="col-md-6">
+                {{ form_row(form.titre) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.affiche, {'label': 'Slug', 'attr': {'readonly': 'true'}}) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.genre, {'label': 'Genres'}) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.age_mini) }}
+            </div>
+            <div class="col-md-2">
+                <div class="mb3">
+                    <label class="form-check-label" for="films_coup_de_coeur">Coup de coeur</label>
+                    <div class="mt-1">
+                        {{ form_widget(form.coup_de_coeur, {'attr': {'class': 'check_coup_de_coeur'}}) }}
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="col-md-2">
+                {{ form_row(form.duree, {'label': 'Durée'}) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.date_ajout, {'label': 'Date de sortie'}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                {{ form_row(form.realisateur, {'label': 'Réalisateur(s)'}) }}
+            </div>
+            <div class="col-md-7">
+                {{ form_row(form.acteurs, {'label': 'Acteurs'}) }}
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-md-8">
+                {{ form_row(form.description) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.avertissement) }}
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+
+<div class="row">
+    
+    <div class="col-md-2">
+        <div class="mb-3">
+            <input type="radio" class="btn-check" name="film_image" id="film_affiche" value="affiche" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="film_affiche">Affiche :</label>
+            
+            <div id="film_affiche_container" class="ratio mt-2" style="--bs-aspect-ratio: 133.33%;">
+                <img id="film_affiche" class="film_image img-fluid" src="/images/affiches/{{ film.affiche }}.jpg" alt="affiche">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="mb-3">
+            <input type="radio" class="btn-check" name="film_image" id="film_banniere" value="banniere" autocomplete="off">
+            <label class="btn btn-outline-primary" for="film_banniere">Bannière : </label>
+            
+            <span class="ms-5">Coller directement une image, ou cliquer sur ce bouton pour </span>
+            <button type="button" id="fileinput_image" class="fileinput-button btn btn-outline-primary">
+                <span class="fileinput_span_choisirfichier"><i class=""></i> <span>Choisir un fichier...</span></span>
+                <input id="file_image" name="file_image" type="file" accept=".jpg,.png,.webp">
+            </button>
+            <span id="info_image" class="span-info"></span>
+            
+            
+            <div id="film_banniere_container" class="ratio mt-2" style="--bs-aspect-ratio: 25%;">
+                <img id="film_banniere" class="film_image img-fluid" src="/images/bannieres/{{ film.affiche }}.jpg" alt="bannière">
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="modale_container" style="display: none;">
+        <div id="uploadimageModal" class="modale" role="dialog">
+            <div class="modale-dialog">
+                <div class="modale-content">
+                    <div class="modale-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modale-title">Envoyer et recadrer une image</h4>
+                    </div>
+                    <div class="modale-body">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <div id="image_a_recadrer" style="width:1100px; margin: auto; margin-top:5px"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="padding-top:2px;">
+                                <button class="btn btn-success crop_image">Recadrer et envoyer l'image</button>
+                                <button type="button" class="close close2 btn btn-default" data-dismiss="modal">Annuler & Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts_supp %}
+    
+    <script src="/js/croppie.min.js"></script>
+    
+    <script type="text/javascript">
+        var url_upload = "{{ path('film_image_upload_ajax') }}";
+    </script>
+{% endblock %}

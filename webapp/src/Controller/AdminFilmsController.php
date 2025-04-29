@@ -11,22 +11,25 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use DateInterval;
 
 
 #[Route('/admin2/films')]
-final class FilmsAdminController extends AbstractController
+final class AdminFilmsController extends AbstractController
 {
 	#[Route(name: 'app_films_admin_index', methods: ['GET'])]
 	public function index(FilmsRepository $filmsRepository): Response
 	{
 		$films_genres = new FilmsGenres();
 		
-		return $this->render('films_admin/index.html.twig', [
+		return $this->render('admin/films_list.html.twig', [
 			'films' => $filmsRepository->findBy(
 				array(),
-				['date_ajout' => 'DESC']
+				['date_ajout' => 'DESC', 'id' => 'DESC']
 			),
 			'genres' => $films_genres->getGenres(),
 		]);
@@ -50,6 +53,7 @@ final class FilmsAdminController extends AbstractController
 		
 		$film->setDateAjout($date_mercredi_immutable);
 		$film->setAgeMini(0);
+		$film->setAffiche("image_vide");
 		
 		$form = $this->createForm(FilmsType::class, $film);
 		$form->handleRequest($request);
@@ -58,10 +62,13 @@ final class FilmsAdminController extends AbstractController
 			$entityManager->persist($film);
 			$entityManager->flush();
 			
-			return $this->redirectToRoute('app_films_admin_index', [], Response::HTTP_SEE_OTHER);
+			if ($form->get('save')->isClicked()) {
+				return $this->redirectToRoute('app_films_admin_index', [], Response::HTTP_CREATED);
+			}
+			
 		}
 		
-		return $this->render('films_admin/filmedit.html.twig', [
+		return $this->render('admin/film_form.html.twig', [
 			'film' => $film,
 			'form' => $form,
 			'titrepage' => 'Ajouter un film',
@@ -76,26 +83,31 @@ final class FilmsAdminController extends AbstractController
 		$form->handleRequest($request);
 		
 		if ($form->isSubmitted() && $form->isValid()) {
+			$entityManager->persist($film);
 			$entityManager->flush();
 			
-			return $this->redirectToRoute('app_films_admin_index', [], Response::HTTP_SEE_OTHER);
+			if ($form->get('save')->isClicked()) {
+				return $this->redirectToRoute('app_films_admin_index', [], Response::HTTP_TEMPORARY_REDIRECT);
+			}
 		}
 		
-		return $this->render('films_admin/filmedit.html.twig', [
+		return $this->render('admin/film_form.html.twig', [
 			'film' => $film,
 			'form' => $form,
 			'titrepage' => 'Modifier film',
 		]);
 	}
 	
-	#[Route('/{id}', name: 'app_films_admin_delete', methods: ['POST'])]
+	#[Route('/{id}/delete', name: 'app_films_admin_delete', methods: ['GET'])]
 	public function delete(Request $request, Films $film, EntityManagerInterface $entityManager): Response
 	{
-		if ($this->isCsrfTokenValid('delete'.$film->getId(), $request->getPayload()->getString('_token'))) {
-			$entityManager->remove($film);
-			$entityManager->flush();
-		}
+		$entityManager->remove($film);
+		$entityManager->flush();
 		
 		return $this->redirectToRoute('app_films_admin_index', [], Response::HTTP_SEE_OTHER);
 	}
+	
+	
+	
+	
 }

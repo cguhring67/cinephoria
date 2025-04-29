@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class FilmsType extends AbstractType
 {
@@ -21,6 +23,8 @@ class FilmsType extends AbstractType
 	    $genres = $films_genres->getGenresValKey();
 	    
 	    $builder
+			->add('save', SubmitType::class)
+//			->add('save_and_stay', SubmitType::class)
 			->add('titre')
 			->add('affiche')
 			->add('genre', ChoiceType::class, [
@@ -30,7 +34,10 @@ class FilmsType extends AbstractType
 			   'autocomplete' => true,
 			])
 			->add('age_mini')
-			->add('coup_de_coeur', CheckboxType::class)
+			->add('coup_de_coeur', CheckboxType::class, [
+				'required' => false,
+				
+			])
 			//->add('score')
 			->add('duree', TimeType::class, [
 			    'widget' => 'single_text',
@@ -45,6 +52,7 @@ class FilmsType extends AbstractType
 			])
 			->add('avertissement', TextareaType::class, [
 			   'attr' => ['rows' => '4'],
+				'required' => false,
 			])
         ;
     }

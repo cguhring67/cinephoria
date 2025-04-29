@@ -1,0 +1,68 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}Films index{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Films <span class="badge text-bg-success rounded-pill fw-normal fs-6 badge_nombre_liste">{{ films|length }} films listés</span>
+            </h2>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ path('app_films_admin_new') }}" class="btn btn-primary float-end">Ajouter un film</a>
+        </div>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="align-middle text-center">Titre</th>
+                <th class="align-middle text-center">Description</th>
+                <th class="align-middle text-center">Genres</th>
+                <th class="align-middle text-center">Age mini</th>
+                <th class="align-middle text-center">Coup de coeur</th>
+                <th class="align-middle text-center">Durée</th>
+                <th class="align-middle text-center">Date de sortie</th>
+                <th class="align-middle text-center">Avertissement</th>
+                <th class="align-middle text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td class="align-middle" style="max-width: 320px;"><a href="{{ path('app_films_admin_edit', {'id': film.id}) }}">✏️ {{ film.titre }}</a></td>
+                <td class="align-middle" style="max-width: 240px;">{{ film.description|u.truncate(60, '...') }}</td>
+                <td class="align-middle text-center" style="max-width: 140px;">
+                    {% for genre in film.genre %}
+                    {% set separateur = not loop.last ? ", " : "" %}
+                    {{ genres[genre] }}{{ separateur }}
+                    {% endfor %}
+                </td>
+                {% if film.ageMini == 0 %}
+                    {% set class_age = "text-success" %}
+                {% elseif film.ageMini >= 1 and film.ageMini < 12 %}
+                    {% set class_age = "text-primary" %}
+                {% elseif film.ageMini >= 12 and film.ageMini < 18 %}
+                    {% set class_age = "text-warning" %}
+                {% else %}
+                    {% set class_age = "text-danger" %}
+                {% endif %}
+                    
+                <td class="align-middle text-center {{ class_age }}">{{ film.ageMini }}</td>
+                <td class="align-middle text-center">{{ film.coupDeCoeur }}</td>
+                <td class="align-middle text-center">{{ film.duree ? film.duree|date('G:i') : '' }}</td>
+                <td class="align-middle text-center">{{ film.dateAjout ? film.dateAjout|format_date('long') : '' }}</td>
+                <td class="align-middle" style="max-width: 240px;">{{ film.avertissement|u.truncate(60, '...') }}</td>
+                <td class="align-middle text-center">
+                    <a href="{{ path('app_films_admin_delete', {'id': film.id}) }}" title="Supprimer">❌</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

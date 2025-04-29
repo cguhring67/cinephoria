@@ -17,10 +17,12 @@ class PlanningService
 		$this->entityManager = $entityManager;
 	}
 
+	
+	//
+	// Retourne l'ensemble des séances programmées pour un jour (par défaut "ajourd'hui) et un cinéma donnés, en format JSON
+	//
 	public function getPlanningJson($cinema_id = 1, $date_search = "now"): string
 	{
-//		$this->entityManager = new EntityManagerInterface;
-
 		$salles = $this->entityManager->getRepository(Salles::class)->findBy(['cinema_id' => $cinema_id]);
 		$planning = [];
 		$json = "";

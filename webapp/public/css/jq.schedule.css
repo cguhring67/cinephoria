@@ -29,7 +29,7 @@
   overflow: hidden;
 }
 .jq-schedule .sc_menu .sc_header .sc_time {
-  text-align: center;
+  text-align: left;
   border-left: solid 1px #555;
   background: #222;
 }

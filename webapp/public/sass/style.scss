@@ -27,19 +27,180 @@ body.admin {
     background-color: #171717
   }
 
+  label.required::after {
+    content: " *";
+    color: red;
+  }
+
   .table {
     --bs-table-bg: none !important;
     font-size: 0.9rem;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 
-  input:read-only, input:focus:read-only {
+  input[readonly], input[readonly]:focus {
     background-color: transparent;
     color: #888;
     border: 1px solid #333;
     box-shadow: none !important;
   }
 
+  .check_coup_de_coeur {
+    width: 4rem;
+    height: 2.1rem;
+    + label {
+      display: none;
+    }
+  }
+
+  input.cr-slider {
+    border-radius: 25px;
+  }
+
+  .film_image {
+    border: 1px solid #777;
+  }
+
+  .modale_container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 9999;
+  }
+
+
+  .modale {
+    position: relative;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 0;
+    background: #000;
+    overflow: auto;
+    margin: auto;
+    width: 1200px;
+    height: 800px;
+    /*display: block;*/
+    top: calc(50% - 400px);
+    box-shadow: 1px 1px 25px 15px rgba(0,0,0,0.8);
+    z-index: 9999;
+  }
+
+  .modale-body {
+    padding: 23px;
+    padding-top: 0;
+  }
+
+  .modale-title {
+    margin-left: 1em;
+    line-height: 2em;
+  }
+
+  button.close {
+    position: absolute;
+    right: 0;
+  }
+
+  button.close2 {
+    right: 23px;
+    background-color: darkred;
+  }
+
+  .modale-body .croppie-container .cr-slider-wrap {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  button.crop_image {
+    background-color: green;
+    margin-right: 2em;
+  }
+
+
+  .fileinput-button  {
+    position: relative;
+
+    &:hover  {
+      background-color: #0057ae;
+    }
+
+    input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      opacity: 0 !important;
+      -ms-filter: 'alpha(opacity=0)';
+      font-size: 20px !important;
+      direction: ltr;
+      cursor: pointer !important;
+      width: 100%;
+    }
+
+
+  }
+
+  table.table a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .badge_nombre_liste {
+    position: relative;
+    top: -6px;
+    margin-left: 1rem;
+  }
+
+
+  .planning_seances {
+
+    .nav-link {
+      font-size: 0.8rem;
+    }
+
+    .bouton_film, .badge_choix_techno {
+      font-weight: normal;
+      box-shadow: 0 0 0 1px #555;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 0 0 8px 4px rgba(0,120,255,0.6);
+        background-color: rgba(0,100,255,0.3) !important;
+      }
+
+      &.active {
+        border: 1px solid rgba(0,255,100,1);
+        box-shadow: 0 0 10px 5px rgba(0,255,100,0.5);
+      }
+
+    }
+
+
+    .bouton_film:hover, .badge_choix_techno:hover {
+      box-shadow: 0 0 8px 4px rgba(0,120,255,0.6);
+      background-color: rgba(0,100,255,0.3) !important;
+
+    }
+    .bouton_film.active, .badge_choix_techno.active {
+      border: 1px solid rgba(0,255,100,1);
+      box-shadow: 0 0 10px 5px rgba(0,255,100,0.5);
+    }
+
+    .form-switch {
+      .form-check-input {
+        width: 3em;
+      }
+      label {
+        font-size: 1rem;
+        line-height: 2rem;
+      }
+    }
+
+
+  }
 
 }
 
@@ -390,6 +551,10 @@ a.films_lien_details {
 
     }
   }
+}
+
+.badge_nouveau {
+  box-shadow: 2px 2px 8px #000;
 }
 
 

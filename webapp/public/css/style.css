@@ -39,16 +39,140 @@ body.admin .form-control, body.admin label {
 body.admin .form-control, body.admin .form-select {
   background-color: #171717;
 }
+body.admin label.required::after {
+  content: " *";
+  color: red;
+}
 body.admin .table {
   --bs-table-bg: none !important;
   font-size: 0.9rem;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
-body.admin input:read-only, body.admin input:focus:read-only {
+body.admin input[readonly], body.admin input[readonly]:focus {
   background-color: transparent;
   color: #888;
   border: 1px solid #333;
   box-shadow: none !important;
+}
+body.admin .check_coup_de_coeur {
+  width: 4rem;
+  height: 2.1rem;
+}
+body.admin .check_coup_de_coeur + label {
+  display: none;
+}
+body.admin input.cr-slider {
+  border-radius: 25px;
+}
+body.admin .film_image {
+  border: 1px solid #777;
+}
+body.admin .modale_container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+body.admin .modale {
+  position: relative;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 0;
+  background: #000;
+  overflow: auto;
+  margin: auto;
+  width: 1200px;
+  height: 800px;
+  /*display: block;*/
+  top: calc(50% - 400px);
+  box-shadow: 1px 1px 25px 15px rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+body.admin .modale-body {
+  padding: 23px;
+  padding-top: 0;
+}
+body.admin .modale-title {
+  margin-left: 1em;
+  line-height: 2em;
+}
+body.admin button.close {
+  position: absolute;
+  right: 0;
+}
+body.admin button.close2 {
+  right: 23px;
+  background-color: darkred;
+}
+body.admin .modale-body .croppie-container .cr-slider-wrap {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+body.admin button.crop_image {
+  background-color: green;
+  margin-right: 2em;
+}
+body.admin .fileinput-button {
+  position: relative;
+}
+body.admin .fileinput-button:hover {
+  background-color: #0057ae;
+}
+body.admin .fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0 !important;
+  -ms-filter: "alpha(opacity=0)";
+  font-size: 20px !important;
+  direction: ltr;
+  cursor: pointer !important;
+  width: 100%;
+}
+body.admin table.table a {
+  text-decoration: none;
+  font-weight: bold;
+}
+body.admin .badge_nombre_liste {
+  position: relative;
+  top: -6px;
+  margin-left: 1rem;
+}
+body.admin .planning_seances .nav-link {
+  font-size: 0.8rem;
+}
+body.admin .planning_seances .bouton_film, body.admin .planning_seances .badge_choix_techno {
+  font-weight: normal;
+  box-shadow: 0 0 0 1px #555;
+  cursor: pointer;
+}
+body.admin .planning_seances .bouton_film:hover, body.admin .planning_seances .badge_choix_techno:hover {
+  box-shadow: 0 0 8px 4px rgba(0, 120, 255, 0.6);
+  background-color: rgba(0, 100, 255, 0.3) !important;
+}
+body.admin .planning_seances .bouton_film.active, body.admin .planning_seances .badge_choix_techno.active {
+  border: 1px solid rgb(0, 255, 100);
+  box-shadow: 0 0 10px 5px rgba(0, 255, 100, 0.5);
+}
+body.admin .planning_seances .bouton_film:hover, body.admin .planning_seances .badge_choix_techno:hover {
+  box-shadow: 0 0 8px 4px rgba(0, 120, 255, 0.6);
+  background-color: rgba(0, 100, 255, 0.3) !important;
+}
+body.admin .planning_seances .bouton_film.active, body.admin .planning_seances .badge_choix_techno.active {
+  border: 1px solid rgb(0, 255, 100);
+  box-shadow: 0 0 10px 5px rgba(0, 255, 100, 0.5);
+}
+body.admin .planning_seances .form-switch .form-check-input {
+  width: 3em;
+}
+body.admin .planning_seances .form-switch label {
+  font-size: 1rem;
+  line-height: 2rem;
 }
 
 h1 {
@@ -341,6 +465,10 @@ a.films_lien_details:hover img {
 a.films_lien_details:hover .film_hover {
   transform: scale(1.07);
   opacity: 1;
+}
+
+.badge_nouveau {
+  box-shadow: 2px 2px 8px #000;
 }
 
 .image_banniere {

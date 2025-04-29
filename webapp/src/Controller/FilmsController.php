@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Films;
 use App\Entity\Cinemas;
+use App\Services\DatesService;
 use DateInterval;
 use IntlDateFormatter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,35 +38,8 @@ class FilmsController extends AbstractController
 
 		$technologies_service = new Technologies();
 		$technologies = $technologies_service->getTechnologies();
-		$date1 = "now";
-		//$date1 = "2025-02-27";
-
-		$dates = [];
-		$date_temp = new \DateTime($date1);
-		$date_temp2 = new \DateTime("now");
-		$date_temp2->add(DateInterval::createFromDateString('next tuesday'));
-		$nombre_jours = $date_temp2->diff($date_temp)->days;
-
-		for($i = 0; $i <= $nombre_jours; $i++) {
-
-			$date_temp = new \DateTime($date1);
-			$date_temp->add(new DateInterval('P' . $i . 'D'));
-			$date = $date_temp->format('Y-m-d');
-			$date_fr = ucfirst( IntlDateFormatter::formatObject($date_temp, "EEEE d MMMM", 'fr_FR') );
-
-			if ($i == 0) $label = "Aujourd'hui";
-			if ($i == 1) $label = "Demain";
-			if ($i == 2) $label = $date_fr;
-			if ($i == 3  && $nombre_jours > 3)
-			{
-				$label = "Jours suivants";
-				$date = "jours_suivants";
-			}
-			else if ($i == 3  && $nombre_jours == 3) $label = $date_fr;
-			$dates[$date] = $label;
-			if ($i == 3  && $nombre_jours > 3) break;
-
-		}
+		
+		$dates = DatesService::listeDatesJusquaMardi("films");
 
 		return $this->render('films.html.twig', [
 			'films' => $films_par_seances_du_jour,
@@ -110,18 +84,10 @@ class FilmsController extends AbstractController
 
 			if ($search_date == "jours_suivants")
 			{
-				$date_temp = new \DateTime("now");
-				$date_temp2 = new \DateTime("now");
-				$date_temp2->add(new DateInterval('P' . 3 . 'D'));
-				$date_intervalle_1 = $date_temp->format('Y-m-d');
-
-				$date_temp3 = new \DateTime("now");
-				$date_temp3->add(DateInterval::createFromDateString('next tuesday'));
-				$nombre_jours = $date_temp2->diff($date_temp)->days;
-
-				$date_temp4 = new \DateTime("now");
-				$date_temp4->add(new DateInterval('P' . $nombre_jours . 'D'));
-				$date_intervalle_2 = $date_temp->format('Y-m-d');
+				$dates_service = new DatesService();
+				$dates = $dates_service->getIntervalFrom3DaysToNextTuesday();
+				$date_intervalle_1 = $dates[0];
+				$date_intervalle_2 = $dates[1];
 			}
 			else
 			{
@@ -145,15 +111,14 @@ class FilmsController extends AbstractController
 			$data = [];
 			foreach($films_par_seances_du_jour as $film)
 			{
-				$date_temp = new \DateTime("now");
-				$nombre_jours = $film->getDateAjout()->diff($date_temp)->days;
+				$nombre_jours_anciennete = DatesService::getDaysUntilToday($film->getDateAjout());
 
 				$data[] = [
 					'id' => $film->getId(),
 					'titre' => $film->getTitre(),
 					'affiche' => $film->getAffiche(),
 					'date_ajout' => $film->getDateAjout()->format('Y-m-d'),
-					'nombre_jours' => $nombre_jours,
+					'nombre_jours' => $nombre_jours_anciennete,
 					'coup_de_coeur' => $film->getCoupDeCoeur(),
 					'age_mini' => $film->getAgeMini(),
 					'avertissement' => $film->getAvertissement(),

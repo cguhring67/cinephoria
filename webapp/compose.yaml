@@ -1,25 +1,91 @@
-
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+
+  app:
+    build: .
+    # image: "anothay/cinephoria_api"
+    restart: always
+    container_name: cinephoria
+    env_file:
+      - .env.docker-compose
+    ports:
+      - 90:80
+    depends_on:
+      - mariadb
+      - mongodb
+
+
+  mariadb:
+    image: "mariadb:11.6.2"
+    container_name: cinephoria_mariadb
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
+      MARIADB_USER: cinephoria_db_user
+      MARIADB_PASSWORD_FILE: /run/secrets/db_password
+      MARIADB_DATABASE: cinephoria
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    ports:
+      - '33306:3306'
+    networks:
+      - cinephoria_net
+    secrets:
+      - db_root_password
+      - db_password
+    env_file:
+      - .env.database
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - ./db/mariadb_data:/var/lib/mysql
+
+      # - ./sql/0_initdb.sql:/docker-entrypoint-initdb.d/0_initdb.sql
+      # - ./sql/1_insert_users.sql:/docker-entrypoint-initdb.d/1_insert_users.sql
+      # - ./sql/2_insert_data.sql:/docker-entrypoint-initdb.d/2_insert_data.sql
+
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./db/mariadb_data:/var/lib/mysql
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env.mongodb
+    volumes:
+      - ./db/mongodb_data:/var/lib/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: !ChangeMe!
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_password
+
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: cinephoria_phpmyadmin
+    depends_on:
+      - mariadb
+    ports:
+      - '8780:80'
+    networks:
+      - cinephoria_net
+    environment:
+      PMA_HOST: mariadb
+
 
 volumes:
 ###> doctrine/doctrine-bundle ###
+  data:
   database_data:
 ###< doctrine/doctrine-bundle ###
+
+
+networks:
+  cinephoria_net:
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt

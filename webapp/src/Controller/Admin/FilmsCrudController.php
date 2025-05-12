@@ -35,8 +35,7 @@ class FilmsCrudController extends AbstractCrudController
 
 	public function configureFields(string $pageName): iterable
 	{
-		$films_genres = new FilmsGenres();
-		$genres = $films_genres->getGenres();
+		$genres = FilmsGenres::getGenres();
 
 		return [
 			TextField::new('titre'),

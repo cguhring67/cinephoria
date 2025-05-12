@@ -11,9 +11,9 @@ function slugify (text) {
         .trim()                       // Remove whitespace from both sides of a string (optional)
         .replace(/\s+/g, '-')         // Replace spaces with -
         .replace(/[^\w\-]+/g, '')     // Remove all non-word chars
-        .replace(/\_/g,'-')           // Replace _ with -
-        .replace(/\-\-+/g, '-')       // Replace multiple - with single -
-        .replace(/\-$/g, '');         // Remove trailing -
+        .replace(/_/g,'-')           // Replace _ with -
+        .replace(/--+/g, '-')       // Replace multiple - with single -
+        .replace(/-$/g, '');         // Remove trailing -
 }
 
 
@@ -109,8 +109,7 @@ if (document.getElementById("admin_films"))
 
     function type_image()
     {
-        var val = $("input[name=film_image]:checked").val();
-        image_destination = val;
+        image_destination = $("input[name=film_image]:checked").val();
     }
 
     $('input[name=film_image]:radio').bind("change", function (event, ui) {
@@ -209,7 +208,7 @@ if (document.getElementById("admin_films"))
                     let date = new Date();
                     let time = date.getTime();
 
-                    if (data.code == 'ok')
+                    if (data.code === 'ok')
                     {
                         var image_src = "/images" + data.dossier_dest + data.name + "?t=" + time
                         $('#info_image').html(image_src).removeClass('rouge').addClass('vert');
@@ -219,7 +218,7 @@ if (document.getElementById("admin_films"))
 
                         console.log(image_src);
                     }
-                    else if (data.code == 'erreur')
+                    else if (data.code === 'erreur')
                     {
                         $('#info_image').html(data.error).addClass('rouge');
                     }
@@ -241,8 +240,7 @@ if (document.getElementById("admin_films"))
 function updateImage(image_container, image_src)
 {
     var container = document.getElementById(image_container);
-    var imageHTML = '<img class="film_image img-fluid" src="'+image_src+'">';
-    container.innerHTML = imageHTML;
+    container.innerHTML = '<img class="film_image img-fluid" src="'+image_src+'">';
 }
 
 
@@ -331,7 +329,7 @@ if (document.getElementById("planning_seances"))
                 ajax = $.ajax({
                     url: ajax_url,
                     type: "POST",
-                    data: JSON.stringify({ mode: "delete_event", data: data_clic, }),
+                    data: JSON.stringify({ mode: "delete_seance", data: data_clic, }),
                 }).done(function(data) {
                     console.log(data);
                 });
@@ -361,27 +359,6 @@ if (document.getElementById("planning_seances"))
                         technos: choix_techno,
                     }
                 });
-
-                // let timeline_salle_id = node.dataset['salle_id'];
-                // let valeurs_json = {
-                //     mode: "nouvelle_seance",
-                //     salle_id: timeline_salle_id,
-                //     choix_date: $('#choix_date').val(),
-                //     cinema_id: $('#cinema_id').val(),
-                //     film_id: choix_film.id,
-                //     techno: choix_techno,
-                //     heure_debut: start,
-                //     heure_fin: end,
-                // };
-                //
-                // ajax = $.ajax({
-                //     url: "/admin/seances_ajax/",
-                //     type: "POST",
-                //     data: JSON.stringify(valeurs_json),
-                // }).done(function(data) {
-                //     console.log(data);
-                // });
-
 
             }
             addLog('onScheduleClick', time + ' ' + timeline);
@@ -414,7 +391,6 @@ if (document.getElementById("planning_seances"))
             }).done(function(data) {
                 console.log(data);
             });
-
 
         });
 

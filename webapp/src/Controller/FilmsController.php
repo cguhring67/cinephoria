@@ -25,7 +25,6 @@ class FilmsController extends AbstractController
 	public function liste_films(EntityManagerInterface $entityManager): Response
 	{
 
-
 		$cinemas = $entityManager->getRepository(Cinemas::class)->findBy(
 			array(),
 			['ville' => 'ASC']
@@ -33,11 +32,8 @@ class FilmsController extends AbstractController
 
 		$films_par_seances_du_jour = $entityManager->getRepository(Films::class)->findFilmsByFiltres("now", "now", "", "", "");
 
-		$films_genres_service = new FilmsGenres();
-		$films_genres = $films_genres_service->getGenres();
-
-		$technologies_service = new Technologies();
-		$technologies = $technologies_service->getTechnologies();
+		$films_genres = FilmsGenres::getGenres();
+		$technologies = Technologies::getTechnologies();
 		
 		$dates = DatesService::listeDatesJusquaMardi("films");
 
@@ -54,11 +50,8 @@ class FilmsController extends AbstractController
 	public function film_details(RouterInterface $router, Films $film): Response
 	{
 
-		$films_genres_service = new FilmsGenres();
-		$films_genres = $films_genres_service->getGenres();
-
-		$technologies_service = new Technologies();
-		$technologies = $technologies_service->getTechnologies();
+		$films_genres = FilmsGenres::getGenres();
+		$technologies = Technologies::getTechnologies();
 
 		return $this->render('film_details.html.twig', [
 			'film' => $film,

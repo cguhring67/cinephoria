@@ -34,8 +34,7 @@ class ReservationController extends AbstractController
 			"vaiana2"
 		);
 
-		$films_genres = new FilmsGenres();
-		$genres = $films_genres->getGenres();
+		$genres = FilmsGenres::getGenres();
 
 		return $this->render('reservation.html.twig', [
 			'films' => $films,

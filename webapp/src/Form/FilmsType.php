@@ -19,8 +19,7 @@ class FilmsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-	    $films_genres = new FilmsGenres();
-	    $genres = $films_genres->getGenresValKey();
+	    $genres = FilmsGenres::getGenresValKey();
 	    
 	    $builder
 			->add('save', SubmitType::class)

@@ -19,12 +19,10 @@ class DefaultController extends AbstractController
 	#[Route('/', name: 'index', methods: ['GET'])]
 	public function index(FilmsRepository $filmsRepository): Response
 	{
-
 		$films = $filmsRepository->findBy(
 			array(),
 			['date_ajout' => 'DESC']
 		);
-		dump($films);
 
 		return $this->render('accueil.html.twig', [
 			'films' => $films,

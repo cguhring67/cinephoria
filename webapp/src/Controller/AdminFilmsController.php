@@ -24,14 +24,12 @@ final class AdminFilmsController extends AbstractController
 	#[Route(name: 'app_films_admin_index', methods: ['GET'])]
 	public function index(FilmsRepository $filmsRepository): Response
 	{
-		$films_genres = new FilmsGenres();
-		
 		return $this->render('admin/films_list.html.twig', [
 			'films' => $filmsRepository->findBy(
 				array(),
 				['date_ajout' => 'DESC', 'id' => 'DESC']
 			),
-			'genres' => $films_genres->getGenres(),
+			'genres' => FilmsGenres::getGenres(),
 		]);
 	}
 	

@@ -4,16 +4,13 @@ namespace App\Services;
 
 class Technologies
 {
-
-	public function getTechnologies(): array
+	public static function getTechnologies(): array
 	{
-		$technologies = [
+		return [
 			"imax"=>"IMAX",
 			"4dx-ice"=>"4DX - ICE",
 			"3d" => "3D",
 			"onyx" => "ONYX",
 		];
-		return $technologies;
 	}
-
 }

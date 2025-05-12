@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Avis;
 use App\Entity\Cinemas;
 use App\Entity\Films;
 use App\Entity\Salles;
 use App\Entity\Seances;
-use App\Entity\Tarifs;
 use App\Entity\User;
 use App\Repository\SeancesRepository;
 use App\Services\PlanningService;
@@ -18,14 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use DateInterval;
-use IntlDateFormatter;
-
 
 #[Route('/admin2/seances')]
 class AdminSeancesController extends AbstractController
 {
-
 	private $entityManager;
 	private $cinemasRepository;
 	private $sallesRepository;
@@ -151,15 +145,12 @@ class AdminSeancesController extends AbstractController
 						$date_debut->setTime(intval($heure_debut[0]), intval($heure_debut[1]));
 						$date_fin->setTime(intval($heure_fin[0]), intval($heure_fin[1]));
 						
-						$salle = $entityManager->getRepository(Salles::class)->find($salle_id);
-						$film = $entityManager->getRepository(Films::class)->find($film_id);
-						
 						if ($seance_id > 0) $seance = $entityManager->getRepository(Seances::class)->find($seance_id);
 						else $seance = new Seances();
 						
-						$seance->setSalleId($salle);
 						$seance->setCinemaId($cinema_id);
-						$seance->setFilmId($film);
+						$seance->setSalleId($entityManager->getRepository(Salles::class)->find($salle_id));
+						$seance->setFilmId($entityManager->getRepository(Films::class)->find($film_id));
 						$seance->setDateDebut($date_debut);
 						$seance->setDateFin($date_fin);
 						$seance->setTechnologies($techno);
@@ -171,11 +162,7 @@ class AdminSeancesController extends AbstractController
 				$response = new Response("Séances enregistrées avec success");
 			}
 			
-			
-			
-			
-			
-			if ($mode == 'delete_event')
+			if ($mode == 'delete_seance')
 			{
 				$planning_json = $data['data'];
 				$seance_a_supprimer = $data['data']['data']['seance_id'];
@@ -192,41 +179,9 @@ class AdminSeancesController extends AbstractController
 				$response = new Response("Séance " . $seance_a_supprimer . " supprimée.");
 			}
 			
-			
-			if ($mode == 'update_seance')
-			{
-				$planning_json = $data['data'];
-				$seance_id = $data['data']['data']['seance_id'];
-				
-				$salle_id = intval($data['salle_id']);
-				$choix_date = $data['choix_date'];
-				$techno = [$data['techno']];
-				$heure_debut = explode(":", $data['heure_debut']);
-				$heure_fin = explode(":", $data['heure_fin']);
-				
-				$date_debut = new \DateTime($choix_date);
-				$date_fin = new \DateTime($choix_date);
-				$date_debut->setTime(intval($heure_debut[0]), intval($heure_debut[1]));
-				$date_fin->setTime(intval($heure_fin[0]), intval($heure_fin[1]));
-				
-				$entityManager = $this->entityManager;
-				$salle = $entityManager->getRepository(Salles::class)->find($salle_id);
-				$seance = $entityManager->getRepository(Seances::class)->find($seance_a_supprimer);
-				
-				$seance->setSalleId($salle);
-				$seance->setDateDebut($date_debut);
-				$seance->setDateFin($date_fin);
-				$seance->setTechnologies($techno);
-				
-				$entityManager->persist($seance);
-				$entityManager->flush();
-				
-			}
-			
 			return $response;
 		}
 		return new Response("['error' => 'Cet appel doit être effectué via AJAX.']", Response::HTTP_BAD_REQUEST);
-		
 	}
 	
 	

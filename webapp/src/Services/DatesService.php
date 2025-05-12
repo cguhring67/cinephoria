@@ -15,8 +15,8 @@ class DatesService
 	 */
 		public static function getDatetimeNow(): DateTime
 	{
-//		return new DateTime("now");
-		return new DateTime("2025-04-29");
+		return new DateTime("now");
+//		return new DateTime("2025-04-29");
 	}
 	
 	
@@ -110,6 +110,7 @@ class DatesService
 				if ($i == 3  && $nombre_jours > 3) break;
 			}
 		}
+//		dd($dates);
 		return $dates;
 	}
 	

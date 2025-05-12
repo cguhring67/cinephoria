@@ -4,10 +4,9 @@ namespace App\Services;
 
 class FilmsGenres
 {
-
-	public function getGenres(): array
+	public static function getGenres(): array
 	{
-		$genres_key_value = [
+		return [
 			"action"=>"Action",
 			"animation"=>"Animation",
 			"arts_martiaux" => "Arts Martiaux",
@@ -30,15 +29,11 @@ class FilmsGenres
 			"science_fiction" => "Science fiction",
 			"thriller" => "Thriller"
 		];
-		
-		
-		return $genres_key_value;
 	}
 	
-	public function getGenresValKey(): array
+	public static function getGenresValKey(): array
 	{
-		
-		$genres_value_key = [
+		return [
 			"Action" => "action",
 			"Animation" => "animation",
 			"Arts Martiaux" => "arts_martiaux",
@@ -61,9 +56,5 @@ class FilmsGenres
 			"Science fiction" => "science_fiction",
 			"Thriller" => "thriller",
 			];
-		
-		
-		return $genres_value_key;
 	}
-
 }

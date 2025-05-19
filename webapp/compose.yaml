@@ -33,6 +33,7 @@ services:
       - .env.database
     volumes:
       - ./db/mariadb_data:/var/lib/mysql
+      - ./db/0_initdb.sql:/docker-entrypoint-initdb.d/0_initdb.sql
 
       # - ./sql/0_initdb.sql:/docker-entrypoint-initdb.d/0_initdb.sql
       # - ./sql/1_insert_users.sql:/docker-entrypoint-initdb.d/1_insert_users.sql
@@ -52,13 +53,13 @@ services:
       - .env.mongodb
     volumes:
       - ./db/mongodb_data:/var/lib/mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: !ChangeMe!
-      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/db_password
-    secrets:
-      - db_root_password
-      - db_password
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: !ChangeMe!
+#      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/db_password
+#    secrets:
+#      - db_root_password
+#      - db_password
 
 
   phpmyadmin:

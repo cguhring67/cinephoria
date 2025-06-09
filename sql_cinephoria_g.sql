@@ -1,12 +1,6 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-
 CREATE TABLE avis (
   id int(11) NOT NULL AUTO_INCREMENT,
   film_id int(11) NOT NULL,
@@ -15,9 +9,8 @@ CREATE TABLE avis (
   commentaire varchar(2000) DEFAULT NULL,
   PRIMARY KEY (id),
   KEY IDX_AVIS_FILM_ID (film_id),
-  KEY IDX_AVIS_USER_ID (user_id);
+  KEY IDX_AVIS_USER_ID (user_id)
 );
-
 
 CREATE TABLE cinemas (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -47,7 +40,6 @@ CREATE TABLE films (
   PRIMARY KEY (id)
 );
 
-
 CREATE TABLE salles (
   id int(11) NOT NULL AUTO_INCREMENT,
   cinema_id int(11) NOT NULL,
@@ -55,7 +47,7 @@ CREATE TABLE salles (
   technologies json NOT NULL,
   salle_nom varchar(45) NOT NULL,
   PRIMARY KEY (id),
-  KEY IDX_SALLES_CINEMA_ID (cinema_id);
+  KEY IDX_SALLES_CINEMA_ID (cinema_id)
 );
 
 CREATE TABLE seances (
@@ -67,8 +59,8 @@ CREATE TABLE seances (
   date_fin datetime NOT NULL,
   technologies json NULL,
   PRIMARY KEY (id),
-  ADD KEY IDX_SEANCES_FILM_ID (film_id),
-  ADD KEY IDX_SEANCES_SALLE_ID (salle_id);
+  KEY IDX_SEANCES_FILM_ID (film_id),
+  KEY IDX_SEANCES_SALLE_ID (salle_id)
 
 );
 
@@ -79,33 +71,38 @@ CREATE TABLE tarifs (
   tarif_nom varchar(50) NOT NULL,
   tarif int(11) NOT NULL,
   PRIMARY KEY (id),
-  KEY IDX_TARIFS_CINEMA_ID (cinema_id);
+  KEY IDX_TARIFS_CINEMA_ID (cinema_id)
 );
 
-CREATE TABLE `user` (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  email varchar(180) NOT NULL,
-  roles json NOT NULL,
-  password varchar(255) NOT NULL,
-  nom varchar(50) NOT NULL,
-  prenom varchar(50) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY UNIQ_IDENTIFIER_EMAIL (email);
+CREATE TABLE `user`
+(
+    id int(11) NOT NULL AUTO_INCREMENT,
+    email varchar(180) NOT NULL,
+    roles json NOT NULL,
+    password varchar(255) NOT NULL,
+    nom varchar(50) NOT NULL,
+    prenom varchar(50) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UNIQ_IDENTIFIER_EMAIL (email)
 );
-
 
 ALTER TABLE avis
-  ADD CONSTRAINT FK_AVIS_USER_ID FOREIGN KEY (user_id) REFERENCES `user` (id),
-  ADD CONSTRAINT FK_AVIS_FILM_ID FOREIGN KEY (film_id) REFERENCES films (id);
+  ADD CONSTRAINT FK_AVIS_USER_ID
+      FOREIGN KEY (user_id) REFERENCES `user` (id),
+  ADD CONSTRAINT FK_AVIS_FILM_ID
+      FOREIGN KEY (film_id) REFERENCES films (id);
 
 ALTER TABLE salles
-  ADD CONSTRAINT FK_SALLES_CINEMA_ID FOREIGN KEY (cinema_id) REFERENCES cinemas (id);
+  ADD CONSTRAINT FK_SALLES_CINEMA_ID
+      FOREIGN KEY (cinema_id) REFERENCES cinemas (id);
 
 ALTER TABLE seances
-  ADD CONSTRAINT FK_SEANCES_SALLE_ID FOREIGN KEY (salle_id) REFERENCES salles (id),
-  ADD CONSTRAINT FK_SEANCES_FILM_ID FOREIGN KEY (film_id) REFERENCES films (id);
+  ADD CONSTRAINT FK_SEANCES_SALLE_ID
+      FOREIGN KEY (salle_id) REFERENCES salles (id),
+  ADD CONSTRAINT FK_SEANCES_FILM_ID
+      FOREIGN KEY (film_id) REFERENCES films (id);
 
 ALTER TABLE tarifs
-  ADD CONSTRAINT FK_TARIFS_CINEMA_ID FOREIGN KEY (cinema_id) REFERENCES cinemas (id);
-
+  ADD CONSTRAINT FK_TARIFS_CINEMA_ID
+      FOREIGN KEY (cinema_id) REFERENCES cinemas (id);
 

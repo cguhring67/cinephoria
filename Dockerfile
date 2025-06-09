@@ -12,6 +12,7 @@ FROM dunglas/frankenphp:1-php8.3 AS frankenphp_upstream
 FROM frankenphp_upstream AS frankenphp_base
 
 WORKDIR /app
+COPY --link ./webapp .
 
 VOLUME /app/var/
 
@@ -31,13 +32,18 @@ RUN set -eux; \
 		intl \
 		opcache \
 		zip \
+      pdo \
+      pdo_mysql \
+      gd \
 	;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
+
+RUN pecl install mongodb \
+&& docker-php-ext-enable mongodb
 
 ###> recipes ###
 ###< recipes ###
@@ -84,14 +90,11 @@ RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # copy sources
-COPY --link . ./
 RUN rm -Rf frankenphp/
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer dump-env prod; \
-	composer run-script --no-dev post-install-cmd; \
+#	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; sync;
-
-

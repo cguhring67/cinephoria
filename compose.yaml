@@ -1,18 +1,18 @@
 services:
   www:
-    build: docker/php
+    build: .
     container_name: cinephoria_php
+    restart: always
+    environment:
+      HTTP_PORT: 8080
+      SERVER_NAME: ":80"
     ports:
       - '8080:80'
-    user: 1000:1000
-    volumes:
-      - ./webapp:/var/www/html
-      - ./docker/php/vhosts:/etc/apache2/sites-enabled
     networks:
       - cinephoria_net
 
   mariadb:
-    image: mariadb:11.6.2
+    image: mariadb:11.7-noble
     container_name: cinephoria_mariadb
     volumes:
       - ./db/mariadb_data:/var/lib/mysql
@@ -29,8 +29,26 @@ services:
       - db_root_password
       - db_password
 
+  mongodb:
+    image: mongo:8-noble
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db/mongodb_data:/var/lib/mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_root_password
+    networks:
+      - cinephoria_net
+
+
+
   phpmyadmin:
-    image: phpmyadmin
+#    image: phpmyadmin
+    image: beeyev/phpmyadmin-lightweight:latest
     container_name: cinephoria_phpmyadmin
     depends_on:
       - mariadb

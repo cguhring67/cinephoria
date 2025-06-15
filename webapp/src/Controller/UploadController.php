@@ -19,7 +19,7 @@ class UploadController extends AbstractController
 	{
 		$imagesDirectory = $this->getParameter('kernel.project_dir') . '/public/images';
 		
-		$accepted_origins = array("http://cinephoria.local", "https://cinephoria.guhring.ovh");
+		$accepted_origins = array("http://cinephoria.local", "https://cinephoria.guhring.ovh", "http://localhost:8080");
 		
 		if($request->isXmlHttpRequest())
 		{
@@ -44,7 +44,7 @@ class UploadController extends AbstractController
 					{
 						$response->headers->set('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN']);
 					} else {
-						return new Response(json_encode(array('code' => 'erreur', 'name' => $data["film_titre"], 'error' => "Origine interdite")), Response::HTTP_FORBIDDEN);
+						return new Response(json_encode(array('code' => 'erreur', 'name' => $film_titre, 'error' => "Origine '" . $_SERVER['HTTP_ORIGIN'] . "' interdite")), Response::HTTP_FORBIDDEN);
 					}
 				}
 				

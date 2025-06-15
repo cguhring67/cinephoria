@@ -20,9 +20,9 @@ class FilmsRepository extends ServiceEntityRepository
 	/**
 	 * @return Seances[] Returns an array of Seances objects
 	 */
-	public function findFilmsByFiltres($date_search1, $date_search2, $genre_search="", $technologie_search="", $cinema_search="" ): array
+	public function findFilmsByFiltres($date_search1, $date_search2, $genre_search="",
+	                                   $technologie_search="", $cinema_search="" ): array
 	{
-
 		$date_recherche1 = new \DateTime($date_search1);
 		$date_recherche2 = new \DateTime($date_search2);
 		$date_now_format = $date_recherche1->format('Y-m-d H:i:s');
@@ -33,7 +33,6 @@ class FilmsRepository extends ServiceEntityRepository
 		$date_fin_format = $date_fin->format('Y-m-d H:i:s');
 
 		if ($date_search1 == "now") $date_debut_format = $date_now_format;
-
 
 		$qb = $this->createQueryBuilder('f');
 
@@ -65,11 +64,8 @@ class FilmsRepository extends ServiceEntityRepository
 		}
 		$qb->orderBy('f.date_ajout', 'DESC');
 
-
 		$query = $qb->getQuery();
 		return $query->execute();
-
-
 	}
 
 
